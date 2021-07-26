@@ -1,13 +1,26 @@
 {
   "name": "rendering-tag-functions",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Tagged Template Strings to use with html and css",
+  "author": "Gabriel José",
+  "homepage": "https://github.com/Gabriel-JM/rendering-tag-functions#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gabriel-JM/rendering-tag-functions.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Gabriel-JM/rendering-tag-functions/issues"
+  },
+  "main": "./build/src/index.js",
+  "types": "./build/src/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "webcomponents",
+    "web-components",
+    "client-side"
+  ],
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.3.5"
