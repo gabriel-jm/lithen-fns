@@ -9,7 +9,7 @@ const templateSymbols = {
 }
 
 const { html, htmlFrag } = htmlTemplate(templateSymbols.html, templateSymbols.rawHtml)
-const raw = rawHTMLTemplate(templateSymbols.rawHtml)
+const { raw, rawFrag } = rawHTMLTemplate(templateSymbols.rawHtml)
 const css = cssTemaplate(templateSymbols.css)
 
 export { HtmlStrings, HtmlTemplateValues } from './html-template'
@@ -17,5 +17,6 @@ export {
   html,
   htmlFrag,
   raw,
+  rawFrag,
   css
 }

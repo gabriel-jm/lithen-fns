@@ -16,7 +16,7 @@ export default (rawHtmlSymbol: Symbol) => {
    *  `
    * ```
    * 
-   * @returns an instance of RawHTMLTemplate class
+   * @returns a html string.
    */
   function raw(
     strings: HtmlStrings,
@@ -34,5 +34,27 @@ export default (rawHtmlSymbol: Symbol) => {
     return parsedHtml
   }
 
-  return raw
+  /**
+   * Function that enables to write anything in the `html`
+   * template function when passed has a value.
+   * 
+   * It's commonly used has a template function.
+   * @example
+   * ```ts
+   *  rawFrag`
+   *    <div>...</div>
+   *  `
+   * ```
+   * 
+   * @returns a DocumentFragment of elements.
+   */
+  function rawFrag(strings: HtmlStrings, ...values: HtmlTemplateValues) {
+    const htmlString = raw(strings, ...values)
+    const template = document.createElement('template')
+    template.innerHTML = htmlString
+
+    return template.content.cloneNode(true)
+  }
+
+  return { raw, rawFrag }
 }

@@ -14,7 +14,7 @@ export default (cssSymbol: Symbol) => {
    *  `
    * ```
    * 
-   * @returns the minified css text
+   * @returns the minified css string.
    */
   function css(strings: CssStrings, ...values: string[]): string {
     const fullCss = strings.reduce((acc, str, index) => {
