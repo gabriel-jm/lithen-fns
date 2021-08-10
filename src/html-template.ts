@@ -22,12 +22,9 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
    *  `
    * ```
    * 
-   * @returns an instance of HTMLTemplate class.
+   * @returns a html string.
    */
-  function html(
-    strings: HtmlStrings,
-    ...values: HtmlTemplateValues
-  ): string {
+  function html(strings: HtmlStrings, ...values: HtmlTemplateValues): string {
     values = values.map((value) => {
       const valueTemplateType = (value as StringFromTemplate).template
 
@@ -59,5 +56,30 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
     return parsedHtml
   }
 
-  return html
+  /**
+   * Function that parses the html text passed to it.
+   * 
+   * The parsing, tries to prevent XSS attacks in the html,
+   * minifies it and gives the possibility to call Web Components
+   * tags as self closed.
+   * 
+   * It's commonly used has a template function.
+   * @example
+   * ```ts
+   *  htmlFrag`
+   *    <div>...</div>
+   *  `
+   * ```
+   * 
+   * @returns a DocumentFragment of elements.
+   */
+  function htmlFrag(strings: HtmlStrings, ...values: HtmlTemplateValues) {
+    const htmlString = html(strings, ...values)
+    const template = document.createElement('template')
+    template.innerHTML = htmlString
+
+    return template.content.cloneNode(true)
+  }
+
+  return { html, htmlFrag }
 }
