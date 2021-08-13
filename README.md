@@ -8,4 +8,8 @@ Its part of Lithen modules. It works alone but is created to use with Web Compon
 - [htmlFrag](./docs.html-frag.md)
 - [raw](./docs/raw.md)
 - [rawFrag](./docs/rawFrag.md)
-- [css]()
+- [css](./docs/css.md)
+
+## Other libs that are part of Lithen
+- [lithen-super-element](https://www.npmjs.com/package/lithen-super-element)
+- [lithen-router](https://www.npmjs.com/package/lithen-router)
