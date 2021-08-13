@@ -6,6 +6,6 @@ Its part of Lithen modules. It works alone but is created to use with Web Compon
 ## List of including tag functions
 - [html](./docs/html.md)
 - [htmlFrag](./docs.html-frag.md)
-- [raw]()
+- [raw](./docs/raw.md)
 - [rawFrag]()
 - [css]()
