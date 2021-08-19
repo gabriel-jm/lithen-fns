@@ -14,3 +14,6 @@ html`
 // or
 html(['<div>...</div>'])
 ```
+
+## Want to help?
+If you find a way to pass through the XSS prevention, please create an issue on github about it.
