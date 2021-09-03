@@ -25,7 +25,10 @@ export default (cssSymbol: Symbol) => {
       .replace(/:\s+/g, ':')
     ;
 
-    return Object.assign(minifiedCss, { template: cssSymbol })
+    return Object.assign(
+      new String(minifiedCss),
+      { template: cssSymbol }
+    ) as unknown as string
   }
 
   return css

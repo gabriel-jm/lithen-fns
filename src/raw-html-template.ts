@@ -29,7 +29,10 @@ export default (rawHtmlSymbol: Symbol) => {
 
     const parsedHtml = htmlStringParser(fullHtml)
 
-    return Object.assign(parsedHtml, { template: rawHtmlSymbol })
+    return Object.assign(
+      new String(parsedHtml),
+      { template: rawHtmlSymbol }
+    ) as unknown as string
   }
 
   /**
