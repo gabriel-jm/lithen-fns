@@ -1,7 +1,5 @@
 type CssStrings = TemplateStringsArray | string[]
 
-type StringFromTemplate = string & { template: Symbol }
-
 export default (cssSymbol: Symbol) => {
   /**
    * Function that parses the css text passed and minifies it.
@@ -27,9 +25,7 @@ export default (cssSymbol: Symbol) => {
       .replace(/:\s+/g, ':')
     ;
 
-    (minifiedCss as StringFromTemplate).template = cssSymbol
-
-    return minifiedCss
+    return Object.assign(minifiedCss, { template: cssSymbol })
   }
 
   return css

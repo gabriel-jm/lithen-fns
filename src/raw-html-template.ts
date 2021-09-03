@@ -27,11 +27,9 @@ export default (rawHtmlSymbol: Symbol) => {
       return acc + str + value
     }, "")
 
-    const parsedHtml = htmlStringParser(fullHtml);
+    const parsedHtml = htmlStringParser(fullHtml)
 
-    (parsedHtml as StringFromTemplate).template = rawHtmlSymbol
-
-    return parsedHtml
+    return Object.assign(parsedHtml, { template: rawHtmlSymbol })
   }
 
   /**

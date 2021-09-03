@@ -49,11 +49,9 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
       ''
     )
 
-    const parsedHtml = htmlStringParser(fullHtml);
+    const parsedHtml = htmlStringParser(fullHtml)
 
-    (parsedHtml as StringFromTemplate).template = htmlSymbol
-
-    return parsedHtml
+    return Object.assign(parsedHtml, { template: htmlSymbol })
   }
 
   /**
