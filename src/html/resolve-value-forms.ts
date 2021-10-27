@@ -1,4 +1,5 @@
 import { HtmlStrings, HtmlTemplateValue, ResourceMaps, StringFromTemplate } from './html-template'
+import { objectTypeResolvers } from './object-type-resolvers'
 
 export function resolveValueForms(
   htmlStrings: HtmlStrings,
@@ -7,10 +8,19 @@ export function resolveValueForms(
   rawHtmlSymbol: Symbol,
   index: number
 ) {
-  const valueTemplateType = (value as StringFromTemplate).template
+  if (typeof value === 'object') {
+    const className = value.constructor.name
+    const resolver = className in objectTypeResolvers
+      ? objectTypeResolvers[className]
+      : objectTypeResolvers.Object
 
-  if (valueTemplateType === rawHtmlSymbol) {
-    return value || ''
+    return resolver({
+      htmlStrings,
+      value,
+      resourceMaps,
+      rawHtmlSymbol,
+      index
+    })
   }
 
   return !value

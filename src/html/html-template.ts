@@ -5,6 +5,10 @@ export type HtmlTemplateValue = (
   | boolean
   | string
   | StringFromTemplate
+  | String
+  | (Node | Element)[] | NodeListOf<ChildNode>
+  | DocumentFragment
+  | EventListenerOrEventListenerObject
 )
 
 export type HtmlTemplateValueList = HtmlTemplateValue[]
@@ -12,7 +16,7 @@ export type HtmlTemplateValueList = HtmlTemplateValue[]
 export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
-  elementsMap: Record<string, string>
+  elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode>>
   eventsMap: Record<string, string>
 }
 
