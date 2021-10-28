@@ -1,9 +1,7 @@
 import { StringFromTemplate } from '.'
 import { HtmlStrings, HtmlTemplateValue, ResourceMaps } from './html-template'
-import { resolveValueForms } from './resolve-value-forms'
 
 export interface ObjectTypeResolverParams {
-  htmlStrings: HtmlStrings
   value: HtmlTemplateValue
   resourceMaps: ResourceMaps
   rawHtmlSymbol: Symbol
@@ -11,7 +9,7 @@ export interface ObjectTypeResolverParams {
 }
 
 export type ObjectTypeResolver = Record<
-  string | 'String' | 'Array' | 'ArrayOrDocumentFragment' | 'Object',
+  string | 'String' | 'Array' | 'DocumentFragment' | 'ArrayOrDocumentFragment' | 'Object',
   (params: ObjectTypeResolverParams) => string
 >
 
@@ -45,17 +43,14 @@ export const objectTypeResolvers: ObjectTypeResolver = {
     return objectTypeResolvers.ArrayOrDocumentFragment(params)
   },
 
-  Object({ htmlStrings, value, rawHtmlSymbol, resourceMaps, index }) {
-    if(!('handleEvent' in (value as object))) {
-      return JSON.stringify(value)
+  Object({ value, resourceMaps, index }) {
+    if('handleEvent' in (value as object)) {
+      const eventId = `event-${index}`
+      resourceMaps.eventsMap[eventId] = value as EventListenerObject
+
+      return eventId
     }
 
-    return resolveValueForms(
-      htmlStrings,
-      (value as EventListenerObject).handleEvent,
-      resourceMaps,
-      rawHtmlSymbol,
-      index
-    )
+    return JSON.stringify(value)
   }
 }

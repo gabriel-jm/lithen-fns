@@ -17,7 +17,7 @@ export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
   elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode>>
-  eventsMap: Record<string, string>
+  eventsMap: Record<string, EventListenerOrEventListenerObject>
 }
 
 export type StringFromTemplate = string & { template: Symbol }

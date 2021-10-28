@@ -1,5 +1,7 @@
-import { HtmlStrings, HtmlTemplateValue, ResourceMaps, StringFromTemplate } from './html-template'
+import { HtmlStrings, HtmlTemplateValue, ResourceMaps } from './html-template'
 import { objectTypeResolvers } from './object-type-resolvers'
+
+const eventOnEndRegex = /.*\son-[\w\-]+=$/
 
 export function resolveValueForms(
   htmlStrings: HtmlStrings,
@@ -15,12 +17,20 @@ export function resolveValueForms(
       : objectTypeResolvers.Object
 
     return resolver({
-      htmlStrings,
       value,
       resourceMaps,
       rawHtmlSymbol,
       index
     })
+  }
+
+  if (typeof value === 'function') {
+    if (eventOnEndRegex.test(htmlStrings[index])) {
+      const eventId = `event-${index}`
+      resourceMaps.eventsMap[eventId] = value
+
+      return eventId
+    }
   }
 
   return !value
