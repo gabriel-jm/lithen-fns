@@ -15,5 +15,6 @@ export function placeElements (
     const parentElement = placeholderElement.parentElement ?? targetElement
 
     parentElement.append(...elementsList)
+    placeholderElement.remove()
   })
 }
