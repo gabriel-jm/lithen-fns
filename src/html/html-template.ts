@@ -1,3 +1,4 @@
+import { applyEvents } from './apply-events'
 import { htmlStringParser } from './html-string-parser'
 import { placeElements } from './place-elements'
 import { resolveValueForms } from './resolve-value-forms'
@@ -71,6 +72,10 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
 
     if (Object.keys(resourceMaps.elementsMap).length) {
       placeElements(element, resourceMaps.elementsMap)
+    }
+
+    if (Object.keys(resourceMaps.eventsMap).length) {
+      applyEvents(element, resourceMaps.eventsMap)
     }
 
     (element as DocumentFragment & { templateSymbol: Symbol })['templateSymbol'] = htmlSymbol
