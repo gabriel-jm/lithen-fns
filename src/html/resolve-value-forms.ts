@@ -9,7 +9,7 @@ export function resolveValueForms(
   resourceMaps: ResourceMaps,
   rawHtmlSymbol: Symbol,
   index: number
-) {
+): string {
   if (typeof value === 'object') {
     const className = value.constructor.name
     const resolver = className in objectTypeResolvers
@@ -30,6 +30,19 @@ export function resolveValueForms(
       resourceMaps.eventsMap[eventId] = value
 
       return eventId
+    }
+
+    const valueAsFunction = value as (() => void | HtmlTemplateValue)
+    const valueReturned = valueAsFunction()
+
+    if (valueReturned) {
+      return resolveValueForms(
+        htmlStrings,
+        valueReturned,
+        resourceMaps,
+        rawHtmlSymbol,
+        index
+      )
     }
   }
 

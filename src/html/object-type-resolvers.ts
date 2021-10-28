@@ -1,5 +1,5 @@
-import { StringFromTemplate } from '.'
-import { HtmlStrings, HtmlTemplateValue, ResourceMaps } from './html-template'
+import { StringFromTemplate } from './html-template'
+import { HtmlTemplateValue, ResourceMaps } from './html-template'
 
 export interface ObjectTypeResolverParams {
   value: HtmlTemplateValue
