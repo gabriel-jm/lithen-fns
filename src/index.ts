@@ -1,5 +1,5 @@
-import htmlTemplate from './html-template'
-import rawHTMLTemplate from './raw-html-template'
+import htmlTemplate from './html/html-template'
+// import rawHTMLTemplate from './raw-html-template'
 import cssTemaplate from './css-template'
 
 const templateSymbols = {
@@ -8,15 +8,14 @@ const templateSymbols = {
   css: Symbol('css')
 }
 
-const { html, htmlFrag } = htmlTemplate(templateSymbols.html, templateSymbols.rawHtml)
-const { raw, rawFrag } = rawHTMLTemplate(templateSymbols.rawHtml)
+const html = htmlTemplate(templateSymbols.html, templateSymbols.rawHtml)
+// const { raw, rawFrag } = rawHTMLTemplate(templateSymbols.rawHtml)
 const css = cssTemaplate(templateSymbols.css)
 
-export { HtmlStrings, HtmlTemplateValues } from './html-template'
+export { HtmlStrings, HtmlTemplateValueList } from './html/html-template'
 export {
   html,
-  htmlFrag,
-  raw,
-  rawFrag,
+  // raw,
+  // rawFrag,
   css
 }

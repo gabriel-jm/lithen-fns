@@ -14,7 +14,8 @@
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc --project ./tsconfig.build.json",
+    "test": "jest -c jest.config.ts"
   },
   "keywords": [
     "webcomponents",
@@ -23,6 +24,10 @@
   ],
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
     "typescript": "^4.3.5"
   }
 }
