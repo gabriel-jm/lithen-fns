@@ -1,13 +1,84 @@
-import {} from '@/html/object-type-resolvers'
-
-function makeSut() {
-  const sut = {}
-}
+import { objectTypeResolvers } from '@/html/object-type-resolvers'
 
 describe('ObjectTypeResolvers', () => {
+  const defaultParams = {
+    value: 'any_value',
+    rawHtmlSymbol: Symbol(),
+    resourceMaps: {
+      elementsMap: {},
+      eventsMap: {}
+    },
+    index: 1
+  }
+
   describe('String()', () => {
-    it('should return the raw value in is a RawHTMLString', () => {
-      expect(true).toBe(true)
+    it('should return an empty string if value is not a RawHTMLString', () => {
+      const response = objectTypeResolvers.String(defaultParams)
+
+      expect(response).toBe('')
+    })
+  })
+
+  describe('ArrayOrDocumentFragment', () => {
+    it('should add array of elements to elementsMap and return a template element string', () => {
+      const divElement = document.createElement('div')
+      const params = {
+        ...defaultParams,
+        value: [divElement]
+      }
+      const expectedElementId = `element-${params.index}`
+
+      const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
+
+      expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
+      expect(params.resourceMaps.elementsMap).toHaveProperty(
+        expectedElementId,
+        params.value
+      )
+    })
+
+    it(
+      'should add DocumentFragment childNodes to elementsMap and return a template element string',
+      () => {
+        const templateElement = document.createElement('template')
+        templateElement.innerHTML = `<span></span><input/>`
+        const documentFragment = templateElement.content.cloneNode(true) as DocumentFragment
+
+        const params = {
+          ...defaultParams,
+          value: documentFragment,
+          index: 2
+        }
+        const expectedElementId = `element-${params.index}`
+        
+        const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
+
+        expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
+        expect(params.resourceMaps.elementsMap).toHaveProperty(
+          expectedElementId,
+          documentFragment.childNodes
+        )
+      }
+    )
+  })
+
+  describe('Array() and DocumentFragment()', () => {
+    it('should call ArrayOrDocumentFragment method with correct values', () => {
+      const arrayOrDocumentFragmentSpy = jest.spyOn(objectTypeResolvers, 'ArrayOrDocumentFragment')
+
+      objectTypeResolvers.Array(defaultParams)
+
+      expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith(defaultParams)
+
+      const params = {
+        ...defaultParams,
+        value: [],
+        index: 3
+      }
+
+      objectTypeResolvers.DocumentFragment(params)
+
+      expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith(params)
     })
   })
 })

@@ -15,7 +15,8 @@
   "types": "./build/index.d.ts",
   "scripts": {
     "build": "tsc --project ./tsconfig.build.json",
-    "test": "jest -c jest.config.ts"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [
     "webcomponents",

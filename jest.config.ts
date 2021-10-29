@@ -5,6 +5,9 @@ export default <Config.InitialOptions> {
   roots: ['<rootDir>/tests'],
   rootDir: './',
   collectCoverageFrom: ['./src/**/*.ts'],
+  transform: {
+    '.+\\.ts$': 'ts-jest'
+  },
   moduleNameMapper: {
     '^@/(.+)': '<rootDir>/src/$1'
   }
