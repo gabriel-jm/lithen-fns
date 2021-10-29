@@ -81,4 +81,37 @@ describe('ObjectTypeResolvers', () => {
       expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith(params)
     })
   })
+
+  describe('Object()', () => {
+    it('should add the object to eventsMap if it is a EventListenerObject and return event id', () => {
+      const eventListener = {
+        handleEvent() {}
+      }
+      const expectedEventId = `event-${defaultParams.index}`
+      const params = {
+        ...defaultParams,
+        value: eventListener
+      }
+
+      const response = objectTypeResolvers.Object(params)
+
+      expect(response).toBe(expectedEventId)
+      expect(params.resourceMaps.eventsMap).toHaveProperty(expectedEventId, eventListener)
+    })
+
+    it('should return a JSON if the object value is not a EventListenerObject', () => {
+      const objectValue = {
+        field: 'any_field'
+      }
+      
+      const params = {
+        ...defaultParams,
+        value: objectValue
+      }
+
+      const response = objectTypeResolvers.Object(params)
+
+      expect(response).toBe(JSON.stringify(objectValue))
+    })
+  })
 })

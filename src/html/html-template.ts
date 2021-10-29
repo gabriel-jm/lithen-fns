@@ -9,6 +9,7 @@ export type HtmlTemplateValue = (
   | string
   | StringFromTemplate
   | String
+  | Record<string, unknown>
   | (Node | Element)[] | NodeListOf<ChildNode>
   | DocumentFragment
   | EventListenerOrEventListenerObject
