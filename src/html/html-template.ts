@@ -1,3 +1,4 @@
+import { RawHTMLString } from '@/raw-html-template'
 import { applyEvents } from './apply-events'
 import { htmlStringParser } from './html-string-parser'
 import { placeElements } from './place-elements'
@@ -7,8 +8,8 @@ export type HtmlTemplateValue = (
   number
   | boolean
   | string
-  | StringFromTemplate
   | String
+  | RawHTMLString
   | Record<string, unknown>
   | (Node | Element)[] | NodeListOf<ChildNode>
   | DocumentFragment
@@ -24,8 +25,6 @@ export type ResourceMaps = {
   elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode>>
   eventsMap: Record<string, EventListenerOrEventListenerObject>
 }
-
-export type StringFromTemplate = string & { template: Symbol }
 
 export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
    /**

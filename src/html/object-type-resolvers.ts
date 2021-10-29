@@ -1,4 +1,4 @@
-import { StringFromTemplate } from './html-template'
+import { RawHTMLString } from '../raw-html-template'
 import { HtmlTemplateValue, ResourceMaps } from './html-template'
 
 export interface ObjectTypeResolverParams {
@@ -15,7 +15,7 @@ export type ObjectTypeResolver = Record<
 
 export const objectTypeResolvers: ObjectTypeResolver = {
   String({ value, rawHtmlSymbol }) {
-    const valueTemplateType = (value as StringFromTemplate).template
+    const valueTemplateType = (value as RawHTMLString).templateSymbol
 
     if (valueTemplateType === rawHtmlSymbol) {
       return value as string
