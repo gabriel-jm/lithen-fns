@@ -2,9 +2,10 @@ import { Config } from '@jest/types'
 
 export default <Config.InitialOptions> {
   testEnvironment: 'jsdom',
-  roots: ['<rootDir>/tests'],
+  roots: ['<rootDir>/src','<rootDir>/tests'],
   rootDir: './',
   collectCoverageFrom: ['./src/**/*.ts'],
+  coverageDirectory: './coverage',
   transform: {
     '.+\\.ts$': 'ts-jest'
   },

@@ -1,4 +1,4 @@
-import { RawHTMLString } from '@/raw-html-template'
+import { RawHTMLString } from '../raw-html-template'
 import { applyEvents } from './apply-events'
 import { htmlStringParser } from './html-string-parser'
 import { placeElements } from './place-elements'
