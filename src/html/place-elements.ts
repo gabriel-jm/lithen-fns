@@ -1,7 +1,7 @@
 import { ResourceMaps } from './html-template';
 
 export function placeElements (
-  targetElement: DocumentFragment,
+  targetElement: DocumentFragment | Element,
   elementsMap: ResourceMaps['elementsMap']
 ) {
   const placeholderElements = targetElement.querySelectorAll('template[element-id]')
