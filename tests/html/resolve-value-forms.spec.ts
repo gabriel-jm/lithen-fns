@@ -81,5 +81,70 @@ describe('ResolveValueForms', () => {
       expect(response).toBe(expectedId)
       expect(resourceMaps.eventsMap).toHaveProperty(expectedId, value)
     })
+
+    it('should execute the function and call resolveValueForms again with the result', () => {
+      const htmlStrings = ['<p>any_value</p>']
+      const value = () => 'any_value'
+      const resourceMaps = {
+        elementsMap: {},
+        eventsMap: {}
+      }
+      const index = 0
+
+      const response = resolveValueForms(
+        htmlStrings,
+        value,
+        resourceMaps,
+        rawHtmlSymbol,
+        index
+      )
+
+      expect(response).toBe('any_value')
+      expect(resourceMaps.eventsMap).not.toHaveProperty('event-0')
+    })
+  })
+
+  describe('if type of value is string', () => {
+    it('should replace < and > to the respective html entity', () => {
+      const value = '<input />'
+
+      const response = resolveValueForms(
+        htmlStrings,
+        value,
+        resourceMaps,
+        rawHtmlSymbol,
+        index
+      )
+
+      expect(response).toBe('&lt;input /&gt;')
+    })
+
+    it('should remove the javascript: string', () => {
+      const value = 'href://javascript:void'
+
+      const response = resolveValueForms(
+        htmlStrings,
+        value,
+        resourceMaps,
+        rawHtmlSymbol,
+        index
+      )
+
+      expect(response).toBe('href://void')
+    })
+
+    it('should return an empty string if value is falsy', () => {
+      const value = false
+
+      const response = resolveValueForms(
+        htmlStrings,
+        value,
+        resourceMaps,
+        rawHtmlSymbol,
+        index
+      )
+
+      expect(response).toBe('')
+    })
   })
 })
