@@ -16,4 +16,15 @@ describe('placeElements', () => {
 
     expect(forEachSpy).not.toHaveBeenCalled()
   })
+
+  it('should get all placeholder elements and append the corresponding elements on the placeholder parent', () => {
+    const targetElement = document.createElement('template')
+    targetElement.innerHTML = '<template element-id="element-0"></template>'
+
+    const elementsMap = {
+      'element-0': []
+    }
+
+    
+  })
 })
