@@ -13,7 +13,7 @@ export function resolveValueForms(
   if (typeof value === 'object') {
     const className = value.constructor.name
     const resolver = className in objectTypeResolvers
-      ? objectTypeResolvers[className]
+      ? objectTypeResolvers[className as keyof typeof objectTypeResolvers]
       : objectTypeResolvers.Object
 
     return resolver({
@@ -26,7 +26,7 @@ export function resolveValueForms(
 
   if (typeof value === 'function') {
     if (eventOnEndRegex.test(htmlStrings[index])) {
-      const eventId = `event-${index}`
+      const eventId = `evt-${index}`
       resourceMaps.eventsMap[eventId] = value
 
       return eventId

@@ -12,7 +12,7 @@ describe('ResolveValueForms', () => {
     it('should call the correct objectTypeResolvers method', () => {
       const arrayMethodSpy = jest.spyOn(objectTypeResolvers, 'Array')
       const value = [document.createElement('p')]
-      const elementId = `element-${index}`
+      const elementId = `elm-${index}`
   
       const response = resolveValueForms(
         htmlStrings,
@@ -68,7 +68,7 @@ describe('ResolveValueForms', () => {
       }
       const index = 0
 
-      const expectedId = `event-${index}`
+      const expectedId = `evt-${index}`
 
       const response = resolveValueForms(
         htmlStrings,
@@ -100,7 +100,7 @@ describe('ResolveValueForms', () => {
       )
 
       expect(response).toBe('any_value')
-      expect(resourceMaps.eventsMap).not.toHaveProperty('event-0')
+      expect(resourceMaps.eventsMap).not.toHaveProperty('evt-0')
     })
   })
 

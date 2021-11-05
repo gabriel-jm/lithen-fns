@@ -26,7 +26,7 @@ describe('ObjectTypeResolvers', () => {
         ...defaultParams,
         value: [divElement]
       }
-      const expectedElementId = `element-${params.index}`
+      const expectedElementId = `elm-${params.index}`
 
       const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
 
@@ -49,7 +49,7 @@ describe('ObjectTypeResolvers', () => {
           value: documentFragment,
           index: 2
         }
-        const expectedElementId = `element-${params.index}`
+        const expectedElementId = `elm-${params.index}`
         
         const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
 
@@ -87,7 +87,7 @@ describe('ObjectTypeResolvers', () => {
       const eventListener = {
         handleEvent() {}
       }
-      const expectedEventId = `event-${defaultParams.index}`
+      const expectedEventId = `evt-${defaultParams.index}`
       const params = {
         ...defaultParams,
         value: eventListener

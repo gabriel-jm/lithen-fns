@@ -9,7 +9,7 @@ export interface ObjectTypeResolverParams {
 }
 
 export type ObjectTypeResolver = Record<
-  string | 'String' | 'Array' | 'DocumentFragment' | 'ArrayOrDocumentFragment' | 'Object',
+  'String' | 'Array' | 'DocumentFragment' | 'ArrayOrDocumentFragment' | 'Object',
   (params: ObjectTypeResolverParams) => string
 >
 
@@ -25,7 +25,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
   },
 
   ArrayOrDocumentFragment({ value, resourceMaps, index }) {
-    const elementId = `element-${index}`
+    const elementId = `elm-${index}`
     const valueList = Array.isArray(value)
       ? value
       : (value as DocumentFragment).childNodes
@@ -45,7 +45,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
 
   Object({ value, resourceMaps, index }) {
     if('handleEvent' in (value as object)) {
-      const eventId = `event-${index}`
+      const eventId = `evt-${index}`
       resourceMaps.eventsMap[eventId] = value as EventListenerObject
 
       return eventId
