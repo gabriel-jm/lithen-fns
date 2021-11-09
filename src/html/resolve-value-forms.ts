@@ -1,11 +1,11 @@
-import { HtmlStrings, HtmlTemplateValue, ResourceMaps } from './html-template'
+import { HtmlStrings, HtmlTagFnValue, ResourceMaps } from './html-tag-fn'
 import { objectTypeResolvers } from './object-type-resolvers'
 
 const eventOnEndRegex = /.*\son-[\w\-]+=$/
 
 export function resolveValueForms(
   htmlStrings: HtmlStrings,
-  value: HtmlTemplateValue,
+  value: HtmlTagFnValue,
   resourceMaps: ResourceMaps,
   rawHtmlSymbol: Symbol,
   index: number
@@ -32,7 +32,7 @@ export function resolveValueForms(
       return eventId
     }
 
-    const valueAsFunction = value as (() => void | HtmlTemplateValue)
+    const valueAsFunction = value as (() => void | HtmlTagFnValue)
     const valueReturned = valueAsFunction()
 
     if (valueReturned) {

@@ -1,4 +1,4 @@
-import { ResourceMaps } from './html-template';
+import { ResourceMaps } from './html-tag-fn';
 
 export function placeElements (
   targetElement: DocumentFragment | Element,

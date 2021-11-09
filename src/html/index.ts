@@ -1,1 +1,1 @@
-export * from './html-template'
+export * from './html-tag-fn'

@@ -1,5 +1,5 @@
 import { htmlStringParser } from './html/html-string-parser'
-import { HtmlStrings, HtmlTemplateValueList } from './html/html-template'
+import { HtmlStrings, HtmlTagFnValueList } from './html/html-tag-fn'
 
 export type RawHTMLString = String & { templateSymbol: Symbol }
 
@@ -20,7 +20,7 @@ export default (rawHtmlSymbol: Symbol) => {
    */
   function raw(
     strings: HtmlStrings,
-    ...values: HtmlTemplateValueList
+    ...values: HtmlTagFnValueList
   ): RawHTMLString {
     const fullHtml = strings.reduce((acc, str, index) => {
       const value = values && values[index] ? values[index] : ''

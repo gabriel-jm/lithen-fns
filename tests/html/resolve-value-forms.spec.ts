@@ -1,6 +1,6 @@
 import { objectTypeResolvers } from '@/html/object-type-resolvers'
 import { resolveValueForms } from '@/html/resolve-value-forms'
-import { HtmlTemplateValue } from '@/html/html-template'
+import { HtmlTagFnValue } from '@/html/html-tag-fn'
 
 describe('ResolveValueForms', () => {
   const htmlStrings = ['any_strings']
@@ -42,7 +42,7 @@ describe('ResolveValueForms', () => {
   
       const response = resolveValueForms(
         htmlStrings,
-        value as unknown as HtmlTemplateValue,
+        value as unknown as HtmlTagFnValue,
         resourceMaps,
         rawHtmlSymbol,
         index

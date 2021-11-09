@@ -1,8 +1,8 @@
 import { RawHTMLString } from '../raw-html-template'
-import { HtmlTemplateValue, ResourceMaps } from './html-template'
+import { HtmlTagFnValue, ResourceMaps } from './html-tag-fn'
 
 export interface ObjectTypeResolverParams {
-  value: HtmlTemplateValue
+  value: HtmlTagFnValue
   resourceMaps: ResourceMaps
   rawHtmlSymbol: Symbol
   index: number

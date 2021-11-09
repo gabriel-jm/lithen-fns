@@ -4,7 +4,7 @@ import { htmlStringParser } from './html-string-parser'
 import { placeElements } from './place-elements'
 import { resolveValueForms } from './resolve-value-forms'
 
-export type HtmlTemplateValue = (
+export type HtmlTagFnValue = (
   number
   | boolean
   | string
@@ -14,10 +14,10 @@ export type HtmlTemplateValue = (
   | (Node | Element)[] | NodeListOf<ChildNode>
   | DocumentFragment
   | EventListenerOrEventListenerObject
-  | (() => void | HtmlTemplateValue)
+  | (() => void | HtmlTagFnValue)
 )
 
-export type HtmlTemplateValueList = HtmlTemplateValue[]
+export type HtmlTagFnValueList = HtmlTagFnValue[]
 
 export type HtmlStrings = TemplateStringsArray | string[]
 
@@ -44,7 +44,7 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
    * 
    * @returns a DocumentFragment.
    */
-  function html(htmlStrings: HtmlStrings, ...values: HtmlTemplateValueList): DocumentFragment {
+  function html(htmlStrings: HtmlStrings, ...values: HtmlTagFnValueList): DocumentFragment {
     const resourceMaps: ResourceMaps = {
       elementsMap: {},
       eventsMap: {}
@@ -78,7 +78,9 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
       applyEvents(element, resourceMaps.eventsMap)
     }
 
-    (element as DocumentFragment & { templateSymbol: Symbol })['templateSymbol'] = htmlSymbol
+    (element as (
+      DocumentFragment & { templateSymbol: Symbol }
+    ))['templateSymbol'] = htmlSymbol
 
     return element
   }
