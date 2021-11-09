@@ -12,6 +12,19 @@ describe('ObjectTypeResolvers', () => {
   }
 
   describe('String()', () => {
+    it('should return the exact value if it is a RawHTMLString', () => {
+      const value = Object.assign(new String('<html></html>'), {
+        templateSymbol: defaultParams.rawHtmlSymbol
+      })
+
+      const response = objectTypeResolvers.String({
+        ...defaultParams,
+        value
+      })
+
+      expect(response.toString()).toBe('<html></html>')
+    })
+
     it('should return an empty string if value is not a RawHTMLString', () => {
       const response = objectTypeResolvers.String(defaultParams)
 
