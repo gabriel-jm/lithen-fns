@@ -15,7 +15,7 @@ export function applyEvents (
     const attributesRecords = Array
       .from(element.attributes)
       .map(attribute => {
-        if ((/^on-[\w\-]+/).test(attribute.nodeName)) {
+        if (!(/^on-[\w\-]+/).test(attribute.nodeName)) {
           return
         }
 
