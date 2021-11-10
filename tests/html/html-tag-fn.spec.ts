@@ -1,4 +1,4 @@
-import { html } from '@/index'
+import { html, raw } from '@/index'
 
 describe('html tag function', () => {
   it('should return a DocumentFragment with correct elements', () => {
@@ -79,5 +79,12 @@ describe('html tag function', () => {
     
     expect(docFrag.querySelector('p')).toBeNull()
     expect(docFrag.querySelector('div')?.textContent).toBe('<p>should parse</p>')
+  })
+
+  it('should pass the html content if it is passed with raw tag function', () => {
+    const input = '<p>should not parse</p>'
+    const docFrag = html`<div>${raw`${input}`}</div>`
+    
+    expect(docFrag.querySelector('p')?.textContent).toBe('should not parse')
   })
 })
