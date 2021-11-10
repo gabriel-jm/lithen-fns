@@ -73,4 +73,11 @@ describe('html tag function', () => {
     expect(docFrag.querySelector('p')).not.toBeNull()
     expect(fakeFn).toHaveBeenCalled()
   })
+
+  it('should parse html like text to html entities to html like strings', () => {
+    const docFrag = html`<div>${'<p>should parse</p>'}</div>`
+    
+    expect(docFrag.querySelector('p')).toBeNull()
+    expect(docFrag.querySelector('div')?.textContent).toBe('<p>should parse</p>')
+  })
 })
