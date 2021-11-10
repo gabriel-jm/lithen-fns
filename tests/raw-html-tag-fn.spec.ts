@@ -1,7 +1,7 @@
 import { raw } from '@/index'
 
 describe('RawHTML tag function', () => {
-  it('should call htmlStringParser with correct values', () => {
+  it('should return a minified html text', () => {
     const html = raw`
       <section>
         ${'<p>Text</p>'}
