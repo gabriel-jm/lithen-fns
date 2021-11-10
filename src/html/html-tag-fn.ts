@@ -1,4 +1,4 @@
-import { RawHTMLString } from '../raw-html-template'
+import { RawHTMLString } from '../raw-html-tag-fn'
 import { applyEvents } from './apply-events'
 import { htmlStringParser } from './html-string-parser'
 import { placeElements } from './place-elements'
@@ -31,8 +31,9 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
    * Function that parses the html text passed to it.
    * 
    * The parsing, tries to prevent XSS attacks in the html,
-   * minifies it and gives the possibility to call Web Components
-   * tags as self closed.
+   * minifies it, gives the possibility to call Web Components
+   * tags as self closed, add events to elements inline and
+   * some more.
    * 
    * It's commonly used has a template function.
    * @example

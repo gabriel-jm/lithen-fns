@@ -1,6 +1,6 @@
-import htmlTemplate from './html/html-tag-fn'
-import rawHTMLTemplate from './raw-html-template'
-import cssTemaplate from './css-template'
+import makeHTMLTagFn from './html/html-tag-fn'
+import makeRawHTMLTagFn from './raw-html-tag-fn'
+import makeCSSTagFn from './css-tag-fn'
 
 const templateSymbols = {
   html: Symbol('html'),
@@ -8,9 +8,9 @@ const templateSymbols = {
   css: Symbol('css')
 }
 
-const html = htmlTemplate(templateSymbols.html, templateSymbols.rawHtml)
-const raw = rawHTMLTemplate(templateSymbols.rawHtml)
-const css = cssTemaplate(templateSymbols.css)
+const html = makeHTMLTagFn(templateSymbols.html, templateSymbols.rawHtml)
+const raw = makeRawHTMLTagFn(templateSymbols.rawHtml)
+const css = makeCSSTagFn(templateSymbols.css)
 
 export { HtmlStrings, HtmlTagFnValue, HtmlTagFnValueList } from './html/html-tag-fn'
 

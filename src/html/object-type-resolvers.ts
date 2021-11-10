@@ -1,4 +1,4 @@
-import { RawHTMLString } from '../raw-html-template'
+import { RawHTMLString } from '../raw-html-tag-fn'
 import { HtmlTagFnValue, ResourceMaps } from './html-tag-fn'
 
 export interface ObjectTypeResolverParams {

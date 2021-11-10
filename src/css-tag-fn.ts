@@ -14,7 +14,7 @@ export default (cssSymbol: Symbol) => {
    * 
    * @returns the minified css string.
    */
-  function css(strings: CssStrings, ...values: string[]): string {
+  function css(strings: CssStrings, ...values: string[]) {
     const fullCss = strings.reduce((acc, str, index) => {
       return acc + str + (values[index] || "");
     }, "")
@@ -28,7 +28,7 @@ export default (cssSymbol: Symbol) => {
     return Object.assign(
       new String(minifiedCss),
       { template: cssSymbol }
-    ) as unknown as string
+    )
   }
 
   return css
