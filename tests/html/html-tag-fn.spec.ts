@@ -44,4 +44,33 @@ describe('html tag function', () => {
 
     expect(fakeFn).toHaveBeenCalledTimes(2)
   })
+
+  it('should add elements from another DocumentFragment', () => {
+    const docFrag = html`
+      <header>
+        ${html`<h1>Title</h1>`}
+      </header>
+      <footer>
+        ${html`<p>Footer</p>`}
+      </footer>
+    `
+
+    expect(docFrag.querySelector('header > h1')).not.toBeNull()
+    expect(docFrag.querySelector('footer > p')).not.toBeNull()
+  })
+
+  it('should run a function and reinterpret the return value', () => {
+    const fakeFn = jest.fn()
+    
+    function myParaph() {
+      return html`<p on-click=${fakeFn}>my paraph</p>`
+    }
+
+    const docFrag = html`<div>${myParaph}</div>`
+
+    docFrag.querySelector('p')?.dispatchEvent(new Event('click'))
+
+    expect(docFrag.querySelector('p')).not.toBeNull()
+    expect(fakeFn).toHaveBeenCalled()
+  })
 })
