@@ -69,21 +69,22 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
     const template = document.createElement('template')
     template.innerHTML = parsedHtml
     
-    const element = template.content.cloneNode(true) as DocumentFragment
+    const docFragment = new DocumentFragment()
+    docFragment.append(template.content)
 
     if (Object.keys(resourceMaps.elementsMap).length) {
-      placeElements(element, resourceMaps.elementsMap)
+      placeElements(docFragment, resourceMaps.elementsMap)
     }
 
     if (Object.keys(resourceMaps.eventsMap).length) {
-      applyEvents(element, resourceMaps.eventsMap)
+      applyEvents(docFragment, resourceMaps.eventsMap)
     }
 
-    (element as (
+    (docFragment as (
       DocumentFragment & { templateSymbol: Symbol }
     ))['templateSymbol'] = htmlSymbol
 
-    return element
+    return docFragment
   }
 
   return html
