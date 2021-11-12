@@ -1,4 +1,4 @@
-const regexs = {
+const regexList = {
   tag: /<([a-zA-Z0-9\-]+)\s(.*)\/>/g,
   breakAndNewLines: /\r|\n/g,
   contentBetweenTags: />([^<]*)</g,
@@ -8,7 +8,7 @@ const regexs = {
 export const htmlStringParser = (html: string) => (
   html
     .trim()
-    .replace(regexs.tag, (fullResult, name, attrs) => {
+    .replace(regexList.tag, (fullResult, name, attrs) => {
       if(!name.includes('-') && name !== 'slot') {
         return fullResult
       }
@@ -17,11 +17,11 @@ export const htmlStringParser = (html: string) => (
 
       return `<${name}${attributes}></${name}>`
     })
-    .replace(regexs.breakAndNewLines, '')
-    .replace(regexs.contentBetweenTags, (_fullText, contentBetweenTags) => {
+    .replace(regexList.breakAndNewLines, '')
+    .replace(regexList.contentBetweenTags, (_, contentBetweenTags) => {
       return `>${contentBetweenTags.trim()}<`
     })
-    .replace(regexs.contentWithinTags, (_fullText, tagContent) => {
+    .replace(regexList.contentWithinTags, (_, tagContent) => {
       const afterReplace = tagContent.replace(
         /([a-zA-Z0-9\-="']+)\s+(>?)/g,
         (_: string, tagPiece: string, tagEnd: string) => {

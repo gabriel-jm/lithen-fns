@@ -1,7 +1,7 @@
 # Lithen Tag Functions - html
 
 `html` is a tagged template function that makes some parsing in a html string.
-This parsings, tries to prevent XSS attacks, minifies the content, add events to an element, parses different types of data, and gives the possibility to call Web Components tags as self closed, instead to write `<app-element></app-element>` you can write `<app-element />`.
+This parsings, tries to prevent XSS attacks, minifies the content, add events to an element, parses different types of data, and gives the possibility to call Web Components tags as self closed.
 
 ## Returns
 `DocumentFragment` - type object - an instance of [DocumentFragment](https://developer.mozilla.org/pt-BR/docs/Web/API/DocumentFragment).
@@ -16,6 +16,25 @@ html(['<div>...</div>'], 'values')
 ```
 
 ## Features
+
+### Web Components and Slots as self closed tags
+
+If know how to use a Web Component you probably know that a custom element need to have a close
+tag even if it does not have child elements and the same goes to slot elements, based on it, you
+can write an custom element tag as a selt closed tag if you want and the html tag function will 
+replace it for the closing tag.
+
+```ts
+html`
+  <!-- instead of write this -->
+  <app-element></app-element>
+  <slot name="child"></slot>
+
+  <!-- you can write this -->
+  <app-element /> <!-- will be parsed for this '<app-element></app-element>' -->
+  <slot name="child" /> <!-- will be parsed for this '<slot name="child"></slot>' -->
+`
+```
 
 ### Add events
 
@@ -34,7 +53,7 @@ html`
 // or, using EventListenerObjects
 
 const eventHandler = {
-  handleEvent = () => console.log('click event')
+  handleEvent: () => console.log('click event')
 }
 
 html`
@@ -60,6 +79,9 @@ html`
   <a href="${link}">link</a> <!-- the link will be replaced for 'alert("trap")' -->
 `
 ```
+
+To avoid this and use html text in the html tag function you can use the 
+[raw tag function](./raw.md).
 
 > **Want to help?** If you find a way to pass through the XSS prevention, please create an issue on github about it.
 
@@ -87,7 +109,7 @@ html`
     ${[
       html`<li>${Math.random()}</li>`,
       html`<li>${Math.random()}</li>`,
-      html`<li>${Math.random()}</li>`
+      '<p>Injected</p>' // Will be appended as Text not an Paragraph Element
     ]}
   </ul>
 `
@@ -123,5 +145,19 @@ html`
   <header>
     ${getData} <!-- this function will be automatically called -->
   </header>
+`
+```
+
+### Content minification
+
+It will minifies all the html content before it is passed to the DocumentFragment.
+
+```ts
+html`
+  <header>
+    <h1>Title</h1>
+  </header>
+
+  <!-- will be minified to '<header><h1>Title</h1></header>' -->
 `
 ```
