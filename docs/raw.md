@@ -1,11 +1,14 @@
-# Rendering Tag Functions - raw
+# Lithen Tag Functions - raw
 
-`raw` is a tagged template function that is similiar to the [`html`](./html.md) but without passing in the XSS analisys. Its util when you don't want the passed html doesn't be transformed by the XSS analisys.
+`raw` is a tagged template function that is used to by pass in the html tag function XSS analysis.
+This tag function is normally used for specifics strings, like in situations the is intectionally
+passed html text as value. But is normally recommended to use the html tag function.
 
 ## Returns
 `html` - type string - the parsed html text.
 
 ## Usage
+
 ```ts
 raw`
   <div>...</div>
