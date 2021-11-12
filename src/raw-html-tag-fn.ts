@@ -3,6 +3,8 @@ import { HtmlStrings, HtmlTagFnValueList } from './html/html-tag-fn'
 
 export type RawHTMLString = String & { templateSymbol: Symbol }
 
+export type RawTagFnStrings = string | HtmlStrings
+
 export default (rawHtmlSymbol: Symbol) => {
   /**
    * Function that enables to write anything in the `html`
@@ -19,10 +21,14 @@ export default (rawHtmlSymbol: Symbol) => {
    * @returns a html string.
    */
   function raw(
-    strings: HtmlStrings,
+    strings: RawTagFnStrings,
     ...values: HtmlTagFnValueList
   ): RawHTMLString {
-    const fullHtml = strings.reduce((acc, str, index) => {
+    const stringsList = !Array.isArray(strings)
+      ? [strings] as string[]
+      : strings
+
+    const fullHtml = stringsList.reduce((acc, str, index) => {
       const value = values && values[index] ? values[index] : ''
       return acc + str + value
     }, "")
