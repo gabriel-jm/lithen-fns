@@ -31,7 +31,7 @@ describe('placeElements', () => {
     const targetElement = template.content
 
     const elementsMap = {
-      'elm-0': [document.createElement('div')]
+      'elm-0': [document.createElement('div'), '<p>Injected</p>'] as Node[]
     }
 
     const querySelectorAllSpy = jest.spyOn(targetElement, 'querySelectorAll')
@@ -45,6 +45,7 @@ describe('placeElements', () => {
     expect(childDiv).toEqual(elementsMap['elm-0'][0])
     expect(targetElement.childNodes[0]).toEqual(childDiv)
     expect(childTemplate).toBeNull()
+    expect(targetElement.querySelector('p')).toBeNull()
   })
 
   it('should get a NodeList and append the corresponding elements on the parent element', () => {
