@@ -15,7 +15,7 @@
   "types": "./build/index.d.ts",
   "scripts": {
     "build": "tsc --project ./tsconfig.build.json",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "rm -rf build && npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage"
