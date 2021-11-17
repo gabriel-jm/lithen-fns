@@ -14,7 +14,13 @@ export function placeElements (
 
     const parentElement = placeholderElement.parentElement ?? targetElement
 
-    parentElement.append(...elementsList)
+    elementsList.forEach(element => {
+      if(!(element instanceof Node)) {
+        element = document.createTextNode((element as Object).toString())
+      }
+
+      parentElement.insertBefore(element, placeholderElement)
+    })
     placeholderElement.remove()
   })
 }

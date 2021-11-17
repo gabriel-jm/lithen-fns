@@ -52,11 +52,15 @@ describe('html tag function', () => {
       </header>
       <footer>
         ${html`<p>Footer</p>`}
+        <br />
+        ${html`<span>testes</span>`}
       </footer>
     `
 
     expect(docFrag.querySelector('header > h1')).not.toBeNull()
     expect(docFrag.querySelector('footer > p')).not.toBeNull()
+    expect(docFrag.querySelector('span')?.previousElementSibling)
+      .toEqual(docFrag.querySelector('br'))
   })
 
   it('should run a function and reinterpret the return value', () => {

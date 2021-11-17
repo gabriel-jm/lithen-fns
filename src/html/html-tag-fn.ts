@@ -68,18 +68,19 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
 
     const template = document.createElement('template')
     template.innerHTML = parsedHtml
+
     
     const docFragment = new DocumentFragment()
     docFragment.append(template.content)
-
+    
     if (Object.keys(resourceMaps.elementsMap).length) {
       placeElements(docFragment, resourceMaps.elementsMap)
     }
-
+    
     if (Object.keys(resourceMaps.eventsMap).length) {
       applyEvents(docFragment, resourceMaps.eventsMap)
     }
-
+    
     (docFragment as (
       DocumentFragment & { templateSymbol: Symbol }
     ))['templateSymbol'] = htmlSymbol
