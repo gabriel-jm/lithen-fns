@@ -3,6 +3,7 @@ import { applyEvents } from './apply-events'
 import { htmlStringParser } from './html-string-parser'
 import { placeElements } from './place-elements'
 import { resolveValueForms } from './resolve-value-forms'
+import { sanitizeAttributes } from './sanitize-attributes'
 
 export type HtmlTagFnValue = (
   number
@@ -65,10 +66,11 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
     )
 
     const parsedHtml = htmlStringParser(fullHtml)
+    
+    const cleanHtml = sanitizeAttributes(parsedHtml)
 
     const template = document.createElement('template')
-    template.innerHTML = parsedHtml
-
+    template.innerHTML = cleanHtml
     
     const docFragment = new DocumentFragment()
     docFragment.append(template.content)

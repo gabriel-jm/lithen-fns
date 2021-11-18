@@ -11,7 +11,7 @@ export function resolveValueForms(
   index: number
 ): string {
   if (typeof value === 'object') {
-    const className = value.constructor.name
+    const className = value?.constructor.name
     const resolver = className in objectTypeResolvers
       ? objectTypeResolvers[className as keyof typeof objectTypeResolvers]
       : objectTypeResolvers.Object

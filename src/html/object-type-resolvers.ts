@@ -44,6 +44,8 @@ export const objectTypeResolvers: ObjectTypeResolver = {
   },
 
   Object({ value, resourceMaps, index }) {
+    if (!value) return ''
+
     if('handleEvent' in (value as object)) {
       const eventId = `evt-${index}`
       resourceMaps.eventsMap[eventId] = value as EventListenerObject

@@ -1,5 +1,9 @@
 import { html, raw } from '@/index'
 
+function select(docFrag: DocumentFragment, query: string) {
+  return docFrag.querySelector(query)
+}
+
 describe('html tag function', () => {
   it('should return a DocumentFragment with correct elements', () => {
     const docFrag = html`
@@ -9,10 +13,10 @@ describe('html tag function', () => {
       </div>
     `
 
-    expect(docFrag.querySelector('p')?.textContent).toBe('Text')
-    expect(docFrag.querySelector('div')?.children[0]).toEqual(docFrag.querySelector('a'))
-    expect(docFrag.querySelector('a')?.getAttribute('href')).toBe('#')
-    expect(docFrag.querySelector('a')?.textContent).toBe('link')
+    expect(select(docFrag, 'p')?.textContent).toBe('Text')
+    expect(select(docFrag, 'div')?.children[0]).toEqual(select(docFrag, 'a'))
+    expect(select(docFrag, 'a')?.getAttribute('href')).toBe('#')
+    expect(select(docFrag, 'a')?.textContent).toBe('link')
   })
 
   it('should add all elements from an array', () => {
@@ -23,8 +27,8 @@ describe('html tag function', () => {
       ]}</div>
     `
 
-    expect(docFrag.querySelector('#el-1')?.textContent).toBe('any text')
-    expect(docFrag.querySelector('#el-2')?.textContent).toBe('any value')
+    expect(select(docFrag, '#el-1')?.textContent).toBe('any text')
+    expect(select(docFrag, '#el-2')?.textContent).toBe('any value')
   })
 
   it('should add the correct event to the elements', () => {
@@ -39,10 +43,27 @@ describe('html tag function', () => {
       <input on-input=${() => fakeFn()} />
     `
 
-    docFrag.querySelector('button')?.dispatchEvent(new Event('click'))
-    docFrag.querySelector('input')?.dispatchEvent(new Event('input'))
+    select(docFrag, 'button')?.dispatchEvent(new Event('click'))
+    select(docFrag, 'input')?.dispatchEvent(new Event('input'))
 
     expect(fakeFn).toHaveBeenCalledTimes(2)
+  })
+
+  it('should clean any lost custom event attributes', () => {
+    const docFrag = html`
+      <div on-click="">
+        <p on-cust-event>any value</p>
+        <a on-drag=${undefined as any} href="#">link</a>
+        <span on-drop=${0}>any text</span>
+        <b on-change=${null as any}>bold</b>
+      </div>
+    `
+
+    expect(select(docFrag, 'div')?.hasAttribute('on-click')).toBe(false)
+    expect(select(docFrag, 'a')?.hasAttribute('on-drag')).toBe(false)
+    expect(select(docFrag, 'p')?.hasAttribute('on-cust-event')).toBe(false)
+    expect(select(docFrag, 'span')?.hasAttribute('on-drop')).toBe(false)
+    expect(select(docFrag, 'b')?.hasAttribute('on-change')).toBe(false)
   })
 
   it('should add elements from another DocumentFragment', () => {
@@ -57,10 +78,10 @@ describe('html tag function', () => {
       </footer>
     `
 
-    expect(docFrag.querySelector('header > h1')).not.toBeNull()
-    expect(docFrag.querySelector('footer > p')).not.toBeNull()
-    expect(docFrag.querySelector('span')?.previousElementSibling)
-      .toEqual(docFrag.querySelector('br'))
+    expect(select(docFrag, 'header > h1')).not.toBeNull()
+    expect(select(docFrag, 'footer > p')).not.toBeNull()
+    expect(select(docFrag, 'span')?.previousElementSibling)
+      .toEqual(select(docFrag, 'br'))
   })
 
   it('should run a function and reinterpret the return value', () => {
@@ -72,23 +93,23 @@ describe('html tag function', () => {
 
     const docFrag = html`<div>${myParaph}</div>`
 
-    docFrag.querySelector('p')?.dispatchEvent(new Event('click'))
+    select(docFrag, 'p')?.dispatchEvent(new Event('click'))
 
-    expect(docFrag.querySelector('p')).not.toBeNull()
+    expect(select(docFrag, 'p')).not.toBeNull()
     expect(fakeFn).toHaveBeenCalled()
   })
 
   it('should parse html like text to html entities to html like strings', () => {
     const docFrag = html`<div>${'<p>should parse</p>'}</div>`
     
-    expect(docFrag.querySelector('p')).toBeNull()
-    expect(docFrag.querySelector('div')?.textContent).toBe('<p>should parse</p>')
+    expect(select(docFrag, 'p')).toBeNull()
+    expect(select(docFrag, 'div')?.textContent).toBe('<p>should parse</p>')
   })
 
   it('should pass the html content if it is passed with raw tag function', () => {
     const input = '<p>should not parse</p>'
     const docFrag = html`<div>${raw`${input}`}</div>`
     
-    expect(docFrag.querySelector('p')?.textContent).toBe('should not parse')
+    expect(select(docFrag, 'p')?.textContent).toBe('should not parse')
   })
 })
