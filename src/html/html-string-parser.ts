@@ -1,5 +1,5 @@
 const regexList = {
-  tag: /<([a-zA-Z0-9\-]+)\s(.*)\/>/g,
+  tag: /<([a-zA-Z0-9\-]+)\s(.*)(\n|\s)*?\/>/g,
   breakAndNewLines: /\r|\n/g,
   contentBetweenTags: />([^<]*)</g,
   contentWithinTags: /(<[^>]*>)/g
@@ -13,7 +13,7 @@ export const htmlStringParser = (html: string) => (
         return fullResult
       }
 
-      const attributes = attrs.trim() ? ` ${attrs.trim()}` : ""
+      const attributes = attrs?.trim ? ` ${attrs.trim()}` : ""
 
       return `<${name}${attributes}></${name}>`
     })
