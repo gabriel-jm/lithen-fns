@@ -126,5 +126,16 @@ describe('ObjectTypeResolvers', () => {
 
       expect(response).toBe(JSON.stringify(objectValue))
     })
+
+    it('should return an empty string if a null value is passed', () => {
+      const params = {
+        ...defaultParams,
+        value: null as any
+      }
+
+      const response = objectTypeResolvers.Object(params)
+
+      expect(response).toBe('')
+    })
   })
 })

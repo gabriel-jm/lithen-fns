@@ -29,6 +29,18 @@ describe('htmlStringParser', () => {
 
       expect(result).toBe('<x-name disabled label="Name"></x-name>')
     })
+
+    it('should replicate the tag even if has break lines', () => {
+      const html = `
+        <app-element
+          attr="any_value"
+        />
+      `
+
+      const result = htmlStringParser(html)
+
+      expect(result).toBe('<app-element attr="any_value"></app-element>')
+    })
   })
 
   describe('Slot elements', () => {
