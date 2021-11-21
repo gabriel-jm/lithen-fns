@@ -52,4 +52,20 @@ describe('CSS tag function', () => {
       expect(input.toString()).toBe(output)
     }
   })
+
+  it('should accept nested css text from css tag function', () => {
+    const firstCSS = css`
+      width: 100%;
+      height: 100%;
+    `
+
+    const secondCSS = css`
+      .btn {
+        ${firstCSS}
+        cursor: pointer;
+      }
+    `
+
+    expect(secondCSS.toString()).toBe('.btn{width:100%;height:100%;cursor:pointer;}')
+  })
 })
