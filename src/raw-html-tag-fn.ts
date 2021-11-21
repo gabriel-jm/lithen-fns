@@ -3,7 +3,7 @@ import { HtmlStrings, HtmlTagFnValueList } from './html/html-tag-fn'
 
 export type RawHTMLString = String & { templateSymbol: Symbol }
 
-export type RawTagFnStrings = string | HtmlStrings
+export type RawTagFnStrings = String | string | HtmlStrings
 
 export default (rawHtmlSymbol: Symbol) => {
   /**

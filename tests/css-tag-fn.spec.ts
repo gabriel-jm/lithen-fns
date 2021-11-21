@@ -45,6 +45,19 @@ describe('CSS tag function', () => {
           }
         `,
         output: '::part(div){width:100px;height:200px;display:block;}'
+      },
+      {
+        input: css`
+          .btn {
+            background-color: #d45;
+            color: #eee;
+            cursor: pointer;
+            padding: 8px 10px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+          }
+        `,
+        output: '.btn{background-color:#d45;color:#eee;cursor:pointer;padding:8px 10px;border:1px solid transparent;border-radius:4px;}'
       }
     ]
     
