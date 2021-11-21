@@ -1,8 +1,6 @@
 import { htmlStringParser } from './html/html-string-parser'
 import { HtmlStrings, HtmlTagFnValueList } from './html/html-tag-fn'
 
-export type RawHTMLString = String & { templateSymbol: Symbol }
-
 export type RawTagFnStrings = String | string | HtmlStrings
 
 export default (rawHtmlSymbol: Symbol) => {
@@ -23,7 +21,7 @@ export default (rawHtmlSymbol: Symbol) => {
   function raw(
     strings: RawTagFnStrings,
     ...values: HtmlTagFnValueList
-  ): RawHTMLString {
+  ) {
     const stringsList = !Array.isArray(strings)
       ? [strings] as string[]
       : strings
@@ -37,7 +35,7 @@ export default (rawHtmlSymbol: Symbol) => {
 
     return Object.assign(
       new String(parsedHtml),
-      { templateSymbol: rawHtmlSymbol }
+      { tagSymbol: rawHtmlSymbol }
     )
   }
 

@@ -1,10 +1,9 @@
-import { RawHTMLString } from '../raw-html-tag-fn'
-import { HtmlTagFnValue, ResourceMaps } from './html-tag-fn'
+import { HtmlTagFnValue, ResourceMaps, TagFnString } from './html-tag-fn'
 
 export interface ObjectTypeResolverParams {
   value: HtmlTagFnValue
   resourceMaps: ResourceMaps
-  rawHtmlSymbol: Symbol
+  tagFnsSymbols: readonly [Symbol, Symbol]
   index: number
 }
 
@@ -14,10 +13,10 @@ export type ObjectTypeResolver = Record<
 >
 
 export const objectTypeResolvers: ObjectTypeResolver = {
-  String({ value, rawHtmlSymbol }) {
-    const valueTemplateType = (value as RawHTMLString).templateSymbol
+  String({ value, tagFnsSymbols }) {
+    const symbolType = (value as TagFnString).tagSymbol
 
-    if (valueTemplateType === rawHtmlSymbol) {
+    if (tagFnsSymbols.includes(symbolType)) {
       return value as string
     }
 

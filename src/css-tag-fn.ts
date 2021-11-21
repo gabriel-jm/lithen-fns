@@ -27,7 +27,7 @@ export default (cssSymbol: Symbol) => {
 
     return Object.assign(
       new String(minifiedCss),
-      { template: cssSymbol }
+      { tagSymbol: cssSymbol }
     )
   }
 

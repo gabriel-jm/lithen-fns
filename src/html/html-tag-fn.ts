@@ -1,20 +1,22 @@
-import { RawHTMLString } from '../raw-html-tag-fn'
 import { applyEvents } from './apply-events'
 import { htmlStringParser } from './html-string-parser'
 import { placeElements } from './place-elements'
 import { resolveValueForms } from './resolve-value-forms'
 import { sanitizeAttributes } from './sanitize-attributes'
 
+export type TagFnString = String & { tagSymbol: Symbol }
+
 export type HtmlTagFnValue = (
   number
   | boolean
   | string
   | String
-  | RawHTMLString
+  | TagFnString
   | Record<string, unknown>
   | (Node | Element)[] | NodeListOf<ChildNode>
   | DocumentFragment
   | EventListenerOrEventListenerObject
+  | Element
   | (() => void | HtmlTagFnValue)
 )
 
@@ -27,7 +29,7 @@ export type ResourceMaps = {
   eventsMap: Record<string, EventListenerOrEventListenerObject>
 }
 
-export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
+export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
    /**
    * Function that parses the html text passed to it.
    * 
@@ -56,7 +58,7 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
       htmlStrings,
       value,
       resourceMaps,
-      rawHtmlSymbol,
+      [rawHtmlSymbol, cssSymbol],
       index
     ))
 
@@ -82,10 +84,6 @@ export default (htmlSymbol: Symbol, rawHtmlSymbol: Symbol) => {
     if (Object.keys(resourceMaps.eventsMap).length) {
       applyEvents(docFragment, resourceMaps.eventsMap)
     }
-    
-    (docFragment as (
-      DocumentFragment & { templateSymbol: Symbol }
-    ))['templateSymbol'] = htmlSymbol
 
     return docFragment
   }

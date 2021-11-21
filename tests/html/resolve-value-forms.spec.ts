@@ -5,7 +5,7 @@ import { HtmlTagFnValue } from '@/html/html-tag-fn'
 describe('ResolveValueForms', () => {
   const htmlStrings = ['any_strings']
   const resourceMaps = { elementsMap: {}, eventsMap: {} }
-  const rawHtmlSymbol = Symbol()
+  const tagFnsSymbols = [Symbol(), Symbol()] as const
   const index = 1
 
   describe('if type of value is object', () => {
@@ -18,7 +18,7 @@ describe('ResolveValueForms', () => {
         htmlStrings,
         value,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       )
   
@@ -26,7 +26,7 @@ describe('ResolveValueForms', () => {
       expect(arrayMethodSpy).toHaveBeenCalledWith({
         value,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       })
     })
@@ -44,7 +44,7 @@ describe('ResolveValueForms', () => {
         htmlStrings,
         value as unknown as HtmlTagFnValue,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       )
   
@@ -52,7 +52,7 @@ describe('ResolveValueForms', () => {
       expect(objectMethodSpy).toHaveBeenCalledWith({
         value,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       })
     })
@@ -74,7 +74,7 @@ describe('ResolveValueForms', () => {
         htmlStrings,
         value,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       )
 
@@ -95,7 +95,7 @@ describe('ResolveValueForms', () => {
         htmlStrings,
         value,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       )
 
@@ -112,7 +112,7 @@ describe('ResolveValueForms', () => {
         htmlStrings,
         value,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       )
 
@@ -126,7 +126,7 @@ describe('ResolveValueForms', () => {
         htmlStrings,
         value,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       )
 
@@ -140,7 +140,7 @@ describe('ResolveValueForms', () => {
         htmlStrings,
         value,
         resourceMaps,
-        rawHtmlSymbol,
+        tagFnsSymbols,
         index
       )
 

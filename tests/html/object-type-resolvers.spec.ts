@@ -1,9 +1,10 @@
 import { objectTypeResolvers } from '@/html/object-type-resolvers'
+import { TagFnString } from '@/html/html-tag-fn'
 
 describe('ObjectTypeResolvers', () => {
   const defaultParams = {
     value: 'any_value',
-    rawHtmlSymbol: Symbol(),
+    tagFnsSymbols: [Symbol(), Symbol()] as const,
     resourceMaps: {
       elementsMap: {},
       eventsMap: {}
@@ -13,8 +14,8 @@ describe('ObjectTypeResolvers', () => {
 
   describe('String()', () => {
     it('should return the exact value if it is a RawHTMLString', () => {
-      const value = Object.assign(new String('<html></html>'), {
-        templateSymbol: defaultParams.rawHtmlSymbol
+      const value: TagFnString = Object.assign(new String('<html></html>'), {
+        tagSymbol: defaultParams.tagFnsSymbols[0]
       })
 
       const response = objectTypeResolvers.String({
