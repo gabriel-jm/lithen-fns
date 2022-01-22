@@ -4,7 +4,7 @@ import { objectTypeResolvers } from './object-type-resolvers'
 const eventOnEndRegex = /.*\son-[\w\-]+=$/
 
 export function resolveValueForms(
-  htmlStrings: HtmlStrings,
+  htmlString: string,
   value: HtmlTagFnValue,
   resourceMaps: ResourceMaps,
   tagFnsSymbols: readonly [Symbol, Symbol],
@@ -25,7 +25,7 @@ export function resolveValueForms(
   }
 
   if (typeof value === 'function') {
-    if (eventOnEndRegex.test(htmlStrings[index])) {
+    if (eventOnEndRegex.test(htmlString)) {
       const eventId = `evt-${index}`
       resourceMaps.eventsMap[eventId] = value
 
@@ -37,7 +37,7 @@ export function resolveValueForms(
 
     if (valueReturned) {
       return resolveValueForms(
-        htmlStrings,
+        htmlString,
         valueReturned,
         resourceMaps,
         tagFnsSymbols,

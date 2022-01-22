@@ -3,7 +3,7 @@ import { resolveValueForms } from '@/html/resolve-value-forms'
 import { HtmlTagFnValue } from '@/html/html-tag-fn'
 
 describe('ResolveValueForms', () => {
-  const htmlStrings = ['any_strings']
+  const htmlString = 'any_string'
   const resourceMaps = { elementsMap: {}, eventsMap: {} }
   const tagFnsSymbols = [Symbol(), Symbol()] as const
   const index = 1
@@ -15,7 +15,7 @@ describe('ResolveValueForms', () => {
       const elementId = `elm-${index}`
   
       const response = resolveValueForms(
-        htmlStrings,
+        htmlString,
         value,
         resourceMaps,
         tagFnsSymbols,
@@ -41,7 +41,7 @@ describe('ResolveValueForms', () => {
       const value = new UnknownClass()
   
       const response = resolveValueForms(
-        htmlStrings,
+        htmlString,
         value as unknown as HtmlTagFnValue,
         resourceMaps,
         tagFnsSymbols,
@@ -60,7 +60,7 @@ describe('ResolveValueForms', () => {
 
   describe('if type of value is function', () => {
     it('should add the value to the eventsMap if previous html string pass o event regex', () => {
-      const htmlStrings = [' on-click=']
+      const htmlString = '<tag on-click='
       const value = () => null
       const resourceMaps = {
         elementsMap: {},
@@ -71,7 +71,7 @@ describe('ResolveValueForms', () => {
       const expectedId = `evt-${index}`
 
       const response = resolveValueForms(
-        htmlStrings,
+        htmlString,
         value,
         resourceMaps,
         tagFnsSymbols,
@@ -83,7 +83,7 @@ describe('ResolveValueForms', () => {
     })
 
     it('should execute the function and call resolveValueForms again with the result', () => {
-      const htmlStrings = ['<p>any_value</p>']
+      const htmlString = '<p>any_value</p>'
       const value = () => 'any_value'
       const resourceMaps = {
         elementsMap: {},
@@ -92,7 +92,7 @@ describe('ResolveValueForms', () => {
       const index = 0
 
       const response = resolveValueForms(
-        htmlStrings,
+        htmlString,
         value,
         resourceMaps,
         tagFnsSymbols,
@@ -109,7 +109,7 @@ describe('ResolveValueForms', () => {
       const value = '<input />'
 
       const response = resolveValueForms(
-        htmlStrings,
+        htmlString,
         value,
         resourceMaps,
         tagFnsSymbols,
@@ -123,7 +123,7 @@ describe('ResolveValueForms', () => {
       const value = 'href://javascript:void'
 
       const response = resolveValueForms(
-        htmlStrings,
+        htmlString,
         value,
         resourceMaps,
         tagFnsSymbols,
@@ -137,7 +137,7 @@ describe('ResolveValueForms', () => {
       const value = false
 
       const response = resolveValueForms(
-        htmlStrings,
+        htmlString,
         value,
         resourceMaps,
         tagFnsSymbols,

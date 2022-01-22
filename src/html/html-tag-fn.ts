@@ -54,18 +54,17 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
       eventsMap: {}
     }
 
-    values = values.map((value, index) => resolveValueForms(
-      htmlStrings,
-      value,
-      resourceMaps,
-      [rawHtmlSymbol, cssSymbol],
-      index
-    ))
+    const fullHtml = htmlStrings.reduce((acc, str, index) => {
+      const resolvedValue = resolveValueForms(
+        acc + str,
+        values[index],
+        resourceMaps,
+        [rawHtmlSymbol, cssSymbol],
+        index
+      )
 
-    const fullHtml = htmlStrings.reduce(
-      (acc, str, index) => acc + str + (values[index] || ''), 
-      ''
-    )
+      return acc + str + resolvedValue
+    },'')
 
     const parsedHtml = htmlStringParser(fullHtml)
     
