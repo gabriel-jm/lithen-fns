@@ -29,7 +29,7 @@ export function resolveValueForms(
       const eventId = `evt-${index}`
       resourceMaps.eventsMap[eventId] = value
 
-      return eventId
+      return `"${eventId}"`
     }
 
     const valueAsFunction = value as (() => void | HtmlTagFnValue)

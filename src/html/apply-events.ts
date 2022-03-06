@@ -15,13 +15,16 @@ export function applyEvents (
     const attributesRecords = Array
       .from(element.attributes)
       .map(attribute => {
-        if (!(/^on-[\w\-]+/).test(attribute.nodeName)) {
+        const attrName = attribute.nodeName || attribute.name
+        const attrValue = String(attribute.nodeValue || attribute.value)
+
+        if (!(/^on-[\w\-]+/).test(attrName)) {
           return
         }
 
         return <AttributesRecord> {
-          attrName: attribute.nodeName,
-          attrValue: String(attribute.nodeValue)
+          attrName,
+          attrValue
         }
       })
       .filter(Boolean) as AttributesRecord[]

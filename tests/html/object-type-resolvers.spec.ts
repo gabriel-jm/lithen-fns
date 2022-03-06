@@ -109,7 +109,7 @@ describe('ObjectTypeResolvers', () => {
 
       const response = objectTypeResolvers.Object(params)
 
-      expect(response).toBe(expectedEventId)
+      expect(response).toBe(`"${expectedEventId}"`)
       expect(params.resourceMaps.eventsMap).toHaveProperty(expectedEventId, eventListener)
     })
 

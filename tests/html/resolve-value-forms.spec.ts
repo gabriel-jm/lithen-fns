@@ -78,7 +78,7 @@ describe('ResolveValueForms', () => {
         index
       )
 
-      expect(response).toBe(expectedId)
+      expect(response).toBe(`"${expectedId}"`)
       expect(resourceMaps.eventsMap).toHaveProperty(expectedId, value)
     })
 

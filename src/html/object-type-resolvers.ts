@@ -49,7 +49,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
       const eventId = `evt-${index}`
       resourceMaps.eventsMap[eventId] = value as EventListenerObject
 
-      return eventId
+      return `"${eventId}"`
     }
 
     return JSON.stringify(value)
