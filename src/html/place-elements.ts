@@ -10,11 +10,16 @@ export function placeElements (
 
   placeholderElements.forEach((placeholderElement) => {
     const elementsId = String(placeholderElement.getAttribute('element-id'))
-    const elementsList = elementsMap[elementsId]
+    const elements = elementsMap[elementsId]
 
     const parentElement = placeholderElement.parentElement ?? targetElement
 
-    elementsList.forEach(element => {
+    if (elements instanceof DocumentFragment) {
+      parentElement.replaceChild(elements, placeholderElement)
+      return
+    }
+
+    elements.forEach(element => {
       if(!(element instanceof Node)) {
         element = document.createTextNode((element as Object).toString())
       }

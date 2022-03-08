@@ -70,7 +70,7 @@ describe('ObjectTypeResolvers', () => {
         expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
         expect(params.resourceMaps.elementsMap).toHaveProperty(
           expectedElementId,
-          documentFragment.childNodes
+          documentFragment
         )
       }
     )

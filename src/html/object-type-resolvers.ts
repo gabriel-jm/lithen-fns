@@ -25,11 +25,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
 
   ArrayOrDocumentFragment({ value, resourceMaps, index }) {
     const elementId = `elm-${index}`
-    const valueList = Array.isArray(value)
-      ? value
-      : (value as DocumentFragment).childNodes
-
-    resourceMaps.elementsMap[elementId] = valueList
+    resourceMaps.elementsMap[elementId] = value as DocumentFragment | Element[]
 
     return `<template element-id="${elementId}"></template>`
   },

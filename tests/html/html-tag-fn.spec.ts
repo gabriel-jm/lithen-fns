@@ -84,6 +84,22 @@ describe('html tag function', () => {
       .toEqual(select(docFrag, 'br'))
   })
 
+  it('should add multiple elements from another DocumentFragment', () => {
+    const docFrag = html`
+      <header>
+        ${html`
+          <h1>Title</h1>
+          <h2>Sub Title</h2>
+          <p>Text</p>
+        `}
+      </header>
+    `
+
+    expect(select(docFrag, 'header > h1')).not.toBeNull()
+    expect(select(docFrag, 'header > h2')).not.toBeNull()
+    expect(select(docFrag, 'header > p')).not.toBeNull()
+  })
+
   it('should run a function and reinterpret the return value', () => {
     const fakeFn = jest.fn()
     

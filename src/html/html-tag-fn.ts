@@ -25,7 +25,7 @@ export type HtmlTagFnValueList = HtmlTagFnValue[]
 export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
-  elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode>>
+  elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode> | DocumentFragment>
   eventsMap: Record<string, EventListenerOrEventListenerObject>
 }
 
