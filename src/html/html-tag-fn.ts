@@ -7,7 +7,9 @@ import { sanitizeAttributes } from './sanitize-attributes'
 export type TagFnString = String & { tagSymbol: Symbol }
 
 export type HtmlTagFnValue = (
-  number
+  undefined
+  | null
+  | number
   | boolean
   | string
   | String
