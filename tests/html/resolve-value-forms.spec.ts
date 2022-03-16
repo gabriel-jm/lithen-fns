@@ -133,8 +133,22 @@ describe('ResolveValueForms', () => {
       expect(response).toBe('href://void')
     })
 
-    it('should return an empty string if value is falsy', () => {
-      const value = false
+    it('should return an empty string if value is null', () => {
+      const value = null
+
+      const response = resolveValueForms(
+        htmlString,
+        value,
+        resourceMaps,
+        tagFnsSymbols,
+        index
+      )
+
+      expect(response).toBe('')
+    })
+
+    it('should return an empty string if value is undefined', () => {
+      const value = undefined
 
       const response = resolveValueForms(
         htmlString,

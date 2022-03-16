@@ -46,7 +46,7 @@ export function resolveValueForms(
     }
   }
 
-  return !value
+  return value === null || value === undefined
     ? ''
     : value
       .toString()

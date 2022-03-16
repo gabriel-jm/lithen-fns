@@ -54,7 +54,7 @@ describe('html tag function', () => {
       <div on-click="">
         <p on-cust-event>any value</p>
         <a on-drag=${undefined as any} href="#">link</a>
-        <span on-drop=${0}>any text</span>
+        <span on-drop=${''}>any text</span>
         <b on-change=${null as any}>bold</b>
       </div>
     `
