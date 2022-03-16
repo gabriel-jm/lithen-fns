@@ -128,4 +128,18 @@ describe('html tag function', () => {
     
     expect(select(docFrag, 'p')?.textContent).toBe('should not parse')
   })
+
+  it('should render values from a short boolean statement', () => {
+    const value = true
+    const docFrag = html`<div>${value && 'hello'}</div>`
+
+    expect(select(docFrag, 'div')?.textContent).toBe('hello')
+  })
+
+  it('should not render the content if a short boolean statement not succeeds', () => {
+    const value = false
+    const docFrag = html`<section>${value && 'hello'}</section>`
+
+    expect(select(docFrag, 'section')?.textContent).toBe('')
+  })
 })

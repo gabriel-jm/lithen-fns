@@ -46,10 +46,13 @@ export function resolveValueForms(
     }
   }
 
-  return value === null || value === undefined
+  const valuesToBeEmpty = value === null
+    || value === undefined
+    || value === false
+
+  return valuesToBeEmpty
     ? ''
-    : value
-      .toString()
+    : value!.toString()
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/javascript:/, '')
