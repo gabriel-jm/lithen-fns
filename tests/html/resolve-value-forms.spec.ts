@@ -160,5 +160,33 @@ describe('ResolveValueForms', () => {
 
       expect(response).toBe('')
     })
+
+    it('should return an empty string if value is false', () => {
+      const value = false
+
+      const response = resolveValueForms(
+        htmlString,
+        value,
+        resourceMaps,
+        tagFnsSymbols,
+        index
+      )
+
+      expect(response).toBe('')
+    })
+
+    it('should return the correct string if value is zero', () => {
+      const value = 0
+
+      const response = resolveValueForms(
+        htmlString,
+        value,
+        resourceMaps,
+        tagFnsSymbols,
+        index
+      )
+
+      expect(response).toBe('0')
+    })
   })
 })
