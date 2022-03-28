@@ -128,6 +128,25 @@ describe('ObjectTypeResolvers', () => {
       expect(response).toBe(JSON.stringify(objectValue))
     })
 
+    it('should add an array with the value if it is a single element', () => {
+      const div = document.createElement('div')
+
+      const params = {
+        ...defaultParams,
+        value: div
+      }
+
+      const expectedElementId = `elm-${params.index}`
+
+      const response = objectTypeResolvers.Object(params)
+
+      expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
+        expect(params.resourceMaps.elementsMap).toHaveProperty(
+          expectedElementId,
+          [div]
+        )
+    })
+
     it('should return an empty string if a null value is passed', () => {
       const params = {
         ...defaultParams,
