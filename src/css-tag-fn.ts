@@ -1,4 +1,20 @@
+import { TagFnString } from '@/html'
+
 type CssStrings = TemplateStringsArray | string[]
+
+export type CssTagFnValue = (
+  undefined
+  | null
+  | number
+  | boolean
+  | string
+  | string[]
+  | String
+  | TagFnString
+  | TagFnString[]
+)
+
+export type CssTagFnValueList = CssTagFnValue[]
 
 export default (cssSymbol: Symbol) => {
   /**
@@ -14,9 +30,19 @@ export default (cssSymbol: Symbol) => {
    * 
    * @returns the minified css string.
    */
-  function css(strings: CssStrings, ...values: (string | String)[]) {
+  function css(strings: CssStrings, ...values: CssTagFnValueList) {
     const fullCss = strings.reduce((acc, str, index) => {
-      return acc + str + (values[index] || "");
+      let value = values[index]
+
+      if (value === null || value === undefined) {
+        value = ''
+      }
+
+      if (Array.isArray(value)) {
+        value = value.join('')
+      }
+
+      return acc + str + value;
     }, "")
 
     const minifiedCss = fullCss

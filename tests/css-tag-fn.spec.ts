@@ -81,4 +81,39 @@ describe('CSS tag function', () => {
 
     expect(secondCSS.toString()).toBe('.btn{width:100%;height:100%;cursor:pointer;}')
   })
+
+  it('should add all css passed as an array', () => {
+    const firstCSS = css`.container {}`
+    const secondCSS = css`.tooltip {}`
+
+    const thirdCSS = css`
+      ${[firstCSS, secondCSS]}
+
+      .input {}
+    `
+
+    expect(thirdCSS.toString()).toBe('.container{}.tooltip{}.input{}')
+  })
+
+  it('should accept undefined and null values and transform into empty strings', () => {
+    const styles = css`
+      .btn {
+        background-color: ${null};
+        color: ${undefined};
+      }
+    `
+
+    expect(styles.toString()).toBe('.btn{background-color:;color:;}')
+  })
+
+  it('should not convert falsy values to empty is they are different than undefined or null', () => {
+    const styles = css`
+      .container {
+        width: ${0};
+        not-boolean: ${false};
+      }
+    `
+
+    expect(styles.toString()).toBe('.container{width:0;not-boolean:false;}')
+  })
 })
