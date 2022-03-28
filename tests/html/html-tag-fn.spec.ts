@@ -142,4 +142,26 @@ describe('html tag function', () => {
 
     expect(select(docFrag, 'section')?.textContent).toBe('')
   })
+
+  it('should parse correctly self closed custom elements tags', () => {
+    const docFrag = html`
+      <app-element />
+
+      <app-section
+        id="any_id"
+        attr
+      />
+
+      <header>
+        <app-icon />
+        <h1>Titulo</h1>
+      </header>
+    `
+
+    const appSection = select(docFrag, 'app-section')
+    const appIcon = select(docFrag, 'app-icon')
+
+    expect(appSection?.nextElementSibling).toEqual(select(docFrag, 'header'))
+    expect(appIcon?.nextElementSibling).toEqual(select(docFrag, 'h1'))
+  })
 })

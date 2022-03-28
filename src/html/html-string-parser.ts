@@ -1,5 +1,5 @@
 const regexList = {
-  tag: /<([a-zA-Z0-9\-]+)\s(.*)(\n|\s)*?\/>/g,
+  tag: /<([a-zA-Z0-9\-]+)([^\/>]*)\/>/g,
   breakAndNewLines: /\r|\n/g,
   contentBetweenTags: />([^<]*)</g,
   contentWithinTags: /(<[^>]*>)/g
@@ -8,6 +8,7 @@ const regexList = {
 export const htmlStringParser = (html: string) => (
   html
     .trim()
+    .replace(regexList.breakAndNewLines, '')
     .replace(regexList.tag, (fullResult, name, attrs) => {
       if(!name.includes('-') && name !== 'slot') {
         return fullResult
@@ -17,7 +18,6 @@ export const htmlStringParser = (html: string) => (
 
       return `<${name}${attributes}></${name}>`
     })
-    .replace(regexList.breakAndNewLines, '')
     .replace(regexList.contentBetweenTags, (_, contentBetweenTags) => {
       return `>${contentBetweenTags.trim()}<`
     })
