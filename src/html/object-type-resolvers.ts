@@ -38,7 +38,9 @@ export const objectTypeResolvers: ObjectTypeResolver = {
     return objectTypeResolvers.ArrayOrDocumentFragment(params)
   },
 
-  Object({ value, resourceMaps, index }) {
+  Object(params) {
+    const { value, resourceMaps, index } = params
+
     if (!value) return ''
 
     if('handleEvent' in (value as object)) {
@@ -46,6 +48,13 @@ export const objectTypeResolvers: ObjectTypeResolver = {
       resourceMaps.eventsMap[eventId] = value as EventListenerObject
 
       return `"${eventId}"`
+    }
+
+    if (value instanceof Element) {
+      return this.ArrayOrDocumentFragment({
+        ...params,
+        value: [value]
+      })
     }
 
     return JSON.stringify(value)
