@@ -51,7 +51,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
     }
 
     if (value instanceof Element) {
-      return this.ArrayOrDocumentFragment({
+      return objectTypeResolvers.ArrayOrDocumentFragment({
         ...params,
         value: [value]
       })

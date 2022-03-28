@@ -164,4 +164,20 @@ describe('html tag function', () => {
     expect(appSection?.nextElementSibling).toEqual(select(docFrag, 'header'))
     expect(appIcon?.nextElementSibling).toEqual(select(docFrag, 'h1'))
   })
+
+  it('should accept single elements as value', () => {
+    class CustomElement extends HTMLElement {}
+
+    customElements.define('custom-element', CustomElement)
+    
+    const paraph = document.createElement('p')
+    
+    const docFrag = html`
+      <section>${paraph}</section>
+      ${new CustomElement()}
+    `
+
+    expect(select(docFrag, 'section > p')).toBeDefined()
+    expect(select(docFrag, 'custom-element')).toBeDefined()
+  })
 })
