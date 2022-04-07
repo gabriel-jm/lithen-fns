@@ -44,9 +44,12 @@ The value passed must be a Function or an object that implements the
 The need to add a slash after the **on** is just to prevent conflits with the default html
 pattern of `on[event name]`, just if someone wants to use this defaults properties.
 
+When using the function approach the listener receives a second argument which is a reference
+to the current create document fragment.
+
 ```ts
 html`
-  <button on-click=${() => console.log('click event')}>
+  <button on-click=${(_event, _docFrag) => console.log('click event')}>
     click me
   </button>
 `
@@ -99,6 +102,16 @@ html`
 `
 ```
 
+Works with single elements:
+
+```ts
+html`
+  <div>
+    ${document.createElement('p')}
+  </div>
+`
+```
+
 And it works as well with:
 
 **Arrays**
@@ -127,24 +140,6 @@ html`
     ${myParagraph('any text')}
     <!-- as this function is already called the value passed is a DocumentFragment, similiar to the previous example -->
   </section>
-`
-```
-
-### Auto call functions
-
-Any function passed as a value that is not interpreted as an EventListener, will be called
-and then its return value will be reinterpreted. None value is passed has parameters to
-these functions when called.
-
-```ts
-function getData() {
-  return [1, 2, 3]
-}
-
-html`
-  <header>
-    ${getData} <!-- this function will be automatically called -->
-  </header>
 `
 ```
 
