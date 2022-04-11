@@ -6,8 +6,9 @@ interface AttributesRecord {
 }
 
 export function applyEvents (
-  targetElement: DocumentFragment | Element,
-  eventsMap: ResourceMaps['eventsMap']
+  docFrag: DocumentFragment,
+  eventsMap: ResourceMaps['eventsMap'],
+  targetElement: DocumentFragment | Element = docFrag
 ) {
   const children = [...targetElement.children]
 
@@ -31,14 +32,18 @@ export function applyEvents (
 
     attributesRecords.forEach((record) => {
       const eventId = String(element.getAttribute(record.attrName))
-      const eventListener = eventsMap[eventId]
+      const fnValue = eventsMap[eventId]
       const eventName = record.attrName.substring('on-'.length)
+
+      const eventListener = typeof fnValue === 'function'
+        ? (event: Event) => fnValue(event, docFrag)
+        : fnValue
 
       element.addEventListener(eventName, eventListener)
 
       element.removeAttribute(record.attrName)
     })
 
-    applyEvents(element, eventsMap)
+    applyEvents(docFrag, eventsMap, element)
   }
 }

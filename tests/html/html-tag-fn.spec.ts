@@ -101,7 +101,9 @@ describe('html tag function', () => {
   })
 
   it('should run a function and reinterpret the return value', () => {
-    const fakeFn = jest.fn()
+    const fakeFn = jest.fn((event, docFrag) => {
+      expect(docFrag).toBeInstanceOf(DocumentFragment)
+    })
     
     function myParaph() {
       return html`<p on-click=${fakeFn}>my paraph</p>`
