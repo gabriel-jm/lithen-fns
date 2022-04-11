@@ -102,12 +102,13 @@ html`
 `
 ```
 
-Works with single elements:
+Works with single elements or nodes:
 
 ```ts
 html`
   <div>
     ${document.createElement('p')}
+    <span>${document.createTextNode('text')}</span>
   </div>
 `
 ```

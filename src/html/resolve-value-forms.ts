@@ -31,19 +31,6 @@ export function resolveValueForms(
 
       return `"${eventId}"`
     }
-
-    const valueAsFunction = value as (() => void | HtmlTagFnValue)
-    const valueReturned = valueAsFunction()
-
-    if (valueReturned) {
-      return resolveValueForms(
-        htmlString,
-        valueReturned,
-        resourceMaps,
-        tagFnsSymbols,
-        index
-      )
-    }
   }
 
   const valuesToBeEmpty = value === null

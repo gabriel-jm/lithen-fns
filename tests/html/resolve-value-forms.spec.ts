@@ -82,7 +82,7 @@ describe('ResolveValueForms', () => {
       expect(resourceMaps.eventsMap).toHaveProperty(expectedId, value)
     })
 
-    it('should execute the function and call resolveValueForms again with the result', () => {
+    it('should parse the function as a string value', () => {
       const htmlString = '<p>any_value</p>'
       const value = () => 'any_value'
       const resourceMaps = {
@@ -99,7 +99,7 @@ describe('ResolveValueForms', () => {
         index
       )
 
-      expect(response).toBe('any_value')
+      expect(response).toBe('() =&gt; \'any_value\'')
       expect(resourceMaps.eventsMap).not.toHaveProperty('evt-0')
     })
   })

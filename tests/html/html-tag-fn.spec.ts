@@ -100,23 +100,6 @@ describe('html tag function', () => {
     expect(select(docFrag, 'header > p')).not.toBeNull()
   })
 
-  it('should run a function and reinterpret the return value', () => {
-    const fakeFn = jest.fn((event, docFrag) => {
-      expect(docFrag).toBeInstanceOf(DocumentFragment)
-    })
-    
-    function myParaph() {
-      return html`<p on-click=${fakeFn}>my paraph</p>`
-    }
-
-    const docFrag = html`<div>${myParaph}</div>`
-
-    select(docFrag, 'p')?.dispatchEvent(new Event('click'))
-
-    expect(select(docFrag, 'p')).not.toBeNull()
-    expect(fakeFn).toHaveBeenCalled()
-  })
-
   it('should parse html like text to html entities to html like strings', () => {
     const docFrag = html`<div>${'<p>should parse</p>'}</div>`
     
