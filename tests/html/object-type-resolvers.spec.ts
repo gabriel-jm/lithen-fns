@@ -125,7 +125,7 @@ describe('ObjectTypeResolvers', () => {
 
       const response = objectTypeResolvers.Object(params)
 
-      expect(response).toBe(JSON.stringify(objectValue))
+      expect(response).toBe(objectValue.toString())
     })
 
     it('should add an array with the value if it is a single element', () => {

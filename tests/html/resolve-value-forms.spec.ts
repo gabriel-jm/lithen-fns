@@ -48,7 +48,7 @@ describe('ResolveValueForms', () => {
         index
       )
   
-      expect(response).toBe(JSON.stringify(value))
+      expect(response).toBe(value.toString())
       expect(objectMethodSpy).toHaveBeenCalledWith({
         value,
         resourceMaps,

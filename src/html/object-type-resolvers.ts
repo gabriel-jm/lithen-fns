@@ -57,6 +57,6 @@ export const objectTypeResolvers: ObjectTypeResolver = {
       })
     }
 
-    return JSON.stringify(value)
+    return value.toString()
   }
 }
