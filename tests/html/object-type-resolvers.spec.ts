@@ -147,6 +147,25 @@ describe('ObjectTypeResolvers', () => {
         )
     })
 
+    it('should add an array with the value if it is a single node', () => {
+      const textNode = document.createTextNode('text')
+
+      const params = {
+        ...defaultParams,
+        value: textNode
+      }
+
+      const expectedElementId = `elm-${params.index}`
+
+      const response = objectTypeResolvers.Object(params)
+
+      expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
+        expect(params.resourceMaps.elementsMap).toHaveProperty(
+          expectedElementId,
+          [textNode]
+        )
+    })
+
     it('should return an empty string if a null value is passed', () => {
       const params = {
         ...defaultParams,

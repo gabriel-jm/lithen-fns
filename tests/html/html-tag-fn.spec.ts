@@ -177,9 +177,11 @@ describe('html tag function', () => {
     const docFrag = html`
       <section>${paraph}</section>
       ${new CustomElement()}
+      <p class="paragh">${document.createTextNode('text')}</p>
     `
 
     expect(select(docFrag, 'section > p')).toBeDefined()
     expect(select(docFrag, 'custom-element')).toBeDefined()
+    expect(select(docFrag, '.paragh')?.textContent).toBe('text')
   })
 })

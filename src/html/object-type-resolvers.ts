@@ -50,7 +50,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
       return `"${eventId}"`
     }
 
-    if (value instanceof Element) {
+    if (value instanceof Element || value instanceof Node) {
       return objectTypeResolvers.ArrayOrDocumentFragment({
         ...params,
         value: [value]
