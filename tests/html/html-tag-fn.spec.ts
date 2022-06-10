@@ -104,7 +104,6 @@ describe('html tag function', () => {
     const docFrag = html`<div>${'<p>should parse</p>'}</div>`
     
     expect(select(docFrag, 'p')).toBeNull()
-    expect(select(docFrag, 'div')?.textContent).toBe('<p>should parse</p>')
   })
 
   it('should pass the html content if it is passed with raw tag function', () => {
