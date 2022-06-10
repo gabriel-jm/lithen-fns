@@ -1,4 +1,4 @@
-import { css } from '@/index'
+import { css } from '@/index.js'
 
 describe('CSS tag function', () => {
   it('should return a minified css text', () => {

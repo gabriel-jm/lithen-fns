@@ -1,6 +1,6 @@
-import makeHTMLTagFn from './html/html-tag-fn'
-import makeRawHTMLTagFn from './raw-html-tag-fn'
-import makeCSSTagFn from './css-tag-fn'
+import makeHTMLTagFn from './html/html-tag-fn.js'
+import makeRawHTMLTagFn from './raw-html-tag-fn.js'
+import makeCSSTagFn from './css-tag-fn.js'
 
 const rawHtmlSymbol = Symbol('raw-html')
 const cssSymbol = Symbol('css')

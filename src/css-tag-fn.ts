@@ -1,4 +1,4 @@
-import { TagFnString } from '@/html'
+import { TagFnString } from './html/index.js'
 
 type CssStrings = TemplateStringsArray | string[]
 

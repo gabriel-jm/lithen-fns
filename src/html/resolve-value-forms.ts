@@ -1,5 +1,5 @@
-import { HtmlStrings, HtmlTagFnValue, ResourceMaps } from './html-tag-fn'
-import { objectTypeResolvers } from './object-type-resolvers'
+import { HtmlStrings, HtmlTagFnValue, ResourceMaps } from './html-tag-fn.js'
+import { objectTypeResolvers } from './object-type-resolvers.js'
 
 const eventOnEndRegex = /.*\son-[\w\-]+=$/
 

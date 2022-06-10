@@ -1,8 +1,8 @@
-import { applyEvents } from './apply-events'
-import { htmlStringParser } from './html-string-parser'
-import { placeElements } from './place-elements'
-import { resolveValueForms } from './resolve-value-forms'
-import { sanitizeAttributes } from './sanitize-attributes'
+import { applyEvents } from './apply-events.js'
+import { htmlStringParser } from './html-string-parser.js'
+import { placeElements } from './place-elements.js'
+import { resolveValueForms } from './resolve-value-forms.js'
+import { sanitizeAttributes } from './sanitize-attributes.js'
 
 export type TagFnString = String & { tagSymbol: Symbol }
 

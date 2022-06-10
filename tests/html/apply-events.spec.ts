@@ -13,16 +13,16 @@ describe('applyEvents', () => {
     const targetElement = template.content
 
     const divChild = targetElement.querySelector('#el-1')!
-    const divAddEventListenerSpy = jest.spyOn(divChild, 'addEventListener')
+    const divAddEventListenerSpy = vi.spyOn(divChild, 'addEventListener')
 
     const spanChild = targetElement.querySelector('#el-2')!
-    const spanAddEventListenerSpy = jest.spyOn(spanChild, 'addEventListener')
+    const spanAddEventListenerSpy = vi.spyOn(spanChild, 'addEventListener')
 
     const inputChild = targetElement.querySelector('#el-3')!
-    const inputAddEventListenerSpy = jest.spyOn(inputChild, 'addEventListener')
+    const inputAddEventListenerSpy = vi.spyOn(inputChild, 'addEventListener')
 
-    const divFakeFn = jest.fn()
-    const inputFakeFn = jest.fn()
+    const divFakeFn = vi.fn()
+    const inputFakeFn = vi.fn()
 
     const eventsMap = {
       'evt-0': () => divFakeFn(),

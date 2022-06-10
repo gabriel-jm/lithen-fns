@@ -79,7 +79,7 @@ describe('ObjectTypeResolvers', () => {
 
   describe('Array() and DocumentFragment()', () => {
     it('should call ArrayOrDocumentFragment method with correct values', () => {
-      const arrayOrDocumentFragmentSpy = jest.spyOn(objectTypeResolvers, 'ArrayOrDocumentFragment')
+      const arrayOrDocumentFragmentSpy = vi.spyOn(objectTypeResolvers, 'ArrayOrDocumentFragment')
 
       objectTypeResolvers.Array({ ...defaultParams, value: [] })
 
@@ -99,7 +99,7 @@ describe('ObjectTypeResolvers', () => {
 
   describe('Array()', () => {
     it('should call String type resolver if value in array is an instance of String', () => {
-      const StringSpy = jest.spyOn(objectTypeResolvers, 'String')
+      const StringSpy = vi.spyOn(objectTypeResolvers, 'String')
       const divElement = document.createElement('div')
 
       objectTypeResolvers.Array({

@@ -1,4 +1,4 @@
-import { html, raw } from '@/index'
+import { html, raw } from '@/index.js'
 
 function select(docFrag: DocumentFragment, query: string) {
   return docFrag.querySelector(query)
@@ -32,7 +32,7 @@ describe('html tag function', () => {
   })
 
   it('should add the correct event to the elements', () => {
-    const fakeFn = jest.fn()
+    const fakeFn = vi.fn()
     const docFrag = html`
       <div>
         <button on-click=${fakeFn}>

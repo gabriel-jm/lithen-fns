@@ -15,8 +15,8 @@ describe('placeElements', () => {
       forEach() {}
     }
 
-    const forEachSpy = jest.spyOn(queryResult, 'forEach')
-    const querySelectorAllSpy = jest.spyOn(targetElement, 'querySelectorAll')
+    const forEachSpy = vi.spyOn(queryResult, 'forEach')
+    const querySelectorAllSpy = vi.spyOn(targetElement, 'querySelectorAll')
     querySelectorAllSpy.mockReturnValueOnce(queryResult as unknown as NodeListOf<Element>)
 
     placeElements(targetElement, {})
@@ -34,7 +34,7 @@ describe('placeElements', () => {
       'elm-0': [document.createElement('div'), '<p>Injected</p>'] as Node[]
     }
 
-    const querySelectorAllSpy = jest.spyOn(targetElement, 'querySelectorAll')
+    const querySelectorAllSpy = vi.spyOn(targetElement, 'querySelectorAll')
 
     placeElements(targetElement, elementsMap)
 

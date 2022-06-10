@@ -10,7 +10,7 @@ describe('ResolveValueForms', () => {
 
   describe('if type of value is object', () => {
     it('should call the correct objectTypeResolvers method', () => {
-      const arrayMethodSpy = jest.spyOn(objectTypeResolvers, 'Array')
+      const arrayMethodSpy = vi.spyOn(objectTypeResolvers, 'Array')
       const value = [document.createElement('p')]
       const elementId = `elm-${index}`
   
@@ -32,7 +32,7 @@ describe('ResolveValueForms', () => {
     })
   
     it('should call the Object method from objectTypeResolvers if value is from a unknown class', () => {
-      const objectMethodSpy = jest.spyOn(objectTypeResolvers, 'Object')
+      const objectMethodSpy = vi.spyOn(objectTypeResolvers, 'Object')
   
       class UnknownClass {
         field = 'any_field'
@@ -99,7 +99,7 @@ describe('ResolveValueForms', () => {
         index
       )
 
-      expect(response).toBe('() =&gt; \'any_value\'')
+      expect(response).toBe('() =&gt; "any_value"')
       expect(resourceMaps.eventsMap).not.toHaveProperty('evt-0')
     })
   })

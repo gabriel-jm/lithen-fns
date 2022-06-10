@@ -1,1 +1,1 @@
-export * from './html-tag-fn'
+export * from './html-tag-fn.js'

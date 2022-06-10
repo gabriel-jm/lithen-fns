@@ -1,4 +1,4 @@
-import { HtmlTagFnValue, ResourceMaps, TagFnString } from './html-tag-fn'
+import { HtmlTagFnValue, ResourceMaps, TagFnString } from './html-tag-fn.js'
 
 export interface ObjectTypeResolverParams {
   value: HtmlTagFnValue

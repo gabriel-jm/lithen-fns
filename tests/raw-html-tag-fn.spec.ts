@@ -1,4 +1,4 @@
-import { raw } from '@/index'
+import { raw } from '@/index.js'
 
 describe('RawHTML tag function', () => {
   it('should return a minified html text', () => {

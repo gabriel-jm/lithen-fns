@@ -1,4 +1,4 @@
-import { ResourceMaps } from './html-tag-fn';
+import { ResourceMaps } from './html-tag-fn.js';
 
 interface AttributesRecord {
   attrName: string

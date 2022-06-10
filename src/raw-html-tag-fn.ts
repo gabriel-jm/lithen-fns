@@ -1,5 +1,5 @@
-import { htmlStringParser } from './html/html-string-parser'
-import { HtmlStrings, HtmlTagFnValueList } from './html/html-tag-fn'
+import { htmlStringParser } from './html/html-string-parser.js'
+import { HtmlStrings, HtmlTagFnValueList } from './html/html-tag-fn.js'
 
 export type RawTagFnStrings = String | string | HtmlStrings
 
