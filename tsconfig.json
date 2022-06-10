@@ -3,7 +3,7 @@
     "target": "es2020",
     "module": "ESNext",
     "strict": true,
-    "moduleResolution": "Classic",
+    "moduleResolution": "Node",
     "noEmitOnError": true,
     "declaration": true,
     "declarationMap": true,
