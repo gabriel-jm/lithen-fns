@@ -31,7 +31,23 @@ export const objectTypeResolvers: ObjectTypeResolver = {
   },
 
   Array(params){
-    return objectTypeResolvers.ArrayOrDocumentFragment(params)
+    return objectTypeResolvers.ArrayOrDocumentFragment({
+      ...params,
+      value: (params.value as (string | String | Node | Element)[]).map(value => {
+        if (value instanceof String) {
+          const parsedString = objectTypeResolvers.String({ ...params, value })
+          
+          if (!parsedString) return ''
+          
+          const template = document.createElement('template')
+          template.innerHTML = parsedString
+
+          return template.content
+        }
+
+        return value ?? ''
+      })
+    })
   },
 
   DocumentFragment(params){

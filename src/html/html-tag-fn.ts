@@ -15,7 +15,7 @@ export type HtmlTagFnValue = (
   | String
   | TagFnString
   | Record<string, unknown>
-  | (Node | Element)[] | NodeListOf<ChildNode>
+  | (string | String | Node | Element)[] | NodeListOf<ChildNode>
   | DocumentFragment
   | EventListenerOrEventListenerObject
   | Element

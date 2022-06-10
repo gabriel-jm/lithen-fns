@@ -167,4 +167,27 @@ describe('html tag function', () => {
     expect(select(docFrag, 'custom-element')).toBeDefined()
     expect(select(docFrag, '.paragh')?.textContent).toBe('text')
   })
+
+  it('should accept raw tag fn values in an array', () => {
+    const docFrag = html`
+      <section>
+        ${[
+          raw`<p>Paraph</p>`,
+          raw`<span>Text</span>`,
+          '<i>Injected</i>',
+          new String('<h1>Invalid title</h1>')
+        ]}
+      </section>
+    `
+
+    const paraph = select(docFrag, 'section > p')
+    const span = select(docFrag, 'section > span')
+
+    expect(paraph).toBeDefined()
+    expect(paraph?.textContent).toBe('Paraph')
+    expect(span).toBeDefined()
+    expect(span?.textContent).toBe('Text')
+    expect(select(docFrag, 'section > i')).toBeNull()
+    expect(select(docFrag, 'section > h1')).toBeNull()
+  })
 })

@@ -1,5 +1,6 @@
 import { objectTypeResolvers } from '@/html/object-type-resolvers'
 import { TagFnString } from '@/html/html-tag-fn'
+import { html, raw } from '@/index'
 
 describe('ObjectTypeResolvers', () => {
   const defaultParams = {
@@ -80,9 +81,9 @@ describe('ObjectTypeResolvers', () => {
     it('should call ArrayOrDocumentFragment method with correct values', () => {
       const arrayOrDocumentFragmentSpy = jest.spyOn(objectTypeResolvers, 'ArrayOrDocumentFragment')
 
-      objectTypeResolvers.Array(defaultParams)
+      objectTypeResolvers.Array({ ...defaultParams, value: [] })
 
-      expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith(defaultParams)
+      expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith({ ...defaultParams, value: [] })
 
       const params = {
         ...defaultParams,
@@ -93,6 +94,27 @@ describe('ObjectTypeResolvers', () => {
       objectTypeResolvers.DocumentFragment(params)
 
       expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith(params)
+    })
+  })
+
+  describe('Array()', () => {
+    it('should call String type resolver if value in array is an instance of String', () => {
+      const StringSpy = jest.spyOn(objectTypeResolvers, 'String')
+      const divElement = document.createElement('div')
+
+      objectTypeResolvers.Array({
+        ...defaultParams,
+        value: [
+          raw`<a href="#">ancor</a>`,
+          divElement,
+          html`<strong>Strong</strong>`
+        ]
+      })
+
+      expect(StringSpy).toHaveBeenCalledWith({
+        ...defaultParams,
+        value: raw`<a href="#">ancor</a>`
+      })
     })
   })
 
