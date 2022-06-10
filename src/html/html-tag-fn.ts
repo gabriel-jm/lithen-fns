@@ -6,10 +6,6 @@ import { sanitizeAttributes } from './sanitize-attributes'
 
 export type TagFnString = String & { tagSymbol: Symbol }
 
-export type HtmlTagFnEventListeners = (
-  ((evt: Event, docFrag: DocumentFragment) => void) | EventListenerObject
-)
-
 export type HtmlTagFnValue = (
   undefined
   | null
@@ -21,7 +17,7 @@ export type HtmlTagFnValue = (
   | Record<string, unknown>
   | (Node | Element)[] | NodeListOf<ChildNode>
   | DocumentFragment
-  | HtmlTagFnEventListeners
+  | EventListenerOrEventListenerObject
   | Element
   | Node
 )
@@ -32,7 +28,7 @@ export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
   elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode> | DocumentFragment>
-  eventsMap: Record<string, HtmlTagFnEventListeners>
+  eventsMap: Record<string, EventListenerOrEventListenerObject>
 }
 
 export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {

@@ -32,12 +32,8 @@ export function applyEvents (
 
     attributesRecords.forEach((record) => {
       const eventId = String(element.getAttribute(record.attrName))
-      const fnValue = eventsMap[eventId]
+      const eventListener = eventsMap[eventId]
       const eventName = record.attrName.substring('on-'.length)
-
-      const eventListener = typeof fnValue === 'function'
-        ? (event: Event) => fnValue(event, docFrag)
-        : fnValue
 
       element.addEventListener(eventName, eventListener)
 
