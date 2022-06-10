@@ -8,6 +8,9 @@ This function can be called with a single value.
 ## Returns
 `html` - type string - the parsed html text.
 
+## Warning
+Using the `raw` function you cannot add events to elements and cannot use `html` function within it.
+
 ## Usage
 
 ```ts

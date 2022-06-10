@@ -44,12 +44,9 @@ The value passed must be a Function or an object that implements the
 The need to add a slash after the **on** is just to prevent conflits with the default html
 pattern of `on[event name]`, just if someone wants to use this defaults properties.
 
-When using the function approach the listener receives a second argument which is a reference
-to the current create document fragment.
-
 ```ts
 html`
-  <button on-click=${(_event, _docFrag) => console.log('click event')}>
+  <button on-click=${(_event) => console.log('click event')}>
     click me
   </button>
 `
@@ -122,7 +119,7 @@ html`
   <ul>
     ${[
       html`<li>${Math.random()}</li>`,
-      html`<li>${Math.random()}</li>`,
+      raw`<li>${Math.random()}</li>`,
       '<p>Injected</p>' // Will be appended as Text not an Paragraph Element
     ]}
   </ul>
