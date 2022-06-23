@@ -15,9 +15,11 @@ export type HtmlTagFnValue = (
   | String
   | TagFnString
   | Record<string, unknown>
-  | (string | String | Node | Element)[] | NodeListOf<ChildNode>
+  | (string | String | Node | Element)[]
+  | NodeListOf<ChildNode>
   | DocumentFragment
   | EventListenerOrEventListenerObject
+  | { (customEvent: CustomEvent): void }
   | Element
   | Node
 )
