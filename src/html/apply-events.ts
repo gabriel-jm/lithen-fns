@@ -35,7 +35,7 @@ export function applyEvents (
       const eventListener = eventsMap[eventId]
       const eventName = record.attrName.substring('on-'.length)
 
-      element.addEventListener(eventName, eventListener)
+      element.addEventListener(eventName, eventListener as EventListener)
 
       element.removeAttribute(record.attrName)
     })

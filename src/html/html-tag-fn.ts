@@ -30,7 +30,9 @@ export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
   elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode> | DocumentFragment>
-  eventsMap: Record<string, EventListenerOrEventListenerObject>
+  eventsMap: Record<string, EventListenerOrEventListenerObject | {
+    (customEvent: CustomEvent): void
+  }>
 }
 
 export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
