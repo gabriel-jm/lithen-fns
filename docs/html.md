@@ -39,7 +39,7 @@ html`
 ### Add events
 
 Events are added to the elements following this pattern: `on-[event name]=[value]`.
-The value passed must be a Function or an object that implements the 
+The value passed must be a Function that implements the 
 [EventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventListener) interface.
 The need to add a slash after the **on** is just to prevent conflits with the default html
 pattern of `on[event name]`, just if someone wants to use this defaults properties.
@@ -47,17 +47,6 @@ pattern of `on[event name]`, just if someone wants to use this defaults properti
 ```ts
 html`
   <button on-click=${(_event) => console.log('click event')}>
-    click me
-  </button>
-`
-// or, using EventListenerObjects
-
-const eventHandler = {
-  handleEvent: () => console.log('click event')
-}
-
-html`
-  <button on-click=${eventHandler}>
     click me
   </button>
 `
@@ -138,19 +127,5 @@ html`
     ${myParagraph('any text')}
     <!-- as this function is already called the value passed is a DocumentFragment, similiar to the previous example -->
   </section>
-`
-```
-
-### Content minification
-
-It will minifies all the html content before it is passed to the DocumentFragment.
-
-```ts
-html`
-  <header>
-    <h1>Title</h1>
-  </header>
-
-  <!-- will be minified to '<header><h1>Title</h1></header>' -->
 `
 ```
