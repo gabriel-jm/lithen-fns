@@ -9,7 +9,12 @@ describe('RawHTML tag function', () => {
       <div>${100}</div>
     `
 
-    expect(html.toString()).toBe('<section><p>Text</p></section><div>100</div>')
+    expect(html.toString()).toBe(`
+      <section>
+        <p>Text</p>
+      </section>
+      <div>100</div>
+    `.trim())
   })
 
   it('should accept a single value in normal function call', () => {

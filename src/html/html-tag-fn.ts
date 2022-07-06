@@ -79,8 +79,7 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
     const template = document.createElement('template')
     template.innerHTML = cleanHtml
     
-    const docFragment = new DocumentFragment()
-    docFragment.append(template.content)
+    const docFragment = template.content
     
     if (Object.keys(resourceMaps.elementsMap).length) {
       placeElements(docFragment, resourceMaps.elementsMap)

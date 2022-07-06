@@ -19,7 +19,7 @@ describe('htmlStringParser', () => {
 
       const result = htmlStringParser(html)
 
-      expect(result).toBe('<app-element></app-element>')
+      expect(result).toBe('<app-element ></app-element>')
     })
 
     it('should keep the attributes when replicate elements tag', () => {
@@ -49,7 +49,7 @@ describe('htmlStringParser', () => {
 
       const result = htmlStringParser(html)
 
-      expect(result).toBe('<slot></slot>')
+      expect(result).toBe('<slot ></slot>')
     })
 
     it('should keep the attributes when replicates slot tag', () => {
@@ -58,50 +58,6 @@ describe('htmlStringParser', () => {
       const result = htmlStringParser(html)
 
       expect(result).toBe('<slot name="slot-name"></slot>')
-    })
-  })
-
-  describe('Spaces within', () => {
-    it('should remove any space or line break within the html string', () => {
-      const html = `
-        <span
-          class="span"
-        >
-        </span>
-          
-        <input />
-      `
-
-      const result = htmlStringParser(html)
-
-      expect(result).toBe('<span class="span"></span><input />')
-    })
-
-    it('should remove spaces between elements', () => {
-      const html = '<input />  <img /> <a></a>   <input />'
-
-      const result = htmlStringParser(html)
-
-      expect(result).toBe('<input /><img /><a></a><input />')
-    })
-
-    it('should reduce all spaces greater then one within tags to only one', () => {
-      const html = `
-        <span
-             class="span"
-          id="span"
-        >
-          Text with   spaces
-        </span>
-          
-        <input   name="username"   />
-      `
-
-      const result = htmlStringParser(html)
-
-      expect(result).toBe(
-        '<span class="span" id="span">Text with   spaces</span><input name="username" />'
-      )
     })
   })
 })
