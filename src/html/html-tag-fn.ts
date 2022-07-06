@@ -31,7 +31,7 @@ export type HtmlTagFnValueList = HtmlTagFnValue[]
 export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
-  elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode> | DocumentFragment>
+  elementsMap: Map<string, (Node | Element | TagFnString)[] | NodeListOf<ChildNode> | DocumentFragment>
   eventsMap: Map<string, EventListener | CustomEventListener>
 }
 
@@ -56,7 +56,7 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
    */
   function html(htmlStrings: HtmlStrings, ...values: HtmlTagFnValueList): DocumentFragment {
     const resourceMaps: ResourceMaps = {
-      elementsMap: {},
+      elementsMap: new Map(),
       eventsMap: new Map()
     }
 
@@ -81,7 +81,7 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
     
     const docFragment = template.content
     
-    if (Object.keys(resourceMaps.elementsMap).length) {
+    if (resourceMaps.elementsMap.size) {
       placeElements(docFragment, resourceMaps.elementsMap)
     }
     

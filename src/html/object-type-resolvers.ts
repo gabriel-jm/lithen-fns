@@ -24,10 +24,13 @@ export const objectTypeResolvers: ObjectTypeResolver = {
   },
 
   ArrayOrDocumentFragment({ value, resourceMaps, index }) {
-    const elementId = `elm-${index}`
-    resourceMaps.elementsMap[elementId] = value as DocumentFragment | Element[]
+    const elementId = `elm-id="elm-${index}"`
+    resourceMaps.elementsMap.set(
+      elementId,
+      value as DocumentFragment | Element[]
+    )
 
-    return `<template element-id="${elementId}"></template>`
+    return `<template ${elementId}></template>`
   },
 
   Array(params){

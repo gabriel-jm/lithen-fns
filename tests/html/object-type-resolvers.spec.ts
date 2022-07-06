@@ -7,8 +7,8 @@ describe('ObjectTypeResolvers', () => {
     value: 'any_value',
     tagFnsSymbols: [Symbol(), Symbol()] as const,
     resourceMaps: {
-      elementsMap: {},
-      eventsMap: {}
+      elementsMap: new Map(),
+      eventsMap: new Map()
     },
     index: 1
   }
@@ -41,13 +41,12 @@ describe('ObjectTypeResolvers', () => {
         ...defaultParams,
         value: [divElement]
       }
-      const expectedElementId = `elm-${params.index}`
+      const expectedElementId = `elm-id="elm-${params.index}"`
 
       const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
 
-      expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
-      expect(params.resourceMaps.elementsMap).toHaveProperty(
-        expectedElementId,
+      expect(response).toBe(`<template ${expectedElementId}></template>`)
+      expect(params.resourceMaps.elementsMap.get(expectedElementId)).toEqual(
         params.value
       )
     })
@@ -64,13 +63,12 @@ describe('ObjectTypeResolvers', () => {
           value: documentFragment,
           index: 2
         }
-        const expectedElementId = `elm-${params.index}`
+        const expectedElementId = `elm-id="elm-${params.index}"`
         
         const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
 
-        expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
-        expect(params.resourceMaps.elementsMap).toHaveProperty(
-          expectedElementId,
+        expect(response).toBe(`<template ${expectedElementId}></template>`)
+        expect(params.resourceMaps.elementsMap.get(expectedElementId)).toEqual(
           documentFragment
         )
       }
@@ -142,13 +140,12 @@ describe('ObjectTypeResolvers', () => {
         value: div
       }
 
-      const expectedElementId = `elm-${params.index}`
+      const expectedElementId = `elm-id="elm-${params.index}"`
 
       const response = objectTypeResolvers.Object(params)
 
-      expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
-        expect(params.resourceMaps.elementsMap).toHaveProperty(
-          expectedElementId,
+      expect(response).toBe(`<template ${expectedElementId}></template>`)
+        expect(params.resourceMaps.elementsMap.get(expectedElementId)).toEqual(
           [div]
         )
     })
@@ -161,13 +158,12 @@ describe('ObjectTypeResolvers', () => {
         value: textNode
       }
 
-      const expectedElementId = `elm-${params.index}`
+      const expectedElementId = `elm-id="elm-${params.index}"`
 
       const response = objectTypeResolvers.Object(params)
 
-      expect(response).toBe(`<template element-id="${expectedElementId}"></template>`)
-        expect(params.resourceMaps.elementsMap).toHaveProperty(
-          expectedElementId,
+      expect(response).toBe(`<template ${expectedElementId}></template>`)
+        expect(params.resourceMaps.elementsMap.get(expectedElementId)).toEqual(
           [textNode]
         )
     })

@@ -19,30 +19,30 @@ describe('placeElements', () => {
     const querySelectorAllSpy = vi.spyOn(targetElement, 'querySelectorAll')
     querySelectorAllSpy.mockReturnValueOnce(queryResult as unknown as NodeListOf<Element>)
 
-    placeElements(targetElement, {})
+    placeElements(targetElement, new Map())
 
     expect(forEachSpy).not.toHaveBeenCalled()
   })
 
   it('should get all elements from array and append the corresponding elements on the parent element', () => {
     const template = document.createElement('template')
-    template.innerHTML = '<template element-id="elm-0"></template>'
+    template.innerHTML = '<template elm-id="elm-0"></template>'
 
     const targetElement = template.content
 
-    const elementsMap = {
-      'elm-0': [document.createElement('div'), '<p>Injected</p>'] as Node[]
-    }
+    const elementsMap = new Map([
+      ['elm-id="elm-0"', [document.createElement('div'), '<p>Injected</p>'] as Node[]]
+    ])
 
-    const querySelectorAllSpy = vi.spyOn(targetElement, 'querySelectorAll')
+    const querySelectorSpy = vi.spyOn(targetElement, 'querySelector')
 
     placeElements(targetElement, elementsMap)
 
     const childDiv = targetElement.querySelector('div')
     const childTemplate = targetElement.querySelector('template')
 
-    expect(querySelectorAllSpy).toHaveBeenCalledWith('template[element-id]')
-    expect(childDiv).toEqual(elementsMap['elm-0'][0])
+    expect(querySelectorSpy).toHaveBeenCalledWith('template[elm-id="elm-0"]')
+    expect(childDiv).toEqual(elementsMap.get('elm-id="elm-0"')?.[0])
     expect(targetElement.childNodes[0]).toEqual(childDiv)
     expect(childTemplate).toBeNull()
     expect(targetElement.querySelector('p')).toBeNull()
@@ -52,16 +52,16 @@ describe('placeElements', () => {
     const parentElement = document.createElement('header')
     parentElement.innerHTML = `
       <span>any text</span>
-      <template element-id="elm-0"></template>
+      <template elm-id="elm-0"></template>
       <div>
-        <template element-id="elm-5"></template>
+        <template elm-id="elm-5"></template>
       </div>
     `
 
-    const elementsMap = {
-      'elm-0': generateDocFragment('<p>any paragraph</p>').childNodes,
-      'elm-5': generateDocFragment('<input />').childNodes
-    }
+    const elementsMap = new Map([
+      ['elm-id="elm-0"', generateDocFragment('<p>any paragraph</p>').childNodes],
+      ['elm-id="elm-5"', generateDocFragment('<input />').childNodes]
+    ])
 
     placeElements(parentElement, elementsMap)
 
@@ -74,7 +74,7 @@ describe('placeElements', () => {
     expect(childInput).toBeInstanceOf(HTMLInputElement)
     expect(childInput?.parentElement).toEqual(parentElement.querySelector('div'))
     
-    expect(parentElement.querySelector('template[element-id="elm-0"]')).toBeNull()
-    expect(parentElement.querySelector('template[element-id="elm-5"]')).toBeNull()
+    expect(parentElement.querySelector('template[elm-id="elm-0"]')).toBeNull()
+    expect(parentElement.querySelector('template[elm-id="elm-5"]')).toBeNull()
   })
 })

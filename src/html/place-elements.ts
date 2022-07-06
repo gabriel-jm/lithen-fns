@@ -4,28 +4,28 @@ export function placeElements (
   targetElement: DocumentFragment | Element,
   elementsMap: ResourceMaps['elementsMap']
 ) {
-  const placeholderElements = targetElement.querySelectorAll('template[element-id]')
+  for (const [key, elements] of elementsMap.entries()) {
+    const placeholderElement = targetElement.querySelector(`template[${key}]`)
 
-  if (!placeholderElements.length) return
-
-  placeholderElements.forEach((placeholderElement) => {
-    const elementsId = String(placeholderElement.getAttribute('element-id'))
-    const elements = elementsMap[elementsId]
+    if (!placeholderElement) continue
 
     const parentElement = placeholderElement.parentElement ?? targetElement
 
     if (elements instanceof DocumentFragment) {
       parentElement.replaceChild(elements, placeholderElement)
-      return
+      continue
     }
 
-    elements.forEach(element => {
-      if(!(element instanceof Node)) {
-        element = document.createTextNode((element as Object).toString())
+    for (let element of elements) {
+      if (!(element instanceof Node)) {
+        element = document.createTextNode(element.toString())
       }
 
       parentElement.insertBefore(element, placeholderElement)
-    })
+    }
+
     placeholderElement.remove()
-  })
+  }
+
+  elementsMap.clear()
 }
