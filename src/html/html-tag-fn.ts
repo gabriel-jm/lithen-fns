@@ -32,7 +32,7 @@ export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
   elementsMap: Record<string, (Node | Element)[] | NodeListOf<ChildNode> | DocumentFragment>
-  eventsMap: Record<string, EventListener | CustomEventListener>
+  eventsMap: Map<string, EventListener | CustomEventListener>
 }
 
 export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
@@ -57,7 +57,7 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
   function html(htmlStrings: HtmlStrings, ...values: HtmlTagFnValueList): DocumentFragment {
     const resourceMaps: ResourceMaps = {
       elementsMap: {},
-      eventsMap: {}
+      eventsMap: new Map()
     }
 
     const fullHtml = htmlStrings.reduce((acc, str, index) => {
@@ -85,7 +85,7 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
       placeElements(docFragment, resourceMaps.elementsMap)
     }
     
-    if (Object.keys(resourceMaps.eventsMap).length) {
+    if (resourceMaps.eventsMap.size) {
       applyEvents(docFragment, resourceMaps.eventsMap)
     }
 

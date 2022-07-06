@@ -24,10 +24,10 @@ describe('applyEvents', () => {
     const divFakeFn = vi.fn()
     const inputFakeFn = vi.fn()
 
-    const eventsMap = {
-      'on-click="evt-0"': () => divFakeFn(),
-      'on-input="evt-4"': () => inputFakeFn()
-    }
+    const eventsMap = new Map([
+      ['on-click="evt-0"', () => divFakeFn()],
+      ['on-input="evt-4"', () => inputFakeFn()]
+    ])
 
     applyEvents(targetElement, eventsMap)
 

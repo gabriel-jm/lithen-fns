@@ -32,7 +32,7 @@ export function resolveValueForms(
       const eventId = `"evt-${index}"`
       const eventKey = `${eventType}=${eventId}`
 
-      resourceMaps.eventsMap[eventKey] = value
+      resourceMaps.eventsMap.set(eventKey, value)
 
       return eventId
     }

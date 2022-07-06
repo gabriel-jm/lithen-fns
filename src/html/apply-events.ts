@@ -4,7 +4,7 @@ export function applyEvents (
   docFrag: DocumentFragment,
   eventsMap: ResourceMaps['eventsMap']
 ) {
-  for (const [key, eventListener] of Object.entries(eventsMap)) {
+  for (const [key, eventListener] of eventsMap.entries()) {
     const element = docFrag.querySelector(`[${key}]`)
     
     if (!element) continue
@@ -15,4 +15,6 @@ export function applyEvents (
     element.removeAttribute(rawEventName)
     element.addEventListener(eventName, eventListener as EventListener)
   }
+
+  eventsMap.clear()
 }
