@@ -55,16 +55,9 @@ export const objectTypeResolvers: ObjectTypeResolver = {
   },
 
   Object(params) {
-    const { value, resourceMaps, index } = params
+    const { value } = params
 
     if (!value) return ''
-
-    if('handleEvent' in (value as object)) {
-      const eventId = `evt-${index}`
-      resourceMaps.eventsMap[eventId] = value as EventListenerObject
-
-      return `"${eventId}"`
-    }
 
     if (value instanceof Element || value instanceof Node) {
       return objectTypeResolvers.ArrayOrDocumentFragment({

@@ -119,22 +119,6 @@ describe('ObjectTypeResolvers', () => {
   })
 
   describe('Object()', () => {
-    it('should add the object to eventsMap if it is a EventListenerObject and return event id', () => {
-      const eventListener = {
-        handleEvent() {}
-      }
-      const expectedEventId = `evt-${defaultParams.index}`
-      const params = {
-        ...defaultParams,
-        value: eventListener
-      }
-
-      const response = objectTypeResolvers.Object(params)
-
-      expect(response).toBe(`"${expectedEventId}"`)
-      expect(params.resourceMaps.eventsMap).toHaveProperty(expectedEventId, eventListener)
-    })
-
     it('should return a JSON if the object value is not a EventListenerObject', () => {
       const objectValue = {
         field: 'any_field'

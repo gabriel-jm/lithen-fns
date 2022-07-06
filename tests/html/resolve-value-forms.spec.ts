@@ -79,7 +79,7 @@ describe('ResolveValueForms', () => {
       )
 
       expect(response).toBe(`"${expectedId}"`)
-      expect(resourceMaps.eventsMap).toHaveProperty(expectedId, value)
+      expect(resourceMaps.eventsMap).toHaveProperty(`on-click="${expectedId}"`, value)
     })
 
     it('should parse the function as a string value', () => {

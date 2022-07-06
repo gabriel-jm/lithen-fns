@@ -1,7 +1,7 @@
 import { HtmlTagFnValue, ResourceMaps } from './html-tag-fn.js'
 import { objectTypeResolvers } from './object-type-resolvers.js'
 
-const eventOnEndRegex = /.*\son-[\w\-]+=$/
+const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/
 
 export function resolveValueForms(
   htmlString: string,
@@ -25,11 +25,16 @@ export function resolveValueForms(
   }
 
   if (typeof value === 'function') {
-    if (eventOnEndRegex.test(htmlString)) {
-      const eventId = `evt-${index}`
-      resourceMaps.eventsMap[eventId] = value
+    const match = htmlString.match(eventOnEndRegex)
 
-      return `"${eventId}"`
+    if (match) {
+      const eventType = match[1]
+      const eventId = `"evt-${index}"`
+      const eventKey = `${eventType}=${eventId}`
+
+      resourceMaps.eventsMap[eventKey] = value
+
+      return eventId
     }
   }
 
