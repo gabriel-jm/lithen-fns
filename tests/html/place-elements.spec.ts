@@ -42,7 +42,7 @@ describe('placeElements', () => {
     const childTemplate = targetElement.querySelector('template')
 
     expect(querySelectorSpy).toHaveBeenCalledWith('template[elm-id="elm-0"]')
-    expect(childDiv).toEqual(elementsMap.get('elm-id="elm-0"')?.[0])
+    expect(childDiv).toBeDefined()
     expect(targetElement.childNodes[0]).toEqual(childDiv)
     expect(childTemplate).toBeNull()
     expect(targetElement.querySelector('p')).toBeNull()
