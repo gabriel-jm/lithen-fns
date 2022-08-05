@@ -13,7 +13,7 @@ export function applyEvents (
     const eventName = rawEventName.substring('on-'.length)
     
     element.removeAttribute(rawEventName)
-    element.addEventListener(eventName, eventListener as EventListener)
+    element.addEventListener(eventName, eventListener)
   }
 
   eventsMap.clear()
