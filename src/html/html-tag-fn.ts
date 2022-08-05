@@ -91,5 +91,11 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
     return docFragment
   }
 
+  html.first = (htmlStrings: HtmlStrings, ...values: HtmlTagFnValueList) => {
+    const docFrag = html(htmlStrings, ...values)
+
+    return docFrag.firstChild
+  }
+
   return html
 }
