@@ -4,8 +4,6 @@ import { placeElements } from './place-elements.js'
 import { resolveValueForms } from './resolve-value-forms.js'
 import { sanitizeAttributes } from './sanitize-attributes.js'
 
-export type AnyEventListener = (e: unknown) => void | Promise<void>
-
 export type TagFnString = String & { tagSymbol: Symbol }
 
 export type HtmlTagFnValue = (
@@ -16,11 +14,11 @@ export type HtmlTagFnValue = (
   | string
   | String
   | TagFnString
+  | Function
   | Record<string, unknown>
   | (string | String | Node | Element)[]
   | NodeListOf<ChildNode>
   | DocumentFragment
-  | AnyEventListener
   | Element
   | Node
 )
@@ -31,7 +29,7 @@ export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
   elementsMap: Map<string, (Node | Element | TagFnString)[] | NodeListOf<ChildNode> | DocumentFragment>
-  eventsMap: Map<string, AnyEventListener>
+  eventsMap: Map<string, Function>
 }
 
 export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
