@@ -20,6 +20,7 @@ export function resolveValueForms(
       value,
       resourceMaps,
       tagFnsSymbols,
+      htmlString,
       index
     })
   }

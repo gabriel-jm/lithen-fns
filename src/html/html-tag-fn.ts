@@ -1,3 +1,4 @@
+import { ElementRef } from '@/html/element-ref.js'
 import { applyEvents } from './apply-events.js'
 import { htmlStringParser } from './html-string-parser.js'
 import { placeElements } from './place-elements.js'
@@ -21,6 +22,7 @@ export type HtmlTagFnValue = (
   | DocumentFragment
   | Element
   | Node
+  | ElementRef
 )
 
 export type HtmlTagFnValueList = HtmlTagFnValue[]
@@ -30,6 +32,7 @@ export type HtmlStrings = TemplateStringsArray | string[]
 export type ResourceMaps = {
   elementsMap: Map<string, (Node | Element | TagFnString)[] | NodeListOf<ChildNode> | DocumentFragment>
   eventsMap: Map<string, Function>
+  refMap: Map<string, ElementRef>
 }
 
 export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
@@ -54,7 +57,8 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
   function html(htmlStrings: HtmlStrings, ...values: HtmlTagFnValueList): DocumentFragment {
     const resourceMaps: ResourceMaps = {
       elementsMap: new Map(),
-      eventsMap: new Map()
+      eventsMap: new Map(),
+      refMap: new Map()
     }
 
     const fullHtml = htmlStrings.reduce((acc, str, index) => {

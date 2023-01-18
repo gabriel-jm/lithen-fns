@@ -1,7 +1,9 @@
+import { ElementRef, refSymbol } from '@/html/element-ref.js'
 import { HtmlTagFnValue, ResourceMaps, TagFnString } from './html-tag-fn.js'
 
 export interface ObjectTypeResolverParams {
   value: HtmlTagFnValue
+  htmlString: string
   resourceMaps: ResourceMaps
   tagFnsSymbols: readonly [Symbol, Symbol]
   index: number
@@ -11,6 +13,8 @@ export type ObjectTypeResolver = Record<
   'String' | 'Array' | 'DocumentFragment' | 'ArrayOrDocumentFragment' | 'Object',
   (params: ObjectTypeResolverParams) => string
 >
+
+const refAttrRegex = /.*\sref=$/s
 
 export const objectTypeResolvers: ObjectTypeResolver = {
   String({ value, tagFnsSymbols }) {
@@ -58,7 +62,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
   },
 
   Object(params) {
-    const { value } = params
+    const { value, htmlString, resourceMaps, index } = params
 
     if (!value) return ''
 
@@ -67,6 +71,17 @@ export const objectTypeResolvers: ObjectTypeResolver = {
         ...params,
         value: [value]
       })
+    }
+
+    if ((value as ElementRef).refSymbol === refSymbol) {
+      const match = htmlString.match(refAttrRegex)
+
+      if (match) {
+        const refId = `"ref-${index}"`
+        resourceMaps.refMap.set(`ref=${refId}`, value as ElementRef)
+
+        return refId
+      }
     }
 
     return value.toString()
