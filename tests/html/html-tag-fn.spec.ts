@@ -1,4 +1,4 @@
-import { html, raw } from '@/index.js'
+import { html, raw, ref } from '@/index.js'
 
 function select(docFrag: DocumentFragment, query: string) {
   return docFrag.querySelector(query)
@@ -188,5 +188,18 @@ describe('html tag function', () => {
     expect(span?.textContent).toBe('Text')
     expect(select(docFrag, 'section > i')).toBeNull()
     expect(select(docFrag, 'section > h1')).toBeNull()
+  })
+
+  it('should enable element references using the ref function', () => {
+    const paragraphRef = ref()
+    const docFrag = html`
+      <section>
+        <h1>Title</h1>
+        <p ref=${paragraphRef}>Paragraph</p>
+      </section>
+    `
+    const paragraphElement = docFrag.querySelector('p')
+
+    expect(paragraphRef.el).toEqual(paragraphElement)
   })
 })

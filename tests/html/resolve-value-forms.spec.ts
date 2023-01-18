@@ -4,7 +4,11 @@ import { HtmlTagFnValue } from '@/html/html-tag-fn'
 
 describe('ResolveValueForms', () => {
   const htmlString = 'any_string'
-  const resourceMaps = { elementsMap: new Map(), eventsMap: new Map() }
+  const resourceMaps = {
+    elementsMap: new Map(),
+    eventsMap: new Map(),
+    refsMap: new Map()
+  }
   const tagFnsSymbols = [Symbol(), Symbol()] as const
   const index = 1
 
@@ -24,6 +28,7 @@ describe('ResolveValueForms', () => {
   
       expect(response).toBe(`<template elm-id="${elementId}"></template>`)
       expect(arrayMethodSpy).toHaveBeenCalledWith({
+        htmlString,
         value,
         resourceMaps,
         tagFnsSymbols,
@@ -50,6 +55,7 @@ describe('ResolveValueForms', () => {
   
       expect(response).toBe(value.toString())
       expect(objectMethodSpy).toHaveBeenCalledWith({
+        htmlString,
         value,
         resourceMaps,
         tagFnsSymbols,
@@ -64,7 +70,8 @@ describe('ResolveValueForms', () => {
       const value = () => null
       const resourceMaps = {
         elementsMap: new Map(),
-        eventsMap: new Map()
+        eventsMap: new Map(),
+        refsMap: new Map()
       }
       const index = 0
 
@@ -87,7 +94,8 @@ describe('ResolveValueForms', () => {
       const value = () => 'any_value'
       const resourceMaps = {
         elementsMap: new Map(),
-        eventsMap: new Map()
+        eventsMap: new Map(),
+        refsMap: new Map()
       }
       const index = 0
 
