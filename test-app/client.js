@@ -1,4 +1,4 @@
-import { html } from './build/index.js'
+import { html, ref } from './build/index.js'
 
 console.time('Simple div')
 for (let i=0; i<1000; i++) {
@@ -124,4 +124,22 @@ console.timeEnd('testeApp function')
 
 // refs
 
-const dialogRef = ref
+const dialogRef = ref()
+
+const dialog = html`
+  <div style="padding: 20px 0">
+    <button on-click=${() => dialogRef.el?.show()}>
+      open dialog
+    </button>
+    <dialog ref=${dialogRef} style="padding: 10px">
+      <h1>Element Ref</h1>
+      <p>Element ref example with a dialog</p>
+      <button on-click=${() => dialogRef.el?.close()}>
+        Close
+      </button>
+    </dialog>
+  </div>
+`
+
+document.body.append(dialog)
+console.log(dialogRef)
