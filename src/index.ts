@@ -16,3 +16,5 @@ export {
   raw,
   css
 }
+
+export * from './html/element-ref.js'

@@ -1,4 +1,4 @@
-import { ElementRef, refSymbol } from '@/html/element-ref.js'
+import { ElementRef, refSymbol } from './element-ref.js'
 import { HtmlTagFnValue, ResourceMaps, TagFnString } from './html-tag-fn.js'
 
 export interface ObjectTypeResolverParams {
@@ -78,7 +78,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
 
       if (match) {
         const refId = `"ref-${index}"`
-        resourceMaps.refMap.set(`ref=${refId}`, value as ElementRef)
+        resourceMaps.refsMap.set(`ref=${refId}`, value as ElementRef)
 
         return refId
       }

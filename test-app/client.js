@@ -121,3 +121,7 @@ function testeApp() {
 console.time('testeApp function')
 testeApp()
 console.timeEnd('testeApp function')
+
+// refs
+
+const dialogRef = ref
