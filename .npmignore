@@ -2,3 +2,6 @@ src
 tests
 docs
 test-app
+coverage
+tsconfig*
+vite.config.ts
