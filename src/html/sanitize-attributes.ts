@@ -1,4 +1,4 @@
 export function sanitizeAttributes(htmlText: string) {
-  const emptyEventAttributeRegex = /on-[\w\-]*=?(?=""|\s|>)/g
+  const emptyEventAttributeRegex = /\s+on-[\w\-]*=(?=""|\s|>)/g
   return htmlText.replace(emptyEventAttributeRegex, '')
 }

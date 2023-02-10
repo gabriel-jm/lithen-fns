@@ -142,4 +142,3 @@ const dialog = html`
 `
 
 document.body.append(dialog)
-console.log(dialogRef)

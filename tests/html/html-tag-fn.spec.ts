@@ -52,7 +52,7 @@ describe('html tag function', () => {
   it('should clean any lost custom event attributes', () => {
     const docFrag = html`
       <div on-click="">
-        <p on-cust-event>any value</p>
+        <p on-cust-event=>any value</p>
         <a on-drag=${undefined as any} href="#">link</a>
         <span on-drop=${''}>any text</span>
         <b on-change=${null as any}>bold</b>
@@ -201,5 +201,13 @@ describe('html tag function', () => {
     const paragraphElement = docFrag.querySelector('p')
 
     expect(paragraphRef.el).toEqual(paragraphElement)
+  })
+
+  it('should not remove wrong missing event binding text', () => {
+    const docFrag = html`<ignem-confirmation-dialog />`
+
+    const dialog = docFrag.querySelector('ignem-confirmation-dialog')
+
+    expect(dialog).not.toBeNull()
   })
 })
