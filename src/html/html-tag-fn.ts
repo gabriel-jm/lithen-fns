@@ -8,26 +8,6 @@ import { sanitizeAttributes } from './sanitize-attributes.js'
 
 export type TagFnString = String & { tagSymbol: Symbol }
 
-export type HtmlTagFnValue = (
-  undefined
-  | null
-  | number
-  | boolean
-  | string
-  | String
-  | TagFnString
-  | Function
-  | Record<string, unknown>
-  | (string | String | Node | Element)[]
-  | NodeListOf<ChildNode>
-  | DocumentFragment
-  | Element
-  | Node
-  | ElementRef
-)
-
-export type HtmlTagFnValueList = HtmlTagFnValue[]
-
 export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourceMaps = {
@@ -55,7 +35,7 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
    * 
    * @returns a DocumentFragment.
    */
-  function html(htmlStrings: HtmlStrings, ...values: HtmlTagFnValueList): DocumentFragment {
+  function html(htmlStrings: HtmlStrings, ...values: unknown[]): DocumentFragment {
     const resourceMaps: ResourceMaps = {
       elementsMap: new Map(),
       eventsMap: new Map(),
@@ -98,7 +78,7 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
     return docFragment
   }
 
-  html.first = (htmlStrings: HtmlStrings, ...values: HtmlTagFnValueList) => {
+  html.first = (htmlStrings: HtmlStrings, ...values: unknown[]) => {
     const docFrag = html(htmlStrings, ...values)
 
     return docFrag.firstChild

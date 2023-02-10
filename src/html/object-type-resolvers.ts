@@ -1,8 +1,8 @@
 import { ElementRef } from './element-ref.js'
-import { HtmlTagFnValue, ResourceMaps, TagFnString } from './html-tag-fn.js'
+import { ResourceMaps, TagFnString } from './html-tag-fn.js'
 
 export interface ObjectTypeResolverParams {
-  value: HtmlTagFnValue
+  value: unknown
   htmlString: string
   resourceMaps: ResourceMaps
   tagFnsSymbols: readonly [Symbol, Symbol]

@@ -1,11 +1,11 @@
-import { HtmlTagFnValue, ResourceMaps } from './html-tag-fn.js'
+import { ResourceMaps } from './html-tag-fn.js'
 import { objectTypeResolvers } from './object-type-resolvers.js'
 
 const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/
 
 export function resolveValueForms(
   htmlString: string,
-  value: HtmlTagFnValue,
+  value: unknown,
   resourceMaps: ResourceMaps,
   tagFnsSymbols: readonly [Symbol, Symbol],
   index: number

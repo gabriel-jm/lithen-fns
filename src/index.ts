@@ -9,7 +9,7 @@ const html = makeHTMLTagFn(rawHtmlSymbol, cssSymbol)
 const raw = makeRawHTMLTagFn(rawHtmlSymbol)
 const css = makeCSSTagFn(cssSymbol)
 
-export { HtmlStrings, HtmlTagFnValue, HtmlTagFnValueList } from './html/html-tag-fn'
+export { HtmlStrings } from './html/html-tag-fn'
 
 export {
   html,
