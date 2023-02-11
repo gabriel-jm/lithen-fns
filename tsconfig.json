@@ -9,6 +9,7 @@
     "declarationMap": true,
     "esModuleInterop": true,
     "sourceMap": true,
+    "skipLibCheck": true,
     "types": ["vitest/globals"],
     "outDir": "./build",
     "rootDirs": ["src", "tests"],

@@ -20,7 +20,8 @@
     "test": "vitest",
     "test:cov": "vitest run --coverage",
     "pretest-app": "npm run build && cp -r build ./test-app",
-    "test-app": "vite ./test-app"
+    "test-app": "vite ./test-app",
+    "check": "ncu"
   },
   "keywords": [
     "lithen",
@@ -30,11 +31,12 @@
   ],
   "license": "ISC",
   "devDependencies": {
-    "c8": "^7.11.3",
-    "happy-dom": "^5.2.0",
-    "ts-node": "^10.8.1",
-    "typescript": "^4.7.3",
-    "vite": "^2.9.12",
-    "vitest": "^0.14.2"
+    "c8": "^7.12.0",
+    "happy-dom": "^8.2.6",
+    "npm-check-updates": "^16.7.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.1",
+    "vitest": "^0.28.4"
   }
 }
