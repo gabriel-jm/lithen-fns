@@ -1,4 +1,4 @@
-import { ResourceMaps } from './html-tag-fn.js'
+import { ResourcesMap } from './html-tag-fn.js'
 import { objectTypeResolvers } from './object-type-resolvers.js'
 
 const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/
@@ -6,7 +6,7 @@ const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/
 export function resolveValueForms(
   htmlString: string,
   value: unknown,
-  resourceMaps: ResourceMaps,
+  resourcesMap: ResourcesMap,
   tagFnsSymbols: readonly [Symbol, Symbol],
   index: number
 ): string {
@@ -18,7 +18,7 @@ export function resolveValueForms(
 
     return resolver({
       value,
-      resourceMaps,
+      resourcesMap,
       tagFnsSymbols,
       htmlString,
       index
@@ -33,7 +33,7 @@ export function resolveValueForms(
       const eventId = `"evt-${index}"`
       const eventKey = `${eventType}=${eventId}`
 
-      resourceMaps.eventsMap.set(eventKey, value)
+      resourcesMap.set(eventKey, value)
 
       return eventId
     }
@@ -45,7 +45,7 @@ export function resolveValueForms(
 
   return valuesToBeEmpty
     ? ''
-    : value!.toString()
+    : String(value)
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/javascript:/, '')

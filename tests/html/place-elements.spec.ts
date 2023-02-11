@@ -1,4 +1,4 @@
-import { placeElements } from '@/html/place-elements'
+import { placeElement } from '@/html/place-element'
 
 function generateDocFragment(htmlContent: string) {
   const template = document.createElement('template')
@@ -9,7 +9,7 @@ function generateDocFragment(htmlContent: string) {
 
 describe('placeElements', () => {
   it('should return if target element does not have any placeholder element', () => {
-    const targetElement = document.createElement('div')
+    const targetElement = document.createDocumentFragment()
     const queryResult = {
       length: 0,
       forEach() {}
@@ -19,7 +19,7 @@ describe('placeElements', () => {
     const querySelectorAllSpy = vi.spyOn(targetElement, 'querySelectorAll')
     querySelectorAllSpy.mockReturnValueOnce(queryResult as unknown as NodeListOf<Element>)
 
-    placeElements(targetElement, new Map())
+    placeElement(targetElement, 'elm-id="elm-2"', document.createDocumentFragment())
 
     expect(forEachSpy).not.toHaveBeenCalled()
   })
@@ -30,13 +30,13 @@ describe('placeElements', () => {
 
     const targetElement = template.content
 
-    const elementsMap = new Map([
-      ['elm-id="elm-0"', [document.createElement('div'), '<p>Injected</p>'] as Node[]]
-    ])
-
     const querySelectorSpy = vi.spyOn(targetElement, 'querySelector')
 
-    placeElements(targetElement, elementsMap)
+    placeElement(
+      targetElement,
+      'elm-id="elm-0"',
+      [document.createElement('div'), '<p>Injected</p>' as unknown as Node]
+    )
 
     const childDiv = targetElement.querySelector('div')
     const childTemplate = targetElement.querySelector('template')
@@ -49,7 +49,7 @@ describe('placeElements', () => {
   })
 
   it('should get a NodeList and append the corresponding elements on the parent element', () => {
-    const parentElement = document.createElement('header')
+    const parentElement = document.createElement('template')
     parentElement.innerHTML = `
       <span>any text</span>
       <template elm-id="elm-0"></template>
@@ -57,24 +57,19 @@ describe('placeElements', () => {
         <template elm-id="elm-5"></template>
       </div>
     `
+    const docFrag = parentElement.content
 
-    const elementsMap = new Map([
-      ['elm-id="elm-0"', generateDocFragment('<p>any paragraph</p>').childNodes],
-      ['elm-id="elm-5"', generateDocFragment('<input />').childNodes]
-    ])
+    placeElement(
+      docFrag,
+      'elm-id="elm-5"',
+      [...generateDocFragment('<input />').childNodes]
+    )
 
-    placeElements(parentElement, elementsMap)
-
-    const childP = parentElement.querySelector('p')
-    const childInput = parentElement.querySelector('input')
-
-    expect(childP).toBeInstanceOf(HTMLParagraphElement)
-    expect(childP?.parentElement).toEqual(parentElement)
+    const childInput = docFrag.querySelector('input')
 
     expect(childInput).toBeInstanceOf(HTMLInputElement)
-    expect(childInput?.parentElement).toEqual(parentElement.querySelector('div'))
+    expect(childInput?.parentElement).toEqual(docFrag.querySelector('div'))
     
-    expect(parentElement.querySelector('template[elm-id="elm-0"]')).toBeNull()
-    expect(parentElement.querySelector('template[elm-id="elm-5"]')).toBeNull()
+    expect(docFrag.querySelector('template[elm-id="elm-5"]')).toBeNull()
   })
 })

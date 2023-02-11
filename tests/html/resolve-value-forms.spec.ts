@@ -1,14 +1,9 @@
 import { objectTypeResolvers } from '@/html/object-type-resolvers'
 import { resolveValueForms } from '@/html/resolve-value-forms'
-import { HtmlTagFnValue } from '@/html/html-tag-fn'
 
 describe('ResolveValueForms', () => {
   const htmlString = 'any_string'
-  const resourceMaps = {
-    elementsMap: new Map(),
-    eventsMap: new Map(),
-    refsMap: new Map()
-  }
+  const resourcesMap = new Map()
   const tagFnsSymbols = [Symbol(), Symbol()] as const
   const index = 1
 
@@ -21,7 +16,7 @@ describe('ResolveValueForms', () => {
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
@@ -30,7 +25,7 @@ describe('ResolveValueForms', () => {
       expect(arrayMethodSpy).toHaveBeenCalledWith({
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       })
@@ -47,8 +42,8 @@ describe('ResolveValueForms', () => {
   
       const response = resolveValueForms(
         htmlString,
-        value as unknown as HtmlTagFnValue,
-        resourceMaps,
+        value,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
@@ -57,7 +52,7 @@ describe('ResolveValueForms', () => {
       expect(objectMethodSpy).toHaveBeenCalledWith({
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       })
@@ -68,11 +63,7 @@ describe('ResolveValueForms', () => {
     it('should add the value to the eventsMap if previous html string pass o event regex', () => {
       const htmlString = '<tag on-click='
       const value = () => null
-      const resourceMaps = {
-        elementsMap: new Map(),
-        eventsMap: new Map(),
-        refsMap: new Map()
-      }
+      const resourcesMap = new Map()
       const index = 0
 
       const expectedId = `evt-${index}`
@@ -80,35 +71,31 @@ describe('ResolveValueForms', () => {
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
 
       expect(response).toBe(`"${expectedId}"`)
-      expect(resourceMaps.eventsMap.get(`on-click="${expectedId}"`)).toEqual(value)
+      expect(resourcesMap.get(`on-click="${expectedId}"`)).toEqual(value)
     })
 
     it('should parse the function as a string value', () => {
       const htmlString = '<p>any_value</p>'
       const value = () => 'any_value'
-      const resourceMaps = {
-        elementsMap: new Map(),
-        eventsMap: new Map(),
-        refsMap: new Map()
-      }
+      const resourceMaps = new Map()
       const index = 0
 
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
 
       expect(response).toBe('() =&gt; "any_value"')
-      expect(resourceMaps.eventsMap).not.toHaveProperty('evt-0')
+      expect(resourceMaps).not.toHaveProperty('evt-0')
     })
   })
 
@@ -119,7 +106,7 @@ describe('ResolveValueForms', () => {
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
@@ -133,7 +120,7 @@ describe('ResolveValueForms', () => {
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
@@ -147,7 +134,7 @@ describe('ResolveValueForms', () => {
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
@@ -161,7 +148,7 @@ describe('ResolveValueForms', () => {
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
@@ -175,7 +162,7 @@ describe('ResolveValueForms', () => {
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )
@@ -189,7 +176,7 @@ describe('ResolveValueForms', () => {
       const response = resolveValueForms(
         htmlString,
         value,
-        resourceMaps,
+        resourcesMap,
         tagFnsSymbols,
         index
       )

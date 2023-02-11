@@ -1,20 +1,13 @@
-import { applyRefs } from './apply-refs.js'
-import { ElementRef } from './element-ref.js'
-import { applyEvents } from './apply-events.js'
 import { htmlStringParser } from './html-string-parser.js'
-import { placeElements } from './place-elements.js'
 import { resolveValueForms } from './resolve-value-forms.js'
 import { sanitizeAttributes } from './sanitize-attributes.js'
+import { applyResources } from './apply-resources.js'
 
 export type TagFnString = String & { tagSymbol: Symbol }
 
 export type HtmlStrings = TemplateStringsArray | string[]
 
-export type ResourceMaps = {
-  elementsMap: Map<string, (Node | Element | TagFnString)[] | NodeListOf<ChildNode> | DocumentFragment>
-  eventsMap: Map<string, Function>
-  refsMap: Map<string, ElementRef>
-}
+export type ResourcesMap = Map<string, unknown>
 
 export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
    /**
@@ -36,17 +29,13 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
    * @returns a DocumentFragment.
    */
   function html(htmlStrings: HtmlStrings, ...values: unknown[]): DocumentFragment {
-    const resourceMaps: ResourceMaps = {
-      elementsMap: new Map(),
-      eventsMap: new Map(),
-      refsMap: new Map()
-    }
+    const resourcesMap: ResourcesMap = new Map()
 
     const fullHtml = htmlStrings.reduce((acc, str, index) => {
       const resolvedValue = resolveValueForms(
         acc + str,
         values[index],
-        resourceMaps,
+        resourcesMap,
         [rawHtmlSymbol, cssSymbol],
         index
       )
@@ -62,17 +51,9 @@ export default (rawHtmlSymbol: Symbol, cssSymbol: Symbol) => {
     template.innerHTML = cleanHtml
     
     const docFragment = template.content
-    
-    if (resourceMaps.elementsMap.size) {
-      placeElements(docFragment, resourceMaps.elementsMap)
-    }
-    
-    if (resourceMaps.eventsMap.size) {
-      applyEvents(docFragment, resourceMaps.eventsMap)
-    }
 
-    if (resourceMaps.refsMap.size) {
-      applyRefs(docFragment, resourceMaps.refsMap)
+    if (resourcesMap.size) {
+      applyResources(docFragment, resourcesMap)
     }
 
     return docFragment

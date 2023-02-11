@@ -1,5 +1,5 @@
 import { htmlStringParser } from './html/html-string-parser.js'
-import { HtmlStrings, HtmlTagFnValueList } from './html/html-tag-fn.js'
+import { HtmlStrings } from './html/html-tag-fn.js'
 
 export type RawTagFnStrings = String | string | HtmlStrings
 
@@ -20,7 +20,7 @@ export default (rawHtmlSymbol: Symbol) => {
    */
   function raw(
     strings: RawTagFnStrings,
-    ...values: HtmlTagFnValueList
+    ...values: unknown[]
   ) {
     const stringsList = !Array.isArray(strings)
       ? [strings] as string[]

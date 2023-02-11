@@ -4,12 +4,10 @@ import { html, raw } from '@/index'
 
 describe('ObjectTypeResolvers', () => {
   const defaultParams = {
+    htmlString: '<html></html>',
     value: 'any_value',
     tagFnsSymbols: [Symbol(), Symbol()] as const,
-    resourceMaps: {
-      elementsMap: new Map(),
-      eventsMap: new Map()
-    },
+    resourcesMap: new Map(),
     index: 1
   }
 
@@ -46,7 +44,7 @@ describe('ObjectTypeResolvers', () => {
       const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
 
       expect(response).toBe(`<template ${expectedElementId}></template>`)
-      expect(params.resourceMaps.elementsMap.get(expectedElementId)).toEqual(
+      expect(params.resourcesMap.get(expectedElementId)).toEqual(
         params.value
       )
     })
@@ -68,7 +66,7 @@ describe('ObjectTypeResolvers', () => {
         const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
 
         expect(response).toBe(`<template ${expectedElementId}></template>`)
-        expect(params.resourceMaps.elementsMap.get(expectedElementId)).toEqual(
+        expect(params.resourcesMap.get(expectedElementId)).toEqual(
           documentFragment
         )
       }
@@ -145,7 +143,7 @@ describe('ObjectTypeResolvers', () => {
       const response = objectTypeResolvers.Object(params)
 
       expect(response).toBe(`<template ${expectedElementId}></template>`)
-        expect(params.resourceMaps.elementsMap.get(expectedElementId)).toEqual(
+        expect(params.resourcesMap.get(expectedElementId)).toEqual(
           [div]
         )
     })
@@ -163,7 +161,7 @@ describe('ObjectTypeResolvers', () => {
       const response = objectTypeResolvers.Object(params)
 
       expect(response).toBe(`<template ${expectedElementId}></template>`)
-        expect(params.resourceMaps.elementsMap.get(expectedElementId)).toEqual(
+        expect(params.resourcesMap.get(expectedElementId)).toEqual(
           [textNode]
         )
     })

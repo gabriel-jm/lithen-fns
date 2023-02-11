@@ -1,4 +1,4 @@
-import { applyEvents } from '@/html/apply-events'
+import { applyEvent } from '@/html/apply-event'
 
 describe('applyEvents', () => {
   it('should add the correct events to the correct elements', () => {
@@ -24,12 +24,8 @@ describe('applyEvents', () => {
     const divFakeFn = vi.fn()
     const inputFakeFn = vi.fn()
 
-    const eventsMap = new Map([
-      ['on-click="evt-0"', () => divFakeFn()],
-      ['on-input="evt-4"', () => inputFakeFn()]
-    ])
-
-    applyEvents(targetElement, eventsMap)
+    applyEvent(targetElement, 'on-click="evt-0"', () => divFakeFn())
+    applyEvent(targetElement, 'on-input="evt-4"', () => inputFakeFn())
 
     divChild.dispatchEvent(new Event('click'))
     inputChild.dispatchEvent(new Event('input'))
