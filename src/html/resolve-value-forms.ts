@@ -7,7 +7,6 @@ export function resolveValueForms(
   htmlString: string,
   value: unknown,
   resourcesMap: ResourcesMap,
-  tagFnsSymbols: readonly [Symbol, Symbol],
   index: number
 ): string {
   if (typeof value === 'object') {
@@ -19,7 +18,6 @@ export function resolveValueForms(
     return resolver({
       value,
       resourcesMap,
-      tagFnsSymbols,
       htmlString,
       index
     })

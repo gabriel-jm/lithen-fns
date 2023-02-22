@@ -1,36 +1,12 @@
 import { objectTypeResolvers } from '@/html/object-type-resolvers'
-import { TagFnString } from '@/html/html-tag-fn'
-import { html, raw } from '@/index'
 
 describe('ObjectTypeResolvers', () => {
   const defaultParams = {
     htmlString: '<html></html>',
     value: 'any_value',
-    tagFnsSymbols: [Symbol(), Symbol()] as const,
     resourcesMap: new Map(),
     index: 1
   }
-
-  describe('String()', () => {
-    it('should return the exact value if it is a RawHTMLString', () => {
-      const value: TagFnString = Object.assign(new String('<html></html>'), {
-        tagSymbol: defaultParams.tagFnsSymbols[0]
-      })
-
-      const response = objectTypeResolvers.String({
-        ...defaultParams,
-        value
-      })
-
-      expect(response.toString()).toBe('<html></html>')
-    })
-
-    it('should return an empty string if value is not a RawHTMLString', () => {
-      const response = objectTypeResolvers.String(defaultParams)
-
-      expect(response).toBe('')
-    })
-  })
 
   describe('ArrayOrDocumentFragment', () => {
     it('should add array of elements to elementsMap and return a template element string', () => {
@@ -90,27 +66,6 @@ describe('ObjectTypeResolvers', () => {
       objectTypeResolvers.DocumentFragment(params)
 
       expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith(params)
-    })
-  })
-
-  describe('Array()', () => {
-    it('should call String type resolver if value in array is an instance of String', () => {
-      const StringSpy = vi.spyOn(objectTypeResolvers, 'String')
-      const divElement = document.createElement('div')
-
-      objectTypeResolvers.Array({
-        ...defaultParams,
-        value: [
-          raw`<a href="#">ancor</a>`,
-          divElement,
-          html`<strong>Strong</strong>`
-        ]
-      })
-
-      expect(StringSpy).toHaveBeenCalledWith({
-        ...defaultParams,
-        value: raw`<a href="#">ancor</a>`
-      })
     })
   })
 

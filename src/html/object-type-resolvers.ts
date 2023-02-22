@@ -1,32 +1,23 @@
+import { LithenCSSText } from '../css-tag-fn.js'
+import { LithenRawHTMLText } from '../raw-html-tag-fn.js'
 import { ElementRef } from './element-ref.js'
-import { ResourcesMap, TagFnString } from './html-tag-fn.js'
+import { ResourcesMap } from './html-tag-fn.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
   htmlString: string
   resourcesMap: ResourcesMap
-  tagFnsSymbols: readonly [Symbol, Symbol]
   index: number
 }
 
 export type ObjectTypeResolver = Record<
-  'String' | 'Array' | 'DocumentFragment' | 'ArrayOrDocumentFragment' | 'Object',
+  'Array' | 'DocumentFragment' | 'ArrayOrDocumentFragment' | 'Object',
   (params: ObjectTypeResolverParams) => string
 >
 
 const refAttrRegex = /.*\sref=$/s
 
 export const objectTypeResolvers: ObjectTypeResolver = {
-  String({ value, tagFnsSymbols }) {
-    const symbolType = (value as TagFnString).tagSymbol
-
-    if (tagFnsSymbols.includes(symbolType)) {
-      return value as string
-    }
-
-    return ''
-  },
-
   ArrayOrDocumentFragment({ value, resourcesMap, index }) {
     const elementId = `elm-id="elm-${index}"`
     resourcesMap.set(
@@ -41,13 +32,9 @@ export const objectTypeResolvers: ObjectTypeResolver = {
     return objectTypeResolvers.ArrayOrDocumentFragment({
       ...params,
       value: (params.value as (string | String | Node | Element)[]).map(value => {
-        if (value instanceof String) {
-          const parsedString = objectTypeResolvers.String({ ...params, value })
-          
-          if (!parsedString) return ''
-          
+        if (value instanceof LithenRawHTMLText) {          
           const template = document.createElement('template')
-          template.innerHTML = parsedString
+          template.innerHTML = value.toString()
 
           return template.content
         }
@@ -82,6 +69,10 @@ export const objectTypeResolvers: ObjectTypeResolver = {
 
         return refId
       }
+    }
+
+    if (value instanceof LithenCSSText || value instanceof LithenRawHTMLText) {
+      return value.toString()
     }
 
     return String(value)

@@ -12,11 +12,7 @@
     "skipLibCheck": true,
     "types": ["vitest/globals"],
     "outDir": "./build",
-    "rootDirs": ["src", "tests"],
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["*"]
-    }
+    "rootDirs": ["src", "tests"]
   },
   "include": ["src", "tests"]
 }
