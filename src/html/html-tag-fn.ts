@@ -52,6 +52,8 @@ export function html(htmlStrings: HtmlStrings, ...values: unknown[]): DocumentFr
     applyResources(docFragment, resourcesMap)
   }
 
+  queueMicrotask(checkIncorrectElements(cleanHtml))
+
   return docFragment
 }
 
@@ -59,4 +61,25 @@ html.first = (htmlStrings: HtmlStrings, ...values: unknown[]) => {
   const docFrag = html(htmlStrings, ...values)
 
   return docFrag.firstChild
+}
+
+function checkIncorrectElements(cleanHtml: string) {
+  return () => {
+    const template = document.createElement('template')
+    template.innerHTML = cleanHtml
+
+    const invalidSignalElements = Array.from(
+      template.content.querySelectorAll('[el]')
+    ).filter(el => el.hasAttribute('<template'))
+
+    if (invalidSignalElements.length) {
+      console.warn(
+        'Some invalid elements have been found.',
+        'They can be found in your dev tools with an "<template" attribute.',
+        'This may be happing due to an incorrect usage of a signal value.',
+        '\nFor example: "<div ${signal}></div>" is incorrect, use "<div attr=${signal}></div>"',
+        'or "<div>${signal}</div>" instead'
+      )
+    }
+  }
 }

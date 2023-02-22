@@ -12,12 +12,12 @@ export const htmlStringParser = (html: string) => (
       if(!name.includes('-') && name !== 'slot') {
         return fullResult
       }
-
+      
       const attributes = attrs?.trim ? ` ${attrs.trim()}` : ""
-
+      
       return `<${name}${attributes}></${name}>`
     })
     .replace(regexList.contentBetweenTags, (_, contentBetweenTags) => {
-      return `>${contentBetweenTags.trim()}<`
+      return `>${contentBetweenTags.replace(regexList.moreThanOneSpace, ' ')}<`
     })
 )

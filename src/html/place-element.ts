@@ -9,7 +9,7 @@ export function placeElement (
 
   const parentElement = placeholderElement.parentElement ?? docFrag
 
-  if (elements instanceof DocumentFragment) {
+  if (elements instanceof DocumentFragment || elements instanceof Node) {
     parentElement.replaceChild(elements, placeholderElement)
     return
   }

@@ -130,7 +130,7 @@ function randomTest() {
   console.timeEnd('testeApp function')
 }
 
-randomTest()
+// randomTest()
 
 // refs
 
@@ -140,7 +140,7 @@ function refs() {
   const dialog = html`
     <div style="padding: 20px 0">
       <button on-click=${() => dialogRef.el?.show()}>
-        open dialog
+        Open dialog with ref
       </button>
       <dialog ref=${dialogRef} style="padding: 10px">
         <h1>Element Ref</h1>
@@ -197,6 +197,19 @@ function observableValues() {
         Blue
       </button>
     </div>
+  `)
+
+  // Counter
+  const count = signal(0)
+
+  document.body.append(html`
+    <h3>Counter V2</h3>
+    <p>
+      Count: ${count} (Numeric)
+    </p>
+    <button on-click=${() => count.set(value => value + 1)}>
+      Increment
+    </button>
   `)
 }
 

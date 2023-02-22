@@ -22,7 +22,7 @@ const attrRegex = /.*\s([\w-]+)=$/s
 
 export const objectTypeResolvers: ObjectTypeResolver = {
   ArrayOrDocumentFragment({ value, resourcesMap, index }) {
-    const elementId = `elm-id="elm-${index}"`
+    const elementId = `el="el-${index}"`
     resourcesMap.set(
       elementId,
       value as DocumentFragment | Element[]
@@ -88,6 +88,14 @@ export const objectTypeResolvers: ObjectTypeResolver = {
 
         return signalId
       }
+
+      const textNode = new Text(String(value.get()))
+      value.onChange(value => (textNode.data = String(value)))
+
+      const elementId = `el="el-${index}"`
+      resourcesMap.set(elementId, textNode)
+
+      return `<template ${elementId}></template>`
     }
 
     return sanitizeHTML(value)
