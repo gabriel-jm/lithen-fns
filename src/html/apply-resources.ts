@@ -1,8 +1,10 @@
-import { applyEvent } from './apply-event.js'
-import { applyRef } from './apply-ref.js'
-import { ElementRef } from './element-ref.js'
+import { applyEvent } from './events/apply-event.js'
+import { applyRef } from './refs/apply-ref.js'
+import { attachAttributeSignal } from './signals/attach-signals.js'
+import { ElementRef } from './refs/element-ref.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { placeElement } from './place-element.js'
+import { SignalData } from './signals/signal-data.js'
 
 export function applyResources(docFrag: DocumentFragment, resourcesMap: ResourcesMap) {
   for (const [key, value] of resourcesMap) {
@@ -16,6 +18,10 @@ export function applyResources(docFrag: DocumentFragment, resourcesMap: Resource
 
     if (key.startsWith('ref')) {
       applyRef(docFrag, key, value as ElementRef)
+    }
+
+    if (key.startsWith('sig-attr:')) {
+      attachAttributeSignal(docFrag, key, value as SignalData<unknown>)
     }
   }
 

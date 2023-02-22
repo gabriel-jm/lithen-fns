@@ -4,7 +4,6 @@ import { resolveValueForms } from '@/html/resolve-value-forms'
 describe('ResolveValueForms', () => {
   const htmlString = 'any_string'
   const resourcesMap = new Map()
-  const tagFnsSymbols = [Symbol(), Symbol()] as const
   const index = 1
 
   describe('if type of value is object', () => {
@@ -17,7 +16,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
   
@@ -26,7 +24,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       })
     })
@@ -44,7 +41,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
   
@@ -53,7 +49,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       })
     })
@@ -72,7 +67,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
 
@@ -90,7 +84,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
 
@@ -107,7 +100,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
 
@@ -121,7 +113,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
 
@@ -135,7 +126,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
 
@@ -149,7 +139,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
 
@@ -163,7 +152,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
 
@@ -177,7 +165,6 @@ describe('ResolveValueForms', () => {
         htmlString,
         value,
         resourcesMap,
-        tagFnsSymbols,
         index
       )
 

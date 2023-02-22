@@ -1,4 +1,4 @@
-import { applyEvent } from '@/html/apply-event'
+import { applyEvent } from '@/html/events/apply-event'
 
 describe('applyEvents', () => {
   it('should add the correct events to the correct elements', () => {
@@ -39,5 +39,24 @@ describe('applyEvents', () => {
     expect(inputChild.hasAttribute('on-input')).toBe(false)
     expect(inputAddEventListenerSpy).toHaveBeenCalledWith('input', expect.any(Function))
     expect(inputFakeFn).toHaveBeenCalled()
+  })
+
+  it('should not do anything if the element is not found', () => {
+    const template = document.createElement('template')
+    template.innerHTML = `
+      <div on-click="evt-0">
+        <span>Text</span>
+        <input />
+      </div>
+    `
+
+    const targetElement = template.content
+
+    const div = targetElement.querySelector('div')!
+    const removeAttributeSpy = vi.spyOn(div, 'removeAttribute')
+
+    applyEvent(targetElement, 'on-click="evt-4"', () => null)
+
+    expect(removeAttributeSpy).not.toHaveBeenCalled()
   })
 })

@@ -1,7 +1,9 @@
 import { LithenCSSText } from '../css-tag-fn.js'
 import { LithenRawHTMLText } from '../raw-html-tag-fn.js'
-import { ElementRef } from './element-ref.js'
+import { ElementRef } from './refs/element-ref.js'
 import { ResourcesMap } from './html-tag-fn.js'
+import { sanitizeHTML } from './resolve-value-forms.js'
+import { SignalData } from './signals/signal-data.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -16,6 +18,7 @@ export type ObjectTypeResolver = Record<
 >
 
 const refAttrRegex = /.*\sref=$/s
+const attrRegex = /.*\s([\w-]+)=$/s
 
 export const objectTypeResolvers: ObjectTypeResolver = {
   ArrayOrDocumentFragment({ value, resourcesMap, index }) {
@@ -75,6 +78,18 @@ export const objectTypeResolvers: ObjectTypeResolver = {
       return value.toString()
     }
 
-    return String(value)
+    if (value instanceof SignalData) {
+      const match = htmlString.match(attrRegex)
+
+      if (match) {
+        const attributeName = match[1]
+        const signalId = `"sig-${index}"`
+        resourcesMap.set(`sig-attr:${attributeName}=${signalId}`, value)
+
+        return signalId
+      }
+    }
+
+    return sanitizeHTML(value)
   }
 }

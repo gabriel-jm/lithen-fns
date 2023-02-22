@@ -11,7 +11,7 @@ export default defineConfig({
     environment: 'happy-dom',
     globals: true,
     coverage: {
-      exclude: ['src']
+      exclude: ['tests']
     }
   }
 })

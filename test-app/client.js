@@ -1,144 +1,203 @@
-import { html, ref } from './build/index.js'
+import { html, raw, ref, signal } from './build/index.js'
 
-console.time('Simple div')
-for (let i=0; i<1000; i++) {
-  html`
-    <div on-click=${() => console.log('hi')}>Hi</div>
-  `
-}
-console.timeEnd('Simple div')
-
-console.time('Ul with injected li array')
-for (let i=0; i<1000; i++) {
-  html`
-    <ul>
-      ${[
-        html`<li>li</li>`,
-        html`<li>li</li>`,
-        html`<li>li</li>`,
-        html`<li>li</li>`,
-        html`<li>li</li>`,
-        html`<li>li</li>`,
-        html`<li>li</li>`,
-        html`<li>li</li>`,
-      ]}
-    </ul>
-  `
-}
-console.timeEnd('Ul with injected li array')
-
-console.time('Ul with injected li separated')
-for (let i=0; i<1000; i++) {
-  html`
-    <ul>
-      ${html`<li>li</li>`}
-      ${html`<li>li</li>`}
-      ${html`<li>li</li>`}
-      ${html`<li>li</li>`}
-      ${html`<li>li</li>`}
-      ${html`<li>li</li>`}
-      ${html`<li>li</li>`}
-      ${html`<li>li</li>`}
-    </ul>
-  `
-}
-console.timeEnd('Ul with injected li separated')
-
-function section() {
-  return html`
-    <header on-click=${() => console.log('header')}>
-      Header
-    </header>
-  `
-}
-
-console.time('Various events divs')
-for (let i=0; i<1000; i++) {
-  html`
-    <div on-click=${() => console.log('hi')}>
-      Hi
-    </div>
-    ${section()}
-  `
-}
-console.timeEnd('Various events divs')
-
-class MySection extends HTMLElement {
-  constructor() {
-    super()
-    this.append(this.render())
-  }
-
-  update(count) {
-    this.querySelector('p').textContent = `Count: ${count}`
-  }
-
-  render() {
-    const state = {
-      count: 0,
-      listeners: [],
-      subscribe(obj) {
-        this.listeners.push(obj)
-      },
-      notify(value) {
-        for (const listener of this.listeners) {
-          listener.update(value)
-        }
-      },
-      increment() {
-        this.count++
-        this.notify(this.count)
-      }
-    }
-
-    state.subscribe(this)
-
-    return html`
-      <p>Count: ${state.count}</p>
-      <button on-click=${() => state.increment()}>
-        Increment
-      </button>
+function times() {
+  console.time('10000 Simple divs')
+  for (let i=0; i<10000; i++) {
+    html`
+      <div on-click=${() => console.log('hi')}>Hi</div>
     `
   }
+  console.timeEnd('10000 Simple divs')
+
+  console.time('10000 Ul with injected li array')
+  for (let i=0; i<10000; i++) {
+    html`
+      <ul>
+        ${[
+          html`<li>li</li>`,
+          html`<li>li</li>`,
+          html`<li>li</li>`,
+          html`<li>li</li>`,
+          html`<li>li</li>`,
+          html`<li>li</li>`,
+          html`<li>li</li>`,
+          html`<li>li</li>`,
+        ]}
+      </ul>
+    `
+  }
+  console.timeEnd('10000 Ul with injected li array')
+
+  console.time('10000 Ul with injected li separated')
+  for (let i=0; i<10000; i++) {
+    html`
+      <ul>
+        ${html`<li>li</li>`}
+        ${html`<li>li</li>`}
+        ${html`<li>li</li>`}
+        ${html`<li>li</li>`}
+        ${html`<li>li</li>`}
+        ${html`<li>li</li>`}
+        ${html`<li>li</li>`}
+        ${html`<li>li</li>`}
+      </ul>
+    `
+  }
+  console.timeEnd('10000 Ul with injected li separated')
+
+  function section() {
+    return html`
+      <header on-click=${() => console.log('header')}>
+        Header
+      </header>
+    `
+  }
+
+  console.time('10000 Various events divs')
+  for (let i=0; i<10000; i++) {
+    html`
+      <div on-click=${() => console.log('hi')}>
+        Hi
+      </div>
+      ${section()}
+    `
+  }
+  console.timeEnd('10000 Various events divs')
 }
 
-customElements.define('my-section', MySection)
+// times()
 
-function testeApp() {
-  const header = () => html`
-    <header on-mousedown=${() => console.log('header mouse down')}>
-      Header
-    </header>
-  `
+// random test
 
-  document.body.append(html`
-    ${header()}
-    ${new MySection()}
-    ${new MySection()}
-  `)
+function randomTest() {
+  class MySection extends HTMLElement {
+    constructor() {
+      super()
+      this.append(this.render())
+    }
+  
+    update(count) {
+      this.querySelector('p').textContent = `Count: ${count}`
+    }
+  
+    render() {
+      const state = {
+        count: 0,
+        listeners: [],
+        subscribe(obj) {
+          this.listeners.push(obj)
+        },
+        notify(value) {
+          for (const listener of this.listeners) {
+            listener.update(value)
+          }
+        },
+        increment() {
+          this.count++
+          this.notify(this.count)
+        }
+      }
+  
+      state.subscribe(this)
+  
+      return html`
+        <p>Count: ${state.count}</p>
+        <button on-click=${() => state.increment()}>
+          Increment
+        </button>
+      `
+    }
+  }
+  
+  customElements.define('my-section', MySection)
+  
+  function testeApp() {
+    const header = () => html`
+      <header on-mousedown=${() => console.log('header mouse down')}>
+        Header
+      </header>
+    `
+  
+    document.body.append(html`
+      ${header()}
+      ${new MySection()}
+      ${new MySection()}
+    `)
+  }
+  
+  console.time('testeApp function')
+  testeApp()
+  console.timeEnd('testeApp function')
 }
 
-console.time('testeApp function')
-testeApp()
-console.timeEnd('testeApp function')
+randomTest()
 
 // refs
 
-const dialogRef = ref()
+function refs() {
+  const dialogRef = ref()
 
-const dialog = html`
-  <div style="padding: 20px 0">
-    <button on-click=${() => dialogRef.el?.show()}>
-      open dialog
-    </button>
-    <dialog ref=${dialogRef} style="padding: 10px">
-      <h1>Element Ref</h1>
-      <p>Element ref example with a dialog</p>
-      <button on-click=${() => dialogRef.el?.close()}>
+  const dialog = html`
+    <div style="padding: 20px 0">
+      <button on-click=${() => dialogRef.el?.show()}>
+        open dialog
+      </button>
+      <dialog ref=${dialogRef} style="padding: 10px">
+        <h1>Element Ref</h1>
+        <p>Element ref example with a dialog</p>
+        <button on-click=${() => dialogRef.el?.close()}>
+          Close
+        </button>
+      </dialog>
+    </div>
+  `
+
+  document.body.append(dialog)
+}
+
+refs()
+
+// observable values
+
+function observableValues() {
+  // Dialog
+  const dialogData = {
+    open: signal(false),
+    bg: signal('blue')
+  }
+
+  document.body.append(html`
+    <dialog class=${dialogData.bg} open=${dialogData.open}>
+      ${raw`<h1>Observer Dialog</h1>`}
+      <button on-click=${() => dialogData.bg.set('red')}>
+        Red
+      </button>
+      <button on-click=${() => dialogData.bg.set('blue')}>
+        Blue
+      </button>
+      <button on-click=${() => dialogData.open.set(false)}>
         Close
       </button>
     </dialog>
-  </div>
-`
+    <button on-click=${() => dialogData.open.set(true)}>
+      Open dialog with signal
+    </button>
+  `)
+  
+  // Background color
+  const backgroundColor = signal('red')
+  
+  document.body.append(html`
+    <div class=${backgroundColor}>
+      Observer Div
+      <button on-click=${() => backgroundColor.set('red')}>
+        Red
+      </button>
+      <button on-click=${() => backgroundColor.set('blue')}>
+        Blue
+      </button>
+    </div>
+  `)
+}
 
-document.body.append(dialog)
+observableValues()

@@ -1,4 +1,4 @@
-import { html, raw, ref } from '@/index.js'
+import { html, raw, ref, signal } from '@/index.js'
 
 function select(docFrag: DocumentFragment, query: string) {
   return docFrag.querySelector(query)
@@ -209,5 +209,39 @@ describe('html tag function', () => {
     const dialog = docFrag.querySelector('ignem-confirmation-dialog')
 
     expect(dialog).not.toBeNull()
+  })
+
+  it('should return the first element when using html.first', () => {
+    const span = html.first`
+      <span></span>
+      <div></div>
+      <ul></ul>
+    `
+
+    expect(span).toBeInstanceOf(HTMLSpanElement)
+  })
+
+  it('should add correct signal data and listeners on signal set in an attribute', () => {
+    const color = signal('red')
+    const docFrag = html`<div class=${color}></div>`
+    const div = docFrag.querySelector('div')
+    
+    expect(div?.getAttribute('class')).toBe('red')
+
+    color.set('blue')
+
+    expect(div?.getAttribute('class')).toBe('blue')
+  })
+
+  it('should add or remove an attribute if its bind to a boolean signal', () => {
+    const disabled = signal(true)
+    const docFrag = html`<button disabled=${disabled}>Click</button>`
+    const btn = docFrag.querySelector('button')
+
+    expect(btn?.getAttribute('disabled')).toBe('')
+
+    disabled.set(false)
+
+    expect(btn?.getAttribute('disabled')).toBeNull()
   })
 })

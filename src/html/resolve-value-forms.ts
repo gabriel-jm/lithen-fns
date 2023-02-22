@@ -43,8 +43,12 @@ export function resolveValueForms(
 
   return valuesToBeEmpty
     ? ''
-    : String(value)
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/javascript:/, '')
+    : sanitizeHTML(value)
+}
+
+export function sanitizeHTML(value: unknown) {
+  return String(value)
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/javascript:/, '')
 }
