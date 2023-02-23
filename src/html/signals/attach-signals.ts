@@ -1,4 +1,4 @@
-import { SignalData } from './signal-data'
+import { SignalData } from './signal-data.js'
 
 export function attachAttributeSignal(
   docFrag: DocumentFragment,

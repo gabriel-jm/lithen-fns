@@ -2,8 +2,8 @@ import { LithenCSSText } from '../css-tag-fn.js'
 import { LithenRawHTMLText } from '../raw-html-tag-fn.js'
 import { ElementRef } from './refs/element-ref.js'
 import { ResourcesMap } from './html-tag-fn.js'
-import { sanitizeHTML } from './resolve-value-forms.js'
 import { SignalData } from './signals/signal-data.js'
+import { sanitizeHTML } from './sanitizes/sanitize-html.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown

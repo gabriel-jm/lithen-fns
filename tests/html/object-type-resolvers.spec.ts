@@ -15,7 +15,7 @@ describe('ObjectTypeResolvers', () => {
         ...defaultParams,
         value: [divElement]
       }
-      const expectedElementId = `elm-id="elm-${params.index}"`
+      const expectedElementId = `el="el-${params.index}"`
 
       const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
 
@@ -37,7 +37,7 @@ describe('ObjectTypeResolvers', () => {
           value: documentFragment,
           index: 2
         }
-        const expectedElementId = `elm-id="elm-${params.index}"`
+        const expectedElementId = `el="el-${params.index}"`
         
         const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
 
@@ -93,7 +93,7 @@ describe('ObjectTypeResolvers', () => {
         value: div
       }
 
-      const expectedElementId = `elm-id="elm-${params.index}"`
+      const expectedElementId = `el="el-${params.index}"`
 
       const response = objectTypeResolvers.Object(params)
 
@@ -111,7 +111,7 @@ describe('ObjectTypeResolvers', () => {
         value: textNode
       }
 
-      const expectedElementId = `elm-id="elm-${params.index}"`
+      const expectedElementId = `el="el-${params.index}"`
 
       const response = objectTypeResolvers.Object(params)
 

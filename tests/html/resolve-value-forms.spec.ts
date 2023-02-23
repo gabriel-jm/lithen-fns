@@ -10,7 +10,7 @@ describe('ResolveValueForms', () => {
     it('should call the correct objectTypeResolvers method', () => {
       const arrayMethodSpy = vi.spyOn(objectTypeResolvers, 'Array')
       const value = [document.createElement('p')]
-      const elementId = `elm-${index}`
+      const elementId = `el-${index}`
   
       const response = resolveValueForms(
         htmlString,
@@ -19,7 +19,7 @@ describe('ResolveValueForms', () => {
         index
       )
   
-      expect(response).toBe(`<template elm-id="${elementId}"></template>`)
+      expect(response).toBe(`<template el="${elementId}"></template>`)
       expect(arrayMethodSpy).toHaveBeenCalledWith({
         htmlString,
         value,

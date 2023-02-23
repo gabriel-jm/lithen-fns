@@ -204,7 +204,7 @@ describe('html tag function', () => {
   })
 
   it('should not remove wrong missing event binding text', () => {
-    const docFrag = html`<ignem-confirmation-dialog />`
+    const docFrag = html`<ignem-confirmation-dialog   class="hi"   />`
 
     const dialog = docFrag.querySelector('ignem-confirmation-dialog')
 
@@ -243,5 +243,25 @@ describe('html tag function', () => {
     disabled.set(false)
 
     expect(btn?.getAttribute('disabled')).toBeNull()
+  })
+
+  it('should add a text node when a signal is inserted outside an element', () => {
+    const sig = signal(10)
+    const docFrag = html`<p>Count: ${sig}</p>`
+    const p = docFrag.querySelector('p')
+
+    expect(p?.textContent).toBe('Count: 10')
+
+    sig.set(value => value + 2)
+
+    expect(p?.textContent).toBe('Count: 12')
+  })
+
+  it('should set the value to the element property if using dot attributes', () => {
+    const value = { value: 100 }
+    const docFrag = html`<div .attr=${value}></div>`
+    const div = docFrag.querySelector('div') as HTMLDivElement & { attr: { value: 100 } }
+
+    expect(div.attr).toEqual(value)
   })
 })

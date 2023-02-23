@@ -1,7 +1,7 @@
 import { htmlStringParser } from './html-string-parser.js'
 import { resolveValueForms } from './resolve-value-forms.js'
-import { sanitizeAttributes } from './sanitize-attributes.js'
 import { applyResources } from './apply-resources.js'
+import { sanitizeAttributes } from './sanitizes/sanitize-attributes.js'
 
 export type HtmlStrings = TemplateStringsArray | string[]
 

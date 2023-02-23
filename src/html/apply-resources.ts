@@ -20,10 +20,26 @@ export function applyResources(docFrag: DocumentFragment, resourcesMap: Resource
       applyRef(docFrag, key, value as ElementRef)
     }
 
+    if (key.startsWith('p-')) {
+      applyPropertyValue(docFrag, key, value)
+    }
+
     if (key.startsWith('sig-attr:')) {
       attachAttributeSignal(docFrag, key, value as SignalData<unknown>)
     }
   }
 
   resourcesMap.clear()
+}
+
+function applyPropertyValue(docFrag: DocumentFragment, key: string, value: unknown) {
+  const element = docFrag.querySelector(`[${key}]`)
+
+  if (!element) return
+
+  const [prefixedPropName] = key.split('=')
+  const propName = prefixedPropName.substring('p-'.length)
+  Reflect.set(element, propName, value)
+
+  element.removeAttribute(prefixedPropName)
 }

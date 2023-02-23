@@ -30,13 +30,13 @@ describe('RawHTML tag function', () => {
     `
 
     expect(html1.toString()).toBe(`
-      <section><p>Text</p></section><div>100</div>
+      <section> <p>Text</p> </section> <div>100</div>
     `.trim())
     expect(html2.toString()).toBe(`
-      <span class="any-class" attr tabindex="0" >Text</span>
+      <span class="any-class" attr tabindex="0" > Text </span>
     `.trim())
     expect(html3.toString()).toBe(`
-      <header><ul><li>A bigger text</li></ul></header>
+      <header> <ul> <li> A bigger text </li> </ul> </header>
     `.trim())
   })
 

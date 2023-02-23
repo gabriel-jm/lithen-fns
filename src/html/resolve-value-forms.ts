@@ -1,7 +1,9 @@
 import { ResourcesMap } from './html-tag-fn.js'
 import { objectTypeResolvers } from './object-type-resolvers.js'
+import { sanitizeHTML } from './sanitizes/sanitize-html.js'
 
-const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/
+const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/s
+const propertyRegex = /.*\s\.([\w]+)=$/s
 
 export function resolveValueForms(
   htmlString: string,
@@ -9,6 +11,16 @@ export function resolveValueForms(
   resourcesMap: ResourcesMap,
   index: number
 ): string {
+  const propMatch = htmlString.match(propertyRegex)
+
+  if (propMatch) {
+    const propName = propMatch[1]
+    const propertyId = `p-${propName}="p-${index}"`
+    resourcesMap.set(propertyId, value)
+
+    return `"" ${propertyId}`
+  }
+
   if (typeof value === 'object') {
     const className = value?.constructor.name ?? ''
     const resolver = className in objectTypeResolvers
@@ -44,11 +56,4 @@ export function resolveValueForms(
   return valuesToBeEmpty
     ? ''
     : sanitizeHTML(value)
-}
-
-export function sanitizeHTML(value: unknown) {
-  return String(value)
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/javascript:/, '')
 }
