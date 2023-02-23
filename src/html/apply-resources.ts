@@ -1,6 +1,6 @@
 import { applyEvent } from './events/apply-event.js'
 import { applyRef } from './refs/apply-ref.js'
-import { attachAttributeSignal } from './signals/attach-signals.js'
+import { attachAttributeSignal, attachPropertySignal } from './signals/attach-signals.js'
 import { ElementRef } from './refs/element-ref.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { placeElement } from './place-element.js'
@@ -25,7 +25,11 @@ export function applyResources(docFrag: DocumentFragment, resourcesMap: Resource
     }
 
     if (key.startsWith('sig-attr:')) {
-      attachAttributeSignal(docFrag, key, value as SignalData<unknown>)
+      attachAttributeSignal(docFrag, key, value as SignalData)
+    }
+
+    if (key.startsWith('sig-p:')) {
+      attachPropertySignal(docFrag, key, value as SignalData)
     }
   }
 

@@ -229,3 +229,24 @@ function setProperties() {
 }
 
 setProperties()
+
+// Signal with Properties
+
+function signalProperties() {
+  const divRef = ref()
+  const keyId = signal(crypto.randomUUID())
+  
+  document.body.append(html`
+    <div ref=${divRef} .keyId=${keyId}>
+      <p>${keyId}</p>
+      <button on-click=${() => {
+        keyId.set(crypto.randomUUID())
+        console.log('Div key id', divRef.el?.keyId)
+      }}>
+        Change key id
+      </button>
+    </div>
+  `)
+}
+
+signalProperties()

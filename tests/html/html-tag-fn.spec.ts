@@ -1,4 +1,5 @@
 import { html, raw, ref, signal } from '@/index.js'
+import crypto from 'node:crypto'
 
 function select(docFrag: DocumentFragment, query: string) {
   return docFrag.querySelector(query)
@@ -263,5 +264,17 @@ describe('html tag function', () => {
     const div = docFrag.querySelector('div') as HTMLDivElement & { attr: { value: 100 } }
 
     expect(div.attr).toEqual(value)
+  })
+
+  it('should update the element property if the set value is a signal', () => {
+    const keyId = signal(crypto.randomUUID())
+    const docFrag = html`<div .keyId=${keyId}></div>`
+    const div = docFrag.querySelector('div') as HTMLDivElement & { keyId: string }
+
+    expect(div.keyId).toBe(keyId.get())
+
+    keyId.set(crypto.randomUUID())
+
+    expect(div.keyId).toBe(keyId.get())
   })
 })

@@ -1,4 +1,4 @@
-export class SignalData<T> {
+export class SignalData<T = unknown> {
   listeners = new Set<(value: T) => void>()
   #value
 
@@ -26,4 +26,4 @@ export class SignalData<T> {
   }
 }
 
-export const signal = <T>(data: T) => new SignalData<T>(data)
+export const signal = <T = unknown>(data: T) => new SignalData<T>(data)
