@@ -7,7 +7,7 @@ export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourcesMap = Map<string, unknown>
 
- /**
+/**
  * Function that parses the html text passed to it.
  * 
  * The parsing, tries to prevent XSS attacks in the html,
@@ -33,7 +33,7 @@ export function html(htmlStrings: HtmlStrings, ...values: unknown[]): DocumentFr
       acc + str,
       values[index],
       resourcesMap,
-        index
+      index
     )
 
     return acc + str + resolvedValue
@@ -57,8 +57,33 @@ export function html(htmlStrings: HtmlStrings, ...values: unknown[]): DocumentFr
   return docFragment
 }
 
-html.first = (htmlStrings: HtmlStrings, ...values: unknown[]) => {
+/**
+ * Similar to the `html` tag function, but instead of returning a
+ * `DocumentFragment` it returns the `first child node` declared in
+ * the template. This function is replacing the old `html.first`.
+ * 
+ * @example
+ * ```ts
+ *  el`
+ *    <div>...</div>
+ *  `
+ * ```
+ * 
+ * @returns a ChildNode.
+ */
+export function el(htmlStrings: HtmlStrings, ...values: unknown[]) {
   const docFrag = html(htmlStrings, ...values)
+  const children = docFrag.childNodes
+
+  queueMicrotask(() => {
+    if (children.length > 1) {
+      console.warn(
+        'We detect the returning of multiple elements in the el tag function.',
+        'This message is just to warn you that the el tag function only returns',
+        'the first element in the template.'
+      )
+    }
+  })
 
   return docFrag.firstChild
 }
