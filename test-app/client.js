@@ -1,4 +1,4 @@
-import { html, css, raw, ref, signal } from './build/index.js'
+import { html, css, raw, ref, signal, createStyled } from './build/index.js'
 
 function times() {
   console.time('10000 Simple divs')
@@ -281,3 +281,27 @@ function scopedCSS() {
 }
 
 scopedCSS()
+
+// Styled elements
+
+function styledElements() {
+  function styledDiv(children) {
+    const div = createStyled('div', backgroundColor('#888'))
+    children && div.append(children)
+    return div
+  }
+
+  document.body.append(styledDiv(html`
+    <h2>Styled Div</h2>
+    <p>Oh gosh</p>
+  `))
+
+  document.body.append(styledDiv(html`
+    <article>
+      <h2>Styled Article</h2>
+      <p>lorem ipsum</p>
+    </article>
+  `))
+}
+
+styledElements()

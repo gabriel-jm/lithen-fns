@@ -1,4 +1,4 @@
-import { css } from '@/index.js'
+import { css, LithenCSSText } from '@/index.js'
 
 describe('CSS tag function', () => {
   it('should return a minified css text', () => {
@@ -115,5 +115,18 @@ describe('CSS tag function', () => {
     `
 
     expect(styles.toString()).toBe('.container{width:0;not-boolean:false;}')
+  })
+
+  it('should replace & symbol in css text for a random class hash', () => {
+    const styles = css`
+      & {
+        color: red;
+        background-color: blue;
+      }
+    `
+
+    expect(styles).toBeInstanceOf(LithenCSSText)
+    expect(styles.toString().includes('&')).toBe(false)
+    expect(styles.toString().includes(styles.hash)).toBe(true)
   })
 })

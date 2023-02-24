@@ -1,4 +1,4 @@
-import { LithenRawHTMLText } from '../raw-html-tag-fn.js'
+import { LithenRawHTMLText } from '../raw-html/raw-html-tag-fn.js'
 import { ElementRef } from './refs/element-ref.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { SignalData } from './signals/signal-data.js'

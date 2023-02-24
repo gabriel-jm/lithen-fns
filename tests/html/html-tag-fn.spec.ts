@@ -1,4 +1,4 @@
-import { html, raw, ref, signal } from '@/index.js'
+import { css, html, raw, ref, signal } from '@/index.js'
 import crypto from 'node:crypto'
 
 function select(docFrag: DocumentFragment, query: string) {
@@ -276,5 +276,19 @@ describe('html tag function', () => {
     keyId.set(crypto.randomUUID())
 
     expect(div.keyId).toBe(keyId.get())
+  })
+
+  it('should attach styles to the element with css attribute and LithenCSSText as value', () => {
+    const styles = css`
+      & {
+        color: red;
+        background-color: blue;
+      }
+    `
+    const docFrag = html`<div css=${styles}></div>`
+    const div = docFrag.querySelector('div')
+
+    expect(div?.getAttribute('css')).toBeNull()
+    expect(div?.className).toBe(styles.hash)
   })
 })
