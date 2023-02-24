@@ -1,4 +1,4 @@
-import { html, raw, ref, signal } from './build/index.js'
+import { html, css, raw, ref, signal } from './build/index.js'
 
 function times() {
   console.time('10000 Simple divs')
@@ -250,3 +250,34 @@ function signalProperties() {
 }
 
 signalProperties()
+
+// Scoped CSS
+
+const backgroundColor = (backgroundColor) => css`
+  & {
+    background-color: ${backgroundColor};
+    padding: 16px;
+  }
+
+  & span {
+    font-weight: bold;
+  }
+`
+
+const color = (color) => css`& { color: ${color}; }`
+
+function scopedCSS() {
+  document.body.append(html`
+    <div css=${backgroundColor('#4d5')}>
+      <span>CSS test 1</span>
+    </div>
+    <div css=${backgroundColor('#54d')}>
+      CSS test 2
+    </div>
+    <div css=${css(['',''], backgroundColor('#222'), color('#eee'))}>
+      <span>CSS test 3</span>
+    </div>
+  `)
+}
+
+scopedCSS()

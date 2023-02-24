@@ -1,10 +1,6 @@
-type CssStrings = TemplateStringsArray | string[]
+import { LithenCSSText } from './lithen-css-text'
 
-export class LithenCSSText extends String {
-  constructor(data: string) {
-    super(data)
-  }
-}
+type CssStrings = TemplateStringsArray | string[]
 
 /**
  * Function that parses the css text passed and minifies it.
@@ -25,6 +21,11 @@ export function css(strings: CssStrings, ...values: unknown[]) {
 
     if (value === null || value === undefined) {
       return acc + str
+    }
+    
+    if (value instanceof LithenCSSText) {
+      const hashRegex = new RegExp(`.${value.hash}`, 'g')
+      value = value.replace(hashRegex, '&')
     }
 
     if (Array.isArray(value)) {

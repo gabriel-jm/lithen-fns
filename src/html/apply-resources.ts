@@ -5,6 +5,9 @@ import { ElementRef } from './refs/element-ref.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { placeElement } from './place-element.js'
 import { SignalData } from './signals/signal-data.js'
+import { LithenCSSText } from '../css/lithen-css-text.js'
+import { attachStyles } from './styles/attach-styles.js'
+import { applyPropertyValue } from './properties/apply-property-value.js'
 
 export function applyResources(docFrag: DocumentFragment, resourcesMap: ResourcesMap) {
   for (const [key, value] of resourcesMap) {
@@ -24,6 +27,10 @@ export function applyResources(docFrag: DocumentFragment, resourcesMap: Resource
       applyPropertyValue(docFrag, key, value)
     }
 
+    if (key.startsWith('css')) {
+      attachStyles(docFrag, key, value as LithenCSSText) 
+    }
+
     if (key.startsWith('sig-attr:')) {
       attachAttributeSignal(docFrag, key, value as SignalData)
     }
@@ -34,16 +41,4 @@ export function applyResources(docFrag: DocumentFragment, resourcesMap: Resource
   }
 
   resourcesMap.clear()
-}
-
-function applyPropertyValue(docFrag: DocumentFragment, key: string, value: unknown) {
-  const element = docFrag.querySelector(`[${key}]`)
-
-  if (!element) return
-
-  const [prefixedPropName] = key.split('=')
-  const propName = prefixedPropName.substring('p-'.length)
-  Reflect.set(element, propName, value)
-
-  element.removeAttribute(prefixedPropName)
 }

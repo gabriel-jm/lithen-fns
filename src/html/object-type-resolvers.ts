@@ -1,9 +1,9 @@
-import { LithenCSSText } from '../css-tag-fn.js'
 import { LithenRawHTMLText } from '../raw-html-tag-fn.js'
 import { ElementRef } from './refs/element-ref.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { SignalData } from './signals/signal-data.js'
 import { sanitizeHTML } from './sanitizes/sanitize-html.js'
+import { LithenCSSText } from '../css/lithen-css-text.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -18,6 +18,7 @@ export type ObjectTypeResolver = Record<
 >
 
 const refAttrRegex = /.*\sref=$/s
+const cssAttrRegex = /.*\scss=$/s
 const attrRegex = /.*\s([\w-]+)=$/s
 
 export const objectTypeResolvers: ObjectTypeResolver = {
@@ -74,7 +75,18 @@ export const objectTypeResolvers: ObjectTypeResolver = {
       }
     }
 
-    if (value instanceof LithenCSSText || value instanceof LithenRawHTMLText) {
+    if (value instanceof LithenCSSText) {
+      const match = htmlString.match(cssAttrRegex)
+
+      if (match) {
+        const cssId = `"css-${index}"`
+        resourcesMap.set(`css=${cssId}`, value)
+
+        return cssId
+      }
+    }
+
+    if (value instanceof LithenRawHTMLText) {
       return value.toString()
     }
 
