@@ -1,3 +1,9 @@
+/**
+ * Class used to represent a CSS text created by the `css`
+ * tag function. It also replaces any `&` with a random hash class
+ * created on its instantiation, used to avoid a CSS class
+ * collision and give an impression of scoped styles.
+ */
 export class LithenCSSText extends String {
   #hash
   
@@ -12,6 +18,10 @@ export class LithenCSSText extends String {
     this.#hash = hash
   }
 
+  /**
+   * @returns The random hash class, every class starts with
+   * the letter "e".
+   */
   get hash() {
     return this.#hash
   }

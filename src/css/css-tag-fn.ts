@@ -4,6 +4,8 @@ type CssStrings = TemplateStringsArray | string[]
 
 /**
  * Function that parses the css text passed and minifies it.
+ * Also can replace every `&` in the code with a random hash 
+ * class.
  * 
  * It's commonly used has a template function.
  * @example
