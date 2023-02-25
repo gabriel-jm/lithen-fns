@@ -1,5 +1,5 @@
 export function applyPropertyValue(docFrag: DocumentFragment, key: string, value: unknown) {
-  const element = docFrag.querySelector(`[${CSS.escape(key)}]`)
+  const element = docFrag.querySelector(`[\\${key}]`)
 
   if (!element) return
 
