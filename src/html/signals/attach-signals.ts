@@ -31,12 +31,12 @@ export function attachPropertySignal(
   key: string,
   signal: SignalData
 ) {
-  const [, propQuery] = key.split(':')
-  const element = docFrag.querySelector(`[${propQuery}]`)
+  const [, propQuery] = key.split('sig-p')
+  const element = docFrag.querySelector(`[${CSS.escape(propQuery)}]`)
 
   if (!element) return
 
-  const [propName] = propQuery.split('=')
+  const propName = propQuery.split('=')[0].substring('.'.length)
 
   signal.onChange(
     value => Reflect.set(element, propName, value)

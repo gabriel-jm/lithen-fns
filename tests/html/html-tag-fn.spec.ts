@@ -1,4 +1,4 @@
-import { css, html, raw, ref, signal } from '@/index.js'
+import { css, el, html, raw, ref, signal } from '@/index.js'
 import crypto from 'node:crypto'
 
 function select(docFrag: DocumentFragment, query: string) {
@@ -213,7 +213,7 @@ describe('html tag function', () => {
   })
 
   it('should return the first element when using html.first', () => {
-    const span = html.first`
+    const span = el`
       <span></span>
       <div></div>
       <ul></ul>

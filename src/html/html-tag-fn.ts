@@ -93,9 +93,8 @@ function checkIncorrectElements(cleanHtml: string) {
     const template = document.createElement('template')
     template.innerHTML = cleanHtml
 
-    const invalidSignalElements = Array.from(
-      template.content.querySelectorAll('[el]')
-    ).filter(el => el.hasAttribute('<template'))
+    const invalidSignalElements = template.content
+      .querySelectorAll(`[${CSS.escape('<template')}]`)
 
     if (invalidSignalElements.length) {
       console.warn(

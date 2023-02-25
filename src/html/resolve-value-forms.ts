@@ -18,16 +18,16 @@ export function resolveValueForms(
     const propName = propMatch[1]
 
     if (value instanceof SignalData) {
-      const propertyId = `${propName}="p-${index}"`
-      resourcesMap.set(`sig-p:${propertyId}`, value)
+      const propertyId = `"p-${index}"`
+      resourcesMap.set(`sig-p.${propName}=${propertyId}`, value)
 
-      return `"" ${propertyId}`
+      return propertyId
     }
 
-    const propertyId = `p-${propName}="p-${index}"`
-    resourcesMap.set(propertyId, value)
+    const propertyId = `"p-${index}"`
+    resourcesMap.set(`.${propName}=${propertyId}`, value)
 
-    return `"" ${propertyId}`
+    return propertyId
   }
 
   if (typeof value === 'object') {

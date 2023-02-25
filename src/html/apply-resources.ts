@@ -23,7 +23,7 @@ export function applyResources(docFrag: DocumentFragment, resourcesMap: Resource
       applyRef(docFrag, key, value as ElementRef)
     }
 
-    if (key.startsWith('p-')) {
+    if (key.startsWith('.')) {
       applyPropertyValue(docFrag, key, value)
     }
 
@@ -35,7 +35,7 @@ export function applyResources(docFrag: DocumentFragment, resourcesMap: Resource
       attachAttributeSignal(docFrag, key, value as SignalData)
     }
 
-    if (key.startsWith('sig-p:')) {
+    if (key.startsWith('sig-p.')) {
       attachPropertySignal(docFrag, key, value as SignalData)
     }
   }

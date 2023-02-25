@@ -17,10 +17,10 @@
   "scripts": {
     "build": "tsc --project ./tsconfig.build.json",
     "prepublishOnly": "rm -rf build && npm run build",
+    "predev": "npm run build && cp -r build ./test-app",
+    "dev": "vite ./test-app",
     "test": "vitest",
     "test:cov": "vitest run --coverage",
-    "pretest-app": "npm run build && cp -r build ./test-app",
-    "test-app": "vite ./test-app",
     "check": "ncu"
   },
   "keywords": [

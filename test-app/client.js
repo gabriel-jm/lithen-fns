@@ -1,5 +1,6 @@
 import { html, css, raw, ref, signal, createStyled, el } from './build/index.js'
 
+console.time('all')
 function times() {
   console.time('10000 Simple divs')
   for (let i=0; i<10000; i++) {
@@ -273,9 +274,9 @@ function signalWithElements() {
     </div>
   `)
 
-  document.body.append(html`
-    <div>${when()}</div>
-  `)
+  // document.body.append(html`
+  //   <div>${when()}</div>
+  // `)
 }
 
 signalWithElements()
@@ -334,3 +335,5 @@ function styledElements() {
 }
 
 styledElements()
+
+console.timeEnd('all')
