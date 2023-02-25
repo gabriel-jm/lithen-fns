@@ -1,4 +1,4 @@
-import { html, css, raw, ref, signal, createStyled } from './build/index.js'
+import { html, css, raw, ref, signal, createStyled, el } from './build/index.js'
 
 function times() {
   console.time('10000 Simple divs')
@@ -250,6 +250,35 @@ function signalProperties() {
 }
 
 signalProperties()
+
+// Signal with elements
+
+function signalWithElements() {
+  let currentSymbol = 'cent'
+  const symbol = signal(el`<span>&cent;</span>`)
+
+  document.body.append(html`
+    <div>
+      <p>Current symbol</p>
+      ${symbol}
+      <button on-click=${() => {
+        if (currentSymbol === 'cent') {
+          currentSymbol = 'euro'
+        } else {
+          currentSymbol = 'cent'
+        }
+
+        symbol.set(el`<span>&${currentSymbol};</span>`)
+      }}>Toogle</button>
+    </div>
+  `)
+
+  document.body.append(html`
+    <div>${when()}</div>
+  `)
+}
+
+signalWithElements()
 
 // Scoped CSS
 

@@ -1,10 +1,12 @@
+type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
+
 /**
  * A Class to create an object that holds a value and
  * a list of listeners that listen to change made to this
  * hold value.
  */
 export class SignalData<T = unknown> {
-  #listeners = new Set<(value: T) => void>()
+  #listeners = new Set<SignalListener<T>>()
   #value
  
   /**
@@ -16,11 +18,19 @@ export class SignalData<T = unknown> {
 
   /**
    * Method to add a listener in a `Set` of listeners that
-   * are called when the hold value changes.
+   * are called when the hold value changes. It receives
+   * the new value and the old value as parameters.
    * 
    * @param listener - a listener function.
+   * 
+   * @example
+   * ```ts
+   * signal.onChange((newValue, oldValue) => {
+   *   console.log({ newValue, oldValue })
+   * })
+   * ```
    */
-  onChange(listener: (value: T) => void) {
+  onChange(listener: SignalListener<T>) {
     this.#listeners.add(listener)
   }
 
@@ -35,7 +45,7 @@ export class SignalData<T = unknown> {
    * Method to change the value hold by the signal.
    * When this method is called, all listeners registred
    * with the `onChange` method are called passing the
-   * new value.
+   * new and old values.
    * 
    * @param newValue - the new value that will replace
    * the current one, can be a function that receives the
@@ -43,13 +53,14 @@ export class SignalData<T = unknown> {
    * replace the signal's value.
    */
   set(newValue: T | ((value: T) => T)) {
+    const oldValue = this.#value
     const isFunction = typeof newValue === 'function'
     this.#value = isFunction
-      ? (<Function>newValue)(this.#value)
+      ? (<Function>newValue)(oldValue)
       : newValue
 
     for (const listener of this.#listeners) {
-      listener(this.#value)
+      listener(this.#value, oldValue)
     }
   }
 }

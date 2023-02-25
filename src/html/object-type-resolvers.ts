@@ -101,11 +101,35 @@ export const objectTypeResolvers: ObjectTypeResolver = {
         return signalId
       }
 
-      const textNode = new Text(String(value.get()))
-      value.onChange(value => (textNode.data = String(value)))
+      const signalValue = value.get()
+
+      if (signalValue instanceof DocumentFragment) {
+        console.warn(
+          'Please did not use a DocumentFragment as value of a signal.',
+          'The DocumentFragment do not have the "replaceWith" method which',
+          'is internally used when the signal value changes to replace',
+          'the old element for the new one'
+        )
+        return objectTypeResolvers.DocumentFragment({
+          ...params,
+          value: signalValue
+        })
+      }
 
       const elementId = `el="el-${index}"`
-      resourcesMap.set(elementId, textNode)
+
+      if (signalValue instanceof Element) {
+        value.onChange((newValue: Element, oldValue: Element) => {
+          oldValue.replaceWith(newValue)
+        })
+
+        resourcesMap.set(elementId, signalValue)
+      } else {
+        const textNode = new Text(String(signalValue))
+        value.onChange(value => (textNode.data = String(value)))
+        
+        resourcesMap.set(elementId, textNode)
+      }
 
       return `<template ${elementId}></template>`
     }
