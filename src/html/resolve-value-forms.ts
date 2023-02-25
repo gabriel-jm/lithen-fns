@@ -32,16 +32,16 @@ export function resolveValueForms(
 
   if (typeof value === 'object') {
     const className = value?.constructor.name ?? ''
-    const resolver = className in objectTypeResolvers
-      ? objectTypeResolvers[className as keyof typeof objectTypeResolvers]
-      : objectTypeResolvers.Object
+    const resolver = objectTypeResolvers.get(className) ?? objectTypeResolvers.get('Object')
 
-    return resolver({
+    const resolvedValue = resolver!({
       value,
       resourcesMap,
       htmlString,
       index
     })
+
+    return resolvedValue ?? sanitizeHTML(value)
   }
 
   if (typeof value === 'function') {

@@ -1,9 +1,7 @@
 import { LithenRawHTMLText } from '../raw-html/raw-html-tag-fn.js'
-import { ElementRef } from './refs/element-ref.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { SignalData } from './signals/signal-data.js'
-import { sanitizeHTML } from './sanitizes/sanitize-html.js'
-import { LithenCSSText } from '../css/lithen-css-text.js'
+import { addElementPlaceholder } from './elements/add-element-placeholder.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -12,30 +10,21 @@ export interface ObjectTypeResolverParams {
   index: number
 }
 
-export type ObjectTypeResolver = Record<
-  'Array' | 'DocumentFragment' | 'ArrayOrDocumentFragment' | 'Object',
-  (params: ObjectTypeResolverParams) => string
+export type ObjectTypeResolver = Map<
+  string,
+  (params: ObjectTypeResolverParams) => string | undefined
 >
 
 const refAttrRegex = /.*\sref=$/s
 const cssAttrRegex = /.*\scss=$/s
 const attrRegex = /.*\s([\w-]+)=$/s
 
-export const objectTypeResolvers: ObjectTypeResolver = {
-  ArrayOrDocumentFragment({ value, resourcesMap, index }) {
-    const elementId = `el="el-${index}"`
-    resourcesMap.set(
-      elementId,
-      value as DocumentFragment | Element[]
-    )
-
-    return `<template ${elementId}></template>`
-  },
-
-  Array(params){
-    return objectTypeResolvers.ArrayOrDocumentFragment({
-      ...params,
-      value: (params.value as (string | String | Node | Element)[]).map(value => {
+export const objectTypeResolvers: ObjectTypeResolver = new Map<
+  string, (params: ObjectTypeResolverParams) => string | undefined
+>()
+  .set('Array', (params) => {
+    return addElementPlaceholder(
+      (params.value as (string | Node)[]).map(value => {
         if (value instanceof LithenRawHTMLText) {          
           const template = document.createElement('template')
           template.innerHTML = value.toString()
@@ -44,50 +33,48 @@ export const objectTypeResolvers: ObjectTypeResolver = {
         }
 
         return value ?? ''
-      })
-    })
-  },
+      }),
+      params.resourcesMap,
+      params.index
+    )
+  })
+  .set('DocumentFragment', (params) => {
+    return addElementPlaceholder(
+      params.value as DocumentFragment,
+      params.resourcesMap,
+      params.index
+    )
+  })
+  .set('LithenRawHTMLText', ({ value }) => {
+    return (value as LithenRawHTMLText).toString()
+  })
+  .set('LithenCSSText', ({ htmlString, value, index, resourcesMap }) => {
+    const match = htmlString.match(cssAttrRegex)
 
-  DocumentFragment(params){
-    return objectTypeResolvers.ArrayOrDocumentFragment(params)
-  },
+    if (match) {
+      const cssId = `"css-${index}"`
+      resourcesMap.set(`css=${cssId}`, value)
 
-  Object(params) {
+      return cssId
+    }
+  })
+  .set('ElementRef', ({ htmlString, value, index, resourcesMap }) => {
+    const match = htmlString.match(refAttrRegex)
+
+    if (match) {
+      const refId = `"ref-${index}"`
+      resourcesMap.set(`ref=${refId}`, value)
+
+      return refId
+    }
+  })
+  .set('Object', (params) => {
     const { value, htmlString, resourcesMap, index } = params
 
-    if (!value) return ''
+    if (value == null) return ''
 
     if (value instanceof Element || value instanceof Node) {
-      return objectTypeResolvers.ArrayOrDocumentFragment({
-        ...params,
-        value: [value]
-      })
-    }
-
-    if (value instanceof ElementRef) {
-      const match = htmlString.match(refAttrRegex)
-
-      if (match) {
-        const refId = `"ref-${index}"`
-        resourcesMap.set(`ref=${refId}`, value)
-
-        return refId
-      }
-    }
-
-    if (value instanceof LithenCSSText) {
-      const match = htmlString.match(cssAttrRegex)
-
-      if (match) {
-        const cssId = `"css-${index}"`
-        resourcesMap.set(`css=${cssId}`, value)
-
-        return cssId
-      }
-    }
-
-    if (value instanceof LithenRawHTMLText) {
-      return value.toString()
+      return addElementPlaceholder(value, resourcesMap, index)
     }
 
     if (value instanceof SignalData) {
@@ -110,7 +97,7 @@ export const objectTypeResolvers: ObjectTypeResolver = {
           'is internally used when the signal value changes to replace',
           'the old element for the new one'
         )
-        return objectTypeResolvers.DocumentFragment({
+        return objectTypeResolvers.get('DocumentFragment')!({
           ...params,
           value: signalValue
         })
@@ -133,7 +120,4 @@ export const objectTypeResolvers: ObjectTypeResolver = {
 
       return `<template ${elementId}></template>`
     }
-
-    return sanitizeHTML(value)
-  }
-}
+  })
