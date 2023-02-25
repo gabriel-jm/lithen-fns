@@ -1,7 +1,7 @@
 type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
 
 /**
- * A Class to create an object that holds a value and
+ * A Class used to create an object that holds a value and
  * a list of listeners that listen to change made to this
  * hold value.
  */
