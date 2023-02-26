@@ -1,9 +1,9 @@
-import { SignalData } from './signal-data.js'
+import { DataSignal } from './data-signal.js'
 
 export function attachAttributeSignal(
   docFrag: DocumentFragment,
   key: string,
-  signalData: SignalData
+  signalData: DataSignal
 ) {
   const [, attrQuery] = key.split(':')
   const element = docFrag.querySelector(`[${attrQuery}]`)
@@ -29,7 +29,7 @@ export function attachAttributeSignal(
 export function attachPropertySignal(
   docFrag: DocumentFragment,
   key: string,
-  signal: SignalData
+  signal: DataSignal
 ) {
   const [, propQuery] = key.split('sig-p.')
   const element = docFrag.querySelector(`[\\.${propQuery.toLowerCase()}]`)

@@ -1,7 +1,7 @@
 import { ResourcesMap } from './html-tag-fn.js'
 import { objectTypeResolvers } from './object-type-resolvers.js'
 import { sanitizeHTML } from './sanitizes/sanitize-html.js'
-import { SignalData } from './signals/signal-data.js'
+import { DataSignal } from './signals/data-signal.js'
 
 const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/s
 const propertyRegex = /.*\s\.([\w]+)=$/s
@@ -17,7 +17,7 @@ export function resolveValueForms(
   if (propMatch) {
     const propName = propMatch[1]
 
-    if (value instanceof SignalData) {
+    if (value instanceof DataSignal) {
       const propertyId = `"p-${index}"`
       resourcesMap.set(`sig-p.${propName}=${propertyId}`, value)
 

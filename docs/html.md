@@ -4,7 +4,7 @@
 This parsings, tries to prevent XSS attacks, minifies the content, add events to an element, parses different types of data, and gives the possibility to call Web Components tags as self closed.
 
 ## Returns
-`DocumentFragment` - type object - an instance of [DocumentFragment](https://developer.mozilla.org/pt-BR/docs/Web/API/DocumentFragment).
+An instance of [DocumentFragment](https://developer.mozilla.org/pt-BR/docs/Web/API/DocumentFragment).
 
 ## Usage
 ```ts
@@ -49,27 +49,6 @@ html`
   <button on-click=${(_event) => console.log('click event')}>
     click me
   </button>
-`
-```
-
-### Elements ref
-
-In many situations you'll need to reference an element from another, and there is a problem 
-when you need to do this in the function execution of the `html` tag. To do so you can use an 
-element reference. This is an simple object that holds a reference to an HTML Element inside a 
-property called `el`. It must be an instance of `ElementRef` for the `html` tag function parser 
-understands that this object is intanded to hold an element reference.
-
-```ts
-const dialogRef = ref<HTMLDialogElement>()
-
-html`
-  <dialog ref=${dialogRef}>
-    <h2>Dialog Title</h2>
-    <button on-click=${() => dialogRef.el?.close()}>
-      close
-    </button>
-  </dialog>
 `
 ```
 

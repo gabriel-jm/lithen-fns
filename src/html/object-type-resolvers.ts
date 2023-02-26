@@ -1,6 +1,6 @@
 import { LithenRawHTMLText } from '../raw-html/raw-html-tag-fn.js'
 import { ResourcesMap } from './html-tag-fn.js'
-import { SignalData } from './signals/signal-data.js'
+import { DataSignal } from './signals/data-signal.js'
 import { addElementPlaceholder } from './elements/add-element-placeholder.js'
 
 export interface ObjectTypeResolverParams {
@@ -77,7 +77,7 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       return addElementPlaceholder(value, resourcesMap, index)
     }
 
-    if (value instanceof SignalData) {
+    if (value instanceof DataSignal) {
       const match = htmlString.match(attrRegex)
 
       if (match) {

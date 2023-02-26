@@ -5,7 +5,7 @@ type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
  * a list of listeners that listen to change made to this
  * hold value.
  */
-export class SignalData<T = unknown> {
+export class DataSignal<T = unknown> {
   #listeners = new Set<SignalListener<T>>()
   #value
  
@@ -76,4 +76,4 @@ export class SignalData<T = unknown> {
  * 
  * @returns a `SignalData` instance.
  */
-export const signal = <T = unknown>(data: T) => new SignalData<T>(data)
+export const signal = <T = unknown>(data: T) => new DataSignal<T>(data)

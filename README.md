@@ -5,12 +5,12 @@ Its part of Lithen modules. It works alone but is created to use with Web Compon
 
 ## List of including tag functions
 - [html](./docs/html.md)
-- [html.first](./docs/html-first.md)
+- [el](./docs/el.md)
 - [raw](./docs/raw.md)
 - [css](./docs/css.md)
 
 ## VSCode Plugin Recommendation
-- [lit-plugin](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin), must used to have syntax highlight when using tagged template functions.
+- We recommned use the [lit-plugin](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin) extension in VSCode for better syntax highlight.
 
 ## Other libs that are part of Lithen
 - [lithen-super-element](https://www.npmjs.com/package/lithen-super-element)
