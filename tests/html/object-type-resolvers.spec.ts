@@ -1,4 +1,5 @@
 import { objectTypeResolvers } from '@/html/object-type-resolvers'
+import * as placeholders from '@/html/elements/add-element-placeholder'
 
 describe('ObjectTypeResolvers', () => {
   const defaultParams = {
@@ -17,7 +18,7 @@ describe('ObjectTypeResolvers', () => {
       }
       const expectedElementId = `el="el-${params.index}"`
 
-      const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
+      const response = objectTypeResolvers.get('Array')!(params)
 
       expect(response).toBe(`<template ${expectedElementId}></template>`)
       expect(params.resourcesMap.get(expectedElementId)).toEqual(
@@ -39,7 +40,7 @@ describe('ObjectTypeResolvers', () => {
         }
         const expectedElementId = `el="el-${params.index}"`
         
-        const response = objectTypeResolvers.ArrayOrDocumentFragment(params)
+        const response = objectTypeResolvers.get('DocumentFragment')!(params)
 
         expect(response).toBe(`<template ${expectedElementId}></template>`)
         expect(params.resourcesMap.get(expectedElementId)).toEqual(
@@ -51,11 +52,15 @@ describe('ObjectTypeResolvers', () => {
 
   describe('Array() and DocumentFragment()', () => {
     it('should call ArrayOrDocumentFragment method with correct values', () => {
-      const arrayOrDocumentFragmentSpy = vi.spyOn(objectTypeResolvers, 'ArrayOrDocumentFragment')
+      const addElementPlaceholderSpy = vi.spyOn(placeholders, 'addElementPlaceholder')
 
-      objectTypeResolvers.Array({ ...defaultParams, value: [] })
+      objectTypeResolvers.get('Array')!({ ...defaultParams, value: [] })
 
-      expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith({ ...defaultParams, value: [] })
+      expect(addElementPlaceholderSpy).toHaveBeenCalledWith(
+        [],
+        defaultParams.resourcesMap,
+        defaultParams.index
+      )
 
       const params = {
         ...defaultParams,
@@ -63,14 +68,18 @@ describe('ObjectTypeResolvers', () => {
         index: 3
       }
 
-      objectTypeResolvers.DocumentFragment(params)
+      objectTypeResolvers.get('DocumentFragment')!(params)
 
-      expect(arrayOrDocumentFragmentSpy).toHaveBeenCalledWith(params)
+      expect(addElementPlaceholderSpy).toHaveBeenCalledWith(
+        [],
+        params.resourcesMap,
+        params.index
+      )
     })
   })
 
   describe('Object()', () => {
-    it('should return a JSON if the object value is not a EventListenerObject', () => {
+    it('should return an undefined if the object value is not reconized', () => {
       const objectValue = {
         field: 'any_field'
       }
@@ -80,12 +89,12 @@ describe('ObjectTypeResolvers', () => {
         value: objectValue
       }
 
-      const response = objectTypeResolvers.Object(params)
+      const response = objectTypeResolvers.get('Object')!(params)
 
-      expect(response).toBe(objectValue.toString())
+      expect(response).toBeUndefined()
     })
 
-    it('should add an array with the value if it is a single element', () => {
+    it('should add the value if it is a single element', () => {
       const div = document.createElement('div')
 
       const params = {
@@ -95,15 +104,13 @@ describe('ObjectTypeResolvers', () => {
 
       const expectedElementId = `el="el-${params.index}"`
 
-      const response = objectTypeResolvers.Object(params)
+      const response = objectTypeResolvers.get('Object')!(params)
 
       expect(response).toBe(`<template ${expectedElementId}></template>`)
-        expect(params.resourcesMap.get(expectedElementId)).toEqual(
-          [div]
-        )
+      expect(params.resourcesMap.get(expectedElementId)).toEqual(div)
     })
 
-    it('should add an array with the value if it is a single node', () => {
+    it('should add the value if it is a single node', () => {
       const textNode = document.createTextNode('text')
 
       const params = {
@@ -113,12 +120,10 @@ describe('ObjectTypeResolvers', () => {
 
       const expectedElementId = `el="el-${params.index}"`
 
-      const response = objectTypeResolvers.Object(params)
+      const response = objectTypeResolvers.get('Object')!(params)
 
       expect(response).toBe(`<template ${expectedElementId}></template>`)
-        expect(params.resourcesMap.get(expectedElementId)).toEqual(
-          [textNode]
-        )
+      expect(params.resourcesMap.get(expectedElementId)).toEqual(textNode)
     })
 
     it('should return an empty string if a null value is passed', () => {
@@ -127,7 +132,7 @@ describe('ObjectTypeResolvers', () => {
         value: null as any
       }
 
-      const response = objectTypeResolvers.Object(params)
+      const response = objectTypeResolvers.get('Object')!(params)
 
       expect(response).toBe('')
     })

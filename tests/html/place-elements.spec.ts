@@ -1,4 +1,4 @@
-import { placeElement } from '@/html/place-element'
+import { placeElement } from '@/html/elements/place-element'
 
 function generateDocFragment(htmlContent: string) {
   const template = document.createElement('template')
@@ -7,7 +7,7 @@ function generateDocFragment(htmlContent: string) {
   return template.content
 }
 
-describe('placeElements', () => {
+describe('placeElement', () => {
   it('should return if target element does not have any placeholder element', () => {
     const targetElement = document.createDocumentFragment()
     const queryResult = {

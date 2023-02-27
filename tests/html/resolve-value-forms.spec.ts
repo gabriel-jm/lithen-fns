@@ -8,9 +8,11 @@ describe('ResolveValueForms', () => {
 
   describe('if type of value is object', () => {
     it('should call the correct objectTypeResolvers method', () => {
-      const arrayMethodSpy = vi.spyOn(objectTypeResolvers, 'Array')
       const value = [document.createElement('p')]
       const elementId = `el-${index}`
+      const arrayResolverSpy = vi.fn(() => `<template el="${elementId}"></template>`)
+      const getMethodSpy = vi.spyOn(objectTypeResolvers, 'get')
+        .mockImplementationOnce(() => arrayResolverSpy)
   
       const response = resolveValueForms(
         htmlString,
@@ -19,17 +21,21 @@ describe('ResolveValueForms', () => {
         index
       )
   
-      expect(response).toBe(`<template el="${elementId}"></template>`)
-      expect(arrayMethodSpy).toHaveBeenCalledWith({
+      expect(getMethodSpy).toHaveBeenCalledWith('Array')
+      expect(arrayResolverSpy).toHaveBeenCalledWith({
         htmlString,
         value,
         resourcesMap,
         index
       })
+      expect(response).toBe(`<template el="${elementId}"></template>`)
     })
   
     it('should call the Object method from objectTypeResolvers if value is from a unknown class', () => {
-      const objectMethodSpy = vi.spyOn(objectTypeResolvers, 'Object')
+      const objectResolverSpy = vi.fn()
+      const getMethodSpy = vi.spyOn(objectTypeResolvers, 'get')
+        .mockImplementationOnce(() => undefined)
+        .mockImplementationOnce(() => objectResolverSpy)
   
       class UnknownClass {
         field = 'any_field'
@@ -45,7 +51,8 @@ describe('ResolveValueForms', () => {
       )
   
       expect(response).toBe(value.toString())
-      expect(objectMethodSpy).toHaveBeenCalledWith({
+      expect(getMethodSpy).toHaveBeenNthCalledWith(2, 'Object')
+      expect(objectResolverSpy).toHaveBeenCalledWith({
         htmlString,
         value,
         resourcesMap,

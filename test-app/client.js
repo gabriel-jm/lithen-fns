@@ -336,4 +336,14 @@ function styledElements() {
 
 styledElements()
 
+// Signal Warn
+
+function signalWarn() {
+  document.body.append(html`
+    <p ${signal(10)}>Warn</p>
+  `)
+}
+
+// signalWarn()
+
 console.timeEnd('all')
