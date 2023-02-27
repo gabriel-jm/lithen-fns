@@ -5,8 +5,8 @@ the first element.
 
 Previously used with `html.first`.
 
-## Returns
-A `ChildNode`, the first element of the document fragment created by the `html` tag function.
+It returns a `ChildNode`, the first element of the document fragment created by the `html` tag 
+function.
 
 ## Usage
 ```ts

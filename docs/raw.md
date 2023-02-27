@@ -5,11 +5,14 @@ This tag function is normally used for specifics strings, like in situations the
 passed html text as value. But is normally recommended to use the html tag function. <br />
 This function can be called with a single value.
 
-## Returns
-`html` - type string - the parsed html text.
+It returns an instance of `LithenRawHTMLText` with the parsed html text as content.
+
+The `LithenRawHTMLText` is a class that just extends `String`. Internally it is used to check if the
+text inserted came from the `raw` tag function.
 
 ## Warning
-Using the `raw` function you cannot add events to elements and cannot use `html` function within it.
+Using the `raw` function you cannot add events to elements, cannot use `html` function within it and
+every value inserted in the tagge template will be converted to string.
 
 ## Usage
 

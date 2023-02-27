@@ -3,8 +3,7 @@
 `html` is a tagged template function that makes some parsing in a html string.
 This parsings, tries to prevent XSS attacks, minifies the content, add events to an element, parses different types of data, and gives the possibility to call Web Components tags as self closed.
 
-## Returns
-An instance of [DocumentFragment](https://developer.mozilla.org/pt-BR/docs/Web/API/DocumentFragment).
+It returns an instance of [DocumentFragment](https://developer.mozilla.org/pt-BR/docs/Web/API/DocumentFragment).
 
 ## Usage
 ```ts

@@ -102,7 +102,41 @@ See more about how to set element's properties in [Element's dot attributes](./h
 
 You can set an element as the value of a signal, but we don't recommend to do it with Document 
 Fragments, because internally we use method `replaceWith` of the elements to replace the old element
-for the new one, and Document Fragments don't have this method. But even if it has will not work as
-expected because when the fragment enters in the DOM or in another fragment, it leaves all its child
-nodes and rests only an empty fragment, so even it the fragment has the `replaceWith` method it will
+for the new one, and Document Fragments don't have this method. But even if it has, will not work as
+expected because when the fragment enters the DOM or in another fragment, it leaves all its child
+nodes and remain only an empty fragment, so even if the fragment has the `replaceWith` method it will
 not work as well.
+
+So do something like this
+```ts
+signal(el`<span>Hi</span>`)
+```
+Instead of
+```ts
+signal(html`<span>Hello</span>`)
+```
+
+### Place the signal with no attributes in the element
+
+Basically is doing something like this
+
+```ts
+const data = signal('any_data')
+
+html`
+  <p ${data}></p>
+`
+```
+
+This is a problem basically because internally we don't detect attribute bind to the signal, so we
+consider that it is a text content and try to place a template tag as placeholder and the element
+ends up like this
+
+```html
+<p <template="" el="el-0">></p>
+```
+
+The `el-0` can be any value, this is the index of the order which the data was inserted in the tagged
+template. In the end the paragraph ends having a `>` in its text content. We have a detection to
+get all elements with that `<template` attribute and send a warn. We are making sure to have a better
+solution to this problem but for now be aware that this can happen.
