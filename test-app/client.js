@@ -256,7 +256,7 @@ signalProperties()
 
 function signalWithElements() {
   let currentSymbol = 'cent'
-  const symbol = signal(el`<span>&cent;</span>`)
+  const symbol = signal(el/*html*/`<span>&cent;</span>`)
 
   document.body.append(html`
     <div>
@@ -345,5 +345,41 @@ function signalWarn() {
 }
 
 // signalWarn()
+
+async function usersList() {
+  const users = await fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+
+  if (!users.length) {
+    return el/*html*/`<span>Error</span>`
+  }
+
+  return html`
+    <ul>
+      ${users.map(user => html`
+        <li>
+          <strong>${user.username}</strong>
+          <span>(${user.name})</span>
+          <span>- ${user.email}</span>
+        </li>
+      `)}
+    </ul>
+  `
+}
+
+async function filter() {
+  const filter = signal('')
+  
+  document.body.append(html`
+    <input .value=${filter} on-input=${(e) => {
+      const { value } = e.target
+      filter.set(value)
+    }} />
+    <p>Filter: ${filter}</p>
+    ${await usersList()}
+  `)
+}
+
+filter()
 
 console.timeEnd('all')
