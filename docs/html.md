@@ -36,6 +36,8 @@ html`
 `
 ```
 
+---
+
 ### Add events
 
 Events are added to the elements following this pattern: `on-[event name]=[value]`.
@@ -51,6 +53,30 @@ html`
   </button>
 `
 ```
+
+---
+
+### Element's dot attributes
+
+This feature is highly inspired by the `lit-html` of the [`Lit`](https://lit.dev/) library. Which
+has the possibility the set the value of an element's property directly using a dot before the
+property's name.
+
+```ts
+html`
+  <button .disabled=${true}>
+    Disabled
+  </button>
+`
+```
+
+This example is the same as set the button's disabled property directly.
+
+```ts
+button.disabled = true
+```
+
+---
 
 ### XSS prevention
 
@@ -73,6 +99,8 @@ To avoid this and use html text in the html tag function you can use the
 [raw tag function](./raw.md).
 
 > **Want to help?** If you find a way to pass through the XSS prevention, please create an issue on github about it.
+
+---
 
 ### Elements merge
 

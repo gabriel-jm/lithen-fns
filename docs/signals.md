@@ -37,3 +37,72 @@ function receives the new value as first parameter and the old value as second, 
 a returned value.
 
 ### Signals in the text content
+
+When a signal is set within or outside a tag this content will be converted to a string and will be
+placed a text node where the signal was placed.
+
+```ts
+const count = signal(0)
+
+html`
+  <div>
+    <p>Count: ${count}</p>
+    <button on-click=${() => count.set(value => value + 1)}>
+      Increment
+    </button>
+  </div>
+`
+```
+
+In this example the place where the count constant, which is a `DataSignal`, is placed will have a 
+text node with the current count value. Also we add a listener with the `onChange` method of the 
+signal to update the text node content whenever the count signal is updated.
+
+### Signals in elements attributes
+
+When a signal is set as a value of an element's attribute, we set the signal value as a string in
+the elements attribute.
+
+```ts
+const bgColor = signal('red')
+
+html`
+  <div class=${bgColor}>
+    <p>Background ${bgColor}</p>
+    <button on-click=${() => bgColor.set('red')}>
+      Red
+    </button>
+    <button on-click=${() => bgColor.set('blue')}>
+      Blue
+    </button>
+  </div>
+`
+```
+
+In this example we add to the div's `class` attribute the value of `red` and add a listener with the 
+`onChange` method of the signal to update the attribute's value whenever the signals value changes.
+When the signal is set in an attribute with a boolean value it has a different effect, it checks if
+the value is `true` and sets the attribute in the element with an empty value and if the value is
+`false` it removes the attribute from the element.
+
+### Signals in elements properties
+
+When a signal is set as a value of an element's property, it works just like when set to the 
+element's attribute, but with the difference that when it is with properties the raw value of the
+signal is set the element's property. Just like with attributes is set a listener with the `onChange`
+method of signal to update the element's property value whenever the signal's value changes.
+
+See more about how to set element's properties in [Element's dot attributes](./html.md#elements-dot-attributes).
+
+---
+
+## Details to be aware of
+
+### Elements as value of a signal
+
+You can set an element as the value of a signal, but we don't recommend to do it with Document 
+Fragments, because internally we use method `replaceWith` of the elements to replace the old element
+for the new one, and Document Fragments don't have this method. But even if it has will not work as
+expected because when the fragment enters in the DOM or in another fragment, it leaves all its child
+nodes and rests only an empty fragment, so even it the fragment has the `replaceWith` method it will
+not work as well.

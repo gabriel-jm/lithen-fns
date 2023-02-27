@@ -5,6 +5,7 @@ Its part of Lithen modules. It works alone but is created to use with Web Compon
 
 ## List of including tag functions
 - [html](./docs/html.md)
+  - [Add Events](./docs/html.md#add-events)
 - [el](./docs/el.md)
 - [raw](./docs/raw.md)
 - [css](./docs/css.md)
