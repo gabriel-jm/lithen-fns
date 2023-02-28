@@ -42,5 +42,5 @@ export function attachPropertySignal(
     value => Reflect.set(element, propName, value)
   )
   Reflect.set(element, propName, signal.get())
-  element.removeAttribute(propName)
+  element.removeAttribute(`.${propName.toLowerCase()}`)
 }

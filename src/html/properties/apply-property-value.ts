@@ -1,5 +1,5 @@
 export function applyPropertyValue(docFrag: DocumentFragment, key: string, value: unknown) {
-  const element = docFrag.querySelector(`[\\${key}]`)
+  const element = docFrag.querySelector(`[\\${key.toLowerCase()}]`)
 
   if (!element) return
 
@@ -7,5 +7,5 @@ export function applyPropertyValue(docFrag: DocumentFragment, key: string, value
   const propName = prefixedPropName.substring('.'.length)
   Reflect.set(element, propName, value)
 
-  element.removeAttribute(prefixedPropName)
+  element.removeAttribute(prefixedPropName.toLowerCase())
 }

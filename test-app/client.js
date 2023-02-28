@@ -346,17 +346,34 @@ function signalWarn() {
 
 // signalWarn()
 
+const users = signal({
+  original: [],
+  filtered: []
+})
+
 async function usersList() {
-  const users = await fetch('https://jsonplaceholder.typicode.com/users')
+  const ulRef = ref()
+  const usersResponse = await fetch('https://jsonplaceholder.typicode.com/users')
     .then(response => response.json())
 
-  if (!users.length) {
+  if (!usersResponse.length) {
     return el/*html*/`<span>Error</span>`
   }
 
+  users.set({ original: usersResponse, filtered: usersResponse })
+  users.onChange(newValue => {
+    ulRef.el?.replaceChildren(...newValue.filtered.map(user => html`
+      <li>
+        <strong>${user.username}</strong>
+        <span>(${user.name})</span>
+        <span>- ${user.email}</span>
+      </li>
+    `))
+  })
+
   return html`
-    <ul>
-      ${users.map(user => html`
+    <ul ref=${ulRef}>
+      ${usersResponse.map(user => html`
         <li>
           <strong>${user.username}</strong>
           <span>(${user.name})</span>
@@ -367,17 +384,40 @@ async function usersList() {
   `
 }
 
+function inputDebunce(fn) {
+  let timeoutId = null
+
+  return e => {
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
+    
+    timeoutId = setTimeout(fn, 500, e)
+  }
+}
+
 async function filter() {
   const filter = signal('')
+
+  const onInput = inputDebunce(e => {
+    filter.set(e.target.value)
+    users.set(value => ({
+      ...value,
+      filtered: value.original.filter(user => {
+        return user.username.toLowerCase().match(
+          `^${filter.get()}`
+        )
+      })
+    }))
+  })
   
   document.body.append(html`
-    <input .value=${filter} on-input=${(e) => {
-      const { value } = e.target
-      filter.set(value)
-    }} />
+    <input on-input=${onInput} />
     <p>Filter: ${filter}</p>
     ${await usersList()}
   `)
+
+  console.log(users.get())
 }
 
 filter()
