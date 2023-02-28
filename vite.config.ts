@@ -1,8 +1,5 @@
 import { defineConfig } from 'vitest/config'
 import path from 'path'
-import { randomUUID, getRandomValues } from 'crypto'
-
-var crypto = { randomUUID, getRandomValues }
 
 export default defineConfig({
   resolve: {

@@ -2,16 +2,18 @@ import { html, css, raw, ref, signal, createStyled, el } from './build/index.js'
 
 console.time('all')
 function times() {
-  console.time('10000 Simple divs')
-  for (let i=0; i<10000; i++) {
+  const quantity = 8_000
+
+  console.time('Simple divs')
+  for (let i=0; i<quantity; i++) {
     html`
       <div on-click=${() => console.log('hi')}>Hi</div>
     `
   }
-  console.timeEnd('10000 Simple divs')
+  console.timeEnd('Simple divs')
 
-  console.time('10000 Ul with injected li array')
-  for (let i=0; i<10000; i++) {
+  console.time('Ul with injected li array')
+  for (let i=0; i<quantity; i++) {
     html`
       <ul>
         ${[
@@ -27,10 +29,10 @@ function times() {
       </ul>
     `
   }
-  console.timeEnd('10000 Ul with injected li array')
+  console.timeEnd('Ul with injected li array')
 
-  console.time('10000 Ul with injected li separated')
-  for (let i=0; i<10000; i++) {
+  console.time('Ul with injected li separated')
+  for (let i=0; i<quantity; i++) {
     html`
       <ul>
         ${html`<li>li</li>`}
@@ -44,7 +46,7 @@ function times() {
       </ul>
     `
   }
-  console.timeEnd('10000 Ul with injected li separated')
+  console.timeEnd('Ul with injected li separated')
 
   function section() {
     return html`
@@ -54,8 +56,8 @@ function times() {
     `
   }
 
-  console.time('10000 Various events divs')
-  for (let i=0; i<10000; i++) {
+  console.time('Various events divs')
+  for (let i=0; i<quantity; i++) {
     html`
       <div on-click=${() => console.log('hi')}>
         Hi
@@ -63,7 +65,7 @@ function times() {
       ${section()}
     `
   }
-  console.timeEnd('10000 Various events divs')
+  console.timeEnd('Various events divs')
 }
 
 // times()
@@ -132,6 +134,23 @@ function randomTest() {
 }
 
 // randomTest()
+
+// String in arrays
+
+function stringsInArrays() {
+  document.body.append(html`
+    <ul>
+      ${[
+        el/*html*/`<li>Array test</li>`,
+        html`<li>DocFrag</li>`,
+        raw`<li>Raw</li>`,
+        `<li>Raw string</li>`
+      ]}
+    </ul>
+  `)
+}
+
+stringsInArrays()
 
 // refs
 
@@ -416,8 +435,6 @@ async function filter() {
     <p>Filter: ${filter}</p>
     ${await usersList()}
   `)
-
-  console.log(users.get())
 }
 
 filter()

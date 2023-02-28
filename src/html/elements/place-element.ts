@@ -14,13 +14,7 @@ export function placeElement (
     return
   }
 
-  for (let element of elements) {
-    if (!(element instanceof Node)) {
-      element = new Text(String(element))
-    }
-
-    parentElement.insertBefore(element, placeholderElement)
+  if (Array.isArray(elements)) {
+    placeholderElement.replaceWith(...elements)
   }
-
-  placeholderElement.remove()
 }
