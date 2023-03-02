@@ -1,4 +1,4 @@
-import { LithenCSSText } from './lithen-css-text'
+import { LithenCSSText } from './lithen-css-text.js'
 
 /**
  * This function creates an element by the provided tag name,

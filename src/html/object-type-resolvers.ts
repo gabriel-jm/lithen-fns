@@ -2,6 +2,7 @@ import { LithenRawHTMLText } from '../raw-html/raw-html-tag-fn.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { DataSignal } from './signals/data-signal.js'
 import { addElementPlaceholder } from './elements/add-element-placeholder.js'
+import { WithSignal } from './signals/with-signal.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -18,6 +19,10 @@ export type ObjectTypeResolver = Map<
 const refAttrRegex = /.*\sref=$/s
 const cssAttrRegex = /.*\scss=$/s
 const attrRegex = /.*\s([\w-]+)=$/s
+
+export class WhenPlaceholder {}
+
+Object.setPrototypeOf(WhenPlaceholder.prototype, Node)
 
 export const objectTypeResolvers: ObjectTypeResolver = new Map<
   string, (params: ObjectTypeResolverParams) => string | undefined
@@ -57,6 +62,36 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
 
       return cssId
     }
+  })
+  .set('WithSignal', ({ resourcesMap, value, index }) => {
+    const withSignal = value as WithSignal
+    const lithenShell = withSignal.shell
+
+    withSignal.dataSignal.onChange((newValue, oldValue) => {
+      const newNode = withSignal.listener(newValue, oldValue)
+      
+      if (!newNode) {
+        lithenShell.replaceChildren()
+        return
+      }
+      
+      const nodeList = Array.isArray(newNode)
+        ? newNode
+        : [newNode]
+
+      if (!lithenShell.childNodes.length) {
+        lithenShell.append(...nodeList)
+        return
+      }
+
+      lithenShell.replaceChildren(...nodeList)
+    })
+
+    return addElementPlaceholder(
+      lithenShell,
+      resourcesMap,
+      index
+    )
   })
   .set('ElementRef', ({ htmlString, value, index, resourcesMap }) => {
     const match = htmlString.match(refAttrRegex)

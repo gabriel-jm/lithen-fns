@@ -1,4 +1,4 @@
-type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
+export type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
 
 /**
  * A Class used to create an object that holds a value and

@@ -1,3 +1,5 @@
+import { WhenPlaceholder } from '../object-type-resolvers.js'
+
 export function placeElement (
   docFrag: DocumentFragment,
   key: string,
@@ -9,8 +11,14 @@ export function placeElement (
 
   const parentElement = placeholderElement.parentElement ?? docFrag
 
-  if (elements instanceof DocumentFragment || elements instanceof Node) {
-    parentElement.replaceChild(elements, placeholderElement)
+  elements instanceof Node && console.log(elements)
+  elements instanceof WhenPlaceholder && console.log(elements)
+
+  if (
+    elements instanceof DocumentFragment
+    || elements instanceof Node
+  ) {
+    parentElement.replaceChild(elements as Node, placeholderElement)
     return
   }
 

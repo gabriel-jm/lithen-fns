@@ -1,4 +1,4 @@
-import { html, css, raw, ref, signal, createStyled, el } from './build/index.js'
+import { html, css, raw, ref, signal, createStyled, el, withSignal } from './build/index.js'
 
 console.time('all')
 function times() {
@@ -253,8 +253,8 @@ setProperties()
 // Signal with Properties
 
 function signalProperties() {
-  const divRef = ref()
   const keyId = signal(crypto.randomUUID())
+  const divRef = ref()
   
   document.body.append(html`
     <div ref=${divRef} .keyId=${keyId}>
@@ -293,9 +293,18 @@ function signalWithElements() {
     </div>
   `)
 
-  // document.body.append(html`
-  //   <div>${when()}</div>
-  // `)
+  const show = signal(true)
+
+  document.body.append(html`
+    <div>
+      ${withSignal(show,
+        value => value && html`<span>Show</span>`
+      )}
+      <button on-click=${() => show.set(!show.get())}>
+        Toogle Show
+      </button>
+    </div>
+  `)
 }
 
 signalWithElements()
@@ -380,25 +389,18 @@ async function usersList() {
   }
 
   users.set({ original: usersResponse, filtered: usersResponse })
-  users.onChange(newValue => {
-    ulRef.el?.replaceChildren(...newValue.filtered.map(user => html`
-      <li>
-        <strong>${user.username}</strong>
-        <span>(${user.name})</span>
-        <span>- ${user.email}</span>
-      </li>
-    `))
-  })
 
   return html`
     <ul ref=${ulRef}>
-      ${usersResponse.map(user => html`
-        <li>
-          <strong>${user.username}</strong>
-          <span>(${user.name})</span>
-          <span>- ${user.email}</span>
-        </li>
-      `)}
+      ${withSignal(users, (value) => {
+        return value.filtered.map(user => html`
+          <li>
+            <strong>${user.username}</strong>
+            <span>(${user.name})</span>
+            <span>- ${user.email}</span>
+          </li>
+        `)
+      })}
     </ul>
   `
 }

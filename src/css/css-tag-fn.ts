@@ -1,4 +1,4 @@
-import { LithenCSSText } from './lithen-css-text'
+import { LithenCSSText } from './lithen-css-text.js'
 
 type CssStrings = TemplateStringsArray | string[]
 
