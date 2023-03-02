@@ -4,6 +4,8 @@
     "module": "ESNext",
     "strict": true,
     "moduleResolution": "nodenext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noEmitOnError": true,
     "declaration": true,
     "declarationMap": true,
