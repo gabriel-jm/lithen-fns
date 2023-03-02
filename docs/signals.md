@@ -44,7 +44,7 @@ placed a text node where the signal was placed.
 ```ts
 const count = signal(0)
 
-html`
+html`a
   <div>
     <p>Count: ${count}</p>
     <button on-click=${() => count.set(value => value + 1)}>
@@ -100,12 +100,13 @@ See more about how to set element's properties in [Element's dot attributes](./h
 
 ### Elements as value of a signal
 
-You can set an element as the value of a signal, but we don't recommend to do it with Document 
-Fragments, because internally we use method `replaceWith` of the elements to replace the old element
-for the new one, and Document Fragments don't have this method. But even if it has, will not work as
-expected because when the fragment enters the DOM or in another fragment, it leaves all its child
-nodes and remain only an empty fragment, so even if the fragment has the `replaceWith` method it will
-not work as well.
+You can set an element as the value of a signal, most of its use cases can be achived using a 
+[withSignal](./with-signal.md) and with a better approach, but if you want to use, we don't 
+recommend to do it with Document Fragments, because internally we use method `replaceWith` of the 
+elements to replace the old element for the new one, and Document Fragments don't have this method. 
+But even if it has, will not work as expected because when the fragment enters the DOM or in another 
+fragment, it leaves all its child nodes and remain only an empty fragment, so even if the fragment 
+has the `replaceWith` method it will not work as well.
 
 So do something like this
 ```ts

@@ -14,9 +14,9 @@ Its part of Lithen modules. It works alone but is created to use with Web Compon
 - [el](./docs/el.md)
 - [raw](./docs/raw.md)
 - [css](./docs/css.md)
-
 - [createStyled](./docs/create-styled.md)
 - [signals](./docs/signals.md)
+- [withSignal](./docs/with-signal.md)
 - [refs](./docs/element-ref.md)
 
 ## VSCode Plugin Recommendation
