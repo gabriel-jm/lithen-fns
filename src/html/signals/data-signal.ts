@@ -77,3 +77,30 @@ export class DataSignal<T = unknown> {
  * @returns a `SignalData` instance.
  */
 export const signal = <T = unknown>(data: T) => new DataSignal<T>(data)
+
+export type SignalsRecord<T> = { [P in keyof T]: DataSignal<T[P]> }
+
+/**
+ * A function useful to create a object like group of signals.
+ * Currently if you pass an object as value to a `DataSignal`
+ * the object itselft will the value hold by the signal. But
+ * if we want that which key of the object to be a signal and
+ * not the object itself. That is the usage of this function.
+ * 
+ * It gets all values of the object provided and creates a new
+ * `DataSignal` for each.
+ * 
+ * Stay alert that this is a swallow copy of the provided object,
+ * so if you have a deep layer object, only the first will be a
+ * signal.
+ * 
+ * @param data - An object value representing a group of signals.
+ * @returns A clone of the same object provided.
+ */
+export function signalsRecord<T extends Record<string, unknown>>(
+  data: T
+): SignalsRecord<T> {
+  return Object.fromEntries(Object.entries(data).map(
+    ([key, value]) => [key, signal(value)]
+  )) as SignalsRecord<T>
+}
