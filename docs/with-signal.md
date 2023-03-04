@@ -3,15 +3,12 @@
 The `withSignal` function is used to add specific elements based on the signal provided. Common uses
 is to render something conditionally or to render multiple elements from a list.
 
-It returns an instance of `WithSignal`. The place where the `withSignal` is placed will have a custom
-element from lithen called `LithenShell`, its tag is `ltn-shell`, the elements returned by the 
-`withSignal` callback will be the children of this element so be aware that whenever you use this 
-signal there will have a `ltn-shell` element.
+It returns an instance of `LithenShell`, which is a custom element, its tag is `ltn-shell`, the elements returned by the render callback are dynamicly changed in the `LithenShell`'s content.
 
 ## How it works?
 
 Why this `ltn-shell` element is necessary? This is the solution found to be enable to manipulate, add
-or remove elements from a specific place it the DOM freely.
+or remove elements from a specific place it the DOM freely and based on a signal change.
 
 ## Usage
 
@@ -28,9 +25,9 @@ const letters = signal(['a', 'b', 'c'])
 
 html`
   <ul>
-    ${withSignal(letters, value => html`
-      <li>${value}</li>
-    `)}
+    ${withSignal(letters, value => {
+      return value.map(letter => el`<li>${letter}</li>`)
+    })}
   </ul>
 `
 ```

@@ -374,6 +374,33 @@ function signalWarn() {
 
 // signalWarn()
 
+// LithenShell
+
+function alphabet() {
+  const aCharCode = 'a'.charCodeAt(0)
+  const letters = signal(['a', 'b', 'c'])
+  
+  document.body.append(html`
+    <h4>Alphabet</h4>
+    <ul>
+      ${withSignal(letters, letters => {
+        return letters.map(letter => el/*html*/`<li>${letter}</li>`)
+      })}
+    </ul>
+    <button on-click=${() => {
+      letters.set(value => [
+        ...value,
+        String.fromCharCode(aCharCode + value.length)
+      ])
+    }}>
+      Add Letter
+    </button>
+    <br />
+  `)
+}
+
+alphabet()
+
 const users = signal({
   original: [],
   filtered: []

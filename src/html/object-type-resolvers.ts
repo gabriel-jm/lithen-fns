@@ -2,7 +2,6 @@ import { LithenRawHTMLText } from '../raw-html/raw-html-tag-fn.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { DataSignal } from './signals/data-signal.js'
 import { addElementPlaceholder } from './elements/add-element-placeholder.js'
-import { WithSignal } from './signals/with-signal.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -63,36 +62,36 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       return cssId
     }
   })
-  .set('WithSignal', ({ resourcesMap, value, index }) => {
-    const withSignal = value as WithSignal
-    const lithenShell = withSignal.shell
+  // .set('WithSignal', ({ resourcesMap, value, index }) => {
+  //   const withSignal = value as WithSignal
+  //   const lithenShell = withSignal.shell
 
-    withSignal.dataSignal.onChange((newValue, oldValue) => {
-      const newNode = withSignal.listener(newValue, oldValue)
+  //   withSignal.dataSignal.onChange((newValue, oldValue) => {
+  //     const newNode = withSignal.listener(newValue, oldValue)
       
-      if (!newNode) {
-        lithenShell.replaceChildren()
-        return
-      }
+  //     if (!newNode) {
+  //       lithenShell.replaceChildren()
+  //       return
+  //     }
       
-      const nodeList = Array.isArray(newNode)
-        ? newNode
-        : [newNode]
+  //     const nodeList = Array.isArray(newNode)
+  //       ? newNode
+  //       : [newNode]
 
-      if (!lithenShell.childNodes.length) {
-        lithenShell.append(...nodeList)
-        return
-      }
+  //     if (!lithenShell.childNodes.length) {
+  //       lithenShell.append(...nodeList)
+  //       return
+  //     }
 
-      lithenShell.replaceChildren(...nodeList)
-    })
+  //     lithenShell.replaceChildren(...nodeList)
+  //   })
 
-    return addElementPlaceholder(
-      lithenShell,
-      resourcesMap,
-      index
-    )
-  })
+  //   return addElementPlaceholder(
+  //     lithenShell,
+  //     resourcesMap,
+  //     index
+  //   )
+  // })
   .set('ElementRef', ({ htmlString, value, index, resourcesMap }) => {
     const match = htmlString.match(refAttrRegex)
 

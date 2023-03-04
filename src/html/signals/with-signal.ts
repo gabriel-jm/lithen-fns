@@ -1,30 +1,19 @@
-import { LithenShell } from '../elements/lithen-shell.js'
+import { LithenShell, ShellRenderCallback } from '../elements/lithen-shell.js'
 import { DataSignal } from './data-signal.js'
 
-type WithSignalListener<T = unknown> = (newValue: T, oldValue: T) => Node | undefined
-
-export class WithSignal {
-  #dataSignal: DataSignal
-  #changeListener: WithSignalListener
-  shell: LithenShell
-
-  constructor(dataSignal: DataSignal, changeListener: WithSignalListener) {
-    this.#dataSignal = dataSignal
-    this.#changeListener = changeListener
-
-    const elements = changeListener(dataSignal.get(), dataSignal.get())
-    this.shell = new LithenShell(elements)
-  }
-
-  get dataSignal() {
-    return this.#dataSignal
-  }
-
-  get listener() {
-    return this.#changeListener
-  }
-}
-
-export function withSignal(dataSignal: DataSignal, listener: WithSignalListener) {
-  return new WithSignal(dataSignal, listener)
+/**
+ * A helper function for a more semantic usage of a `LithenShell`
+ * element.
+ * 
+ * The `LithenShell` is a custom element made to change its child
+ * nodes based on the return of a render callback. This callback
+ * receives the value of a `DataSignal` and the render callback is
+ * called again every time the value of the signal changes.
+ * 
+ * @param dataSignal - The instance of `DataSignal`
+ * @param renderCB - The render callback
+ * @returns An instance of `LithenShell`
+ */
+export function withSignal(dataSignal: DataSignal, renderCB: ShellRenderCallback) {
+  return new LithenShell(dataSignal, renderCB)
 }
