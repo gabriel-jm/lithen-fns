@@ -78,12 +78,15 @@ export class DataSignal<T = unknown> {
  */
 export const signal = <T = unknown>(data: T) => new DataSignal<T>(data)
 
-export type SignalsRecord<T> = { [P in keyof T]: DataSignal<T[P]> }
+export type SignalRecord<T extends Record<string, unknown>> = {
+  [P in keyof T]: DataSignal<T[P]>
+}
 
 /**
- * A function useful to create a object like group of signals.
+ * A helper function that creates an instance of `DataSignalRecord`,
+ * which is used to create a object like group of signals.
  * Currently if you pass an object as value to a `DataSignal`
- * the object itselft will the value hold by the signal. But
+ * the object itself will be the value hold by the signal. But
  * if we want that which key of the object to be a signal and
  * not the object itself. That is the usage of this function.
  * 
@@ -97,10 +100,30 @@ export type SignalsRecord<T> = { [P in keyof T]: DataSignal<T[P]> }
  * @param data - An object value representing a group of signals.
  * @returns A clone of the same object provided.
  */
-export function signalsRecord<T extends Record<string, unknown>>(
-  data: T
-): SignalsRecord<T> {
-  return Object.fromEntries(Object.entries(data).map(
-    ([key, value]) => [key, signal(value)]
-  )) as SignalsRecord<T>
+export function signalRecord<T extends Record<string, unknown>>(data: T) {
+  return new DataSignalRecord(data) as SignalRecord<T>
+}
+
+/**
+ * A class that represents an object that is a group of `DataSignals`.
+ * It will make a swallow copy of the object passed as argument to it.
+ * The copy is swallow, so it will not cycle through nested objects to
+ * make them `DataSignalRecords` too. But if the value of some field of
+ * the object already is a `DataSignal` or `DataSignalRecord` it just
+ * leave the value as it is.
+ */
+export class DataSignalRecord {
+  constructor(obj: Record<string, unknown>) {
+    Object.entries(obj).forEach(([key, value]) => {
+      if (
+        value instanceof DataSignal
+        || value instanceof DataSignalRecord
+      ) {
+        Reflect.set(this, key, value)
+        return
+      }
+      
+      Reflect.set(this, key, signal(value))
+    })
+  }
 }
