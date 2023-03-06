@@ -3,7 +3,11 @@
 Tagged Template Strings to use with html and css.
 Its part of Lithen modules. It works alone but is created to use with Web Components.
 
-A counter modal example:
+## Getting started
+
+You can see the [Getting started](./docs/getting-started.md) page, teaching how to setup a [Vanilla project](./docs/getting-started.md#vanilla-project) or a [project with Vite](./docs/getting-started.md#project-with-vite).
+
+After the `Getting started`, try this counter modal example:
 
 ```ts
 const modalStyles = css`
@@ -71,10 +75,10 @@ document.body.append(counterModal())
 - [raw](./docs/raw.md)
 - [css](./docs/css.md)
 - [createStyled](./docs/create-styled.md)
+- [refs](./docs/element-ref.md)
 - [signals](./docs/signals.md)
 - [signalRecord](./docs/signal-record.md)
 - [withSignal](./docs/with-signal.md)
-- [refs](./docs/element-ref.md)
 
 ## VSCode Extensions Recommendation
 - [lit-plugin](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin) which came with

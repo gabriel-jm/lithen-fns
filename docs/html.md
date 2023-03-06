@@ -145,9 +145,16 @@ html`
 **Functions**
 
 ```ts
-function myParagraph(text: string) {
+// src/paragraph.ts
+import { html } from 'lithen-tag-functions'
+
+export function myParagraph(text: string) {
   return html`<p>${text}</p>`
 }
+
+// src/main.ts
+import { html } from 'lithen-tag-functions'
+import { myParagraph } from './paragraph'
 
 html`
   <section>
