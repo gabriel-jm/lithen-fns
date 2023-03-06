@@ -115,32 +115,7 @@ html`
 `
 ```
 
-Works with single elements or nodes:
-
-```ts
-html`
-  <div>
-    ${document.createElement('p')}
-    <span>${document.createTextNode('text')}</span>
-  </div>
-`
-```
-
-And it works as well with:
-
-**Arrays**
-
-```ts
-html`
-  <ul>
-    ${[
-      html`<li>${Math.random()}</li>`,
-      raw`<li>${Math.random()}</li>`,
-      '<p>Injected</p>' // Will be appended as Text not an Paragraph Element
-    ]}
-  </ul>
-`
-```
+It also works with...
 
 **Functions**
 
@@ -161,5 +136,30 @@ html`
     ${myParagraph('any text')}
     <!-- as this function is already called the value passed is a DocumentFragment, similiar to the previous example -->
   </section>
+`
+```
+
+**Single elements or Nodes**
+
+```ts
+html`
+  <div>
+    ${document.createElement('p')}
+    <span>${document.createTextNode('text')}</span>
+  </div>
+`
+```
+
+**Arrays**
+
+```ts
+html`
+  <ul>
+    ${[
+      html`<li>${Math.random()}</li>`,
+      raw`<li>${Math.random()}</li>`,
+      '<p>Injected</p>' // Will be appended as Text not an Paragraph Element
+    ]}
+  </ul>
 `
 ```
