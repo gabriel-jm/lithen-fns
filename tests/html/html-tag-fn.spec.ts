@@ -1,4 +1,4 @@
-import { css, el, html, raw, ref, signal } from '@/index.js'
+import { css, el, html, raw, ref, signal, withSignal } from '@/index.js'
 import crypto from 'node:crypto'
 
 function select(docFrag: DocumentFragment, query: string) {
@@ -290,5 +290,22 @@ describe('html tag function', () => {
 
     expect(div?.getAttribute('css')).toBeNull()
     expect(div?.className).toBe(styles.hash)
+  })
+
+  it('should update specific parts based on a DataSignal when using withSignal', () => {
+    const show = signal(true)
+    const docFrag = html`
+      <button on-click=${() => show.set(!show.get())}>
+        Show / Hide
+      </button>
+      ${withSignal(show, value => {
+        return value && el/*html*/`
+          <span>Showing</span>
+        `
+      })}
+    `
+    docFrag.querySelector('button')?.dispatchEvent(new Event('click'))
+
+    expect(docFrag.querySelector('span')).toBeNull()
   })
 })

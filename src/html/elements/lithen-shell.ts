@@ -1,6 +1,8 @@
 import { DataSignal } from '../index.js'
 
-export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => Node | undefined
+export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
+  Node | undefined | null | false
+)
 
 /**
  * A custom element made to change its child nodes based on the
@@ -35,8 +37,8 @@ export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => Nod
  * `
  * ```
  */
-export class LithenShell extends HTMLElement {
-  constructor(dataSignal: DataSignal, renderCallback: ShellRenderCallback) {
+export class LithenShell<T = any> extends HTMLElement {
+  constructor(dataSignal: DataSignal<T>, renderCallback: ShellRenderCallback<T>) {
     super()
     
     const children = renderCallback(dataSignal.get(), dataSignal.get())
@@ -52,7 +54,7 @@ export class LithenShell extends HTMLElement {
     this.#listenSignal(dataSignal, renderCallback)
   }
 
-  #listenSignal(dataSignal: DataSignal, renderCallback: ShellRenderCallback) {
+  #listenSignal(dataSignal: DataSignal<T>, renderCallback: ShellRenderCallback<T>) {
     dataSignal.onChange((newValue, oldValue) => {
       const newNode = renderCallback(newValue, oldValue)
       

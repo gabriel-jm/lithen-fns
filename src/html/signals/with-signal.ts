@@ -14,6 +14,6 @@ import { DataSignal } from './data-signal.js'
  * @param renderCB - The render callback
  * @returns An instance of `LithenShell`
  */
-export function withSignal(dataSignal: DataSignal, renderCB: ShellRenderCallback) {
-  return new LithenShell(dataSignal, renderCB)
+export function withSignal<T>(dataSignal: DataSignal<T>, renderCB: ShellRenderCallback<T>) {
+  return new LithenShell<T>(dataSignal, renderCB)
 }
