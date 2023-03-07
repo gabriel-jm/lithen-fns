@@ -221,15 +221,17 @@ function observableValues() {
 
   // Counter
   const count = signal(0)
+  const pRef = ref()
 
   document.body.append(html`
-    <h3>Counter V2</h3>
-    <p>
+    <h3>Counter V2 (Count: ${count})</h3>
+    <p ref=${pRef}>
       Count: ${count} (Numeric)
     </p>
     <button on-click=${() => count.set(value => value + 1)}>
       Increment
     </button>
+    <button on-click=${() => pRef.el?.remove()}>Remove p</button>
   `)
 }
 
@@ -297,9 +299,11 @@ function signalWithElements() {
 
   document.body.append(html`
     <div>
-      ${withSignal(show,
-        value => value && html`<span>Show</span>`
-      )}
+      ${[
+        withSignal(show,
+          value => value && html`<span>Show</span>`
+        )
+      ]}
       <button on-click=${() => show.set(!show.get())}>
         Toogle Show
       </button>

@@ -2,7 +2,7 @@ import { LithenRawHTMLText } from '../raw-html/raw-html-tag-fn.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { DataSignal } from './signals/data-signal.js'
 import { addElementPlaceholder } from './elements/add-element-placeholder.js'
-import { observe } from './signals/signals-remover.js'
+// import { observe } from './signals/signals-remover.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -83,17 +83,18 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
     }
 
     if (value instanceof DataSignal) {
+      const dataSignal = value
       const match = htmlString.match(attrRegex)
 
       if (match) {
         const attributeName = match[1]
         const signalId = `"sig-${index}"`
-        resourcesMap.set(`sig-attr:${attributeName}=${signalId}`, value)
+        resourcesMap.set(`sig-attr:${attributeName}=${signalId}`, dataSignal)
 
         return signalId
       }
 
-      const signalValue = value.get()
+      const signalValue = dataSignal.get()
 
       if (signalValue instanceof DocumentFragment) {
         console.warn(
@@ -111,19 +112,35 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       const elementId = `el="el-${index}"`
 
       if (signalValue instanceof Element) {
-        value.onChange((newValue: Element, oldValue: Element) => {
+        function replaceElement(newValue: Element, oldValue: Element) {
+          if (!oldValue.isConnected) {
+            dataSignal.remove(replaceElement)
+            return
+          }
+
           oldValue.replaceWith(newValue)
-        })
+        }
+
+        dataSignal.onChange(replaceElement)
 
         resourcesMap.set(elementId, signalValue)
       } else {
         const textNode = new Text(String(signalValue))
-        const updateText = (value: unknown) => (textNode.data = String(value))
-        value.onChange(updateText)
+       
+        function updateText(value: unknown) {
+          if (!textNode.isConnected) {
+            dataSignal.remove(updateText)
+            return
+          }
+
+          textNode.data = String(value)
+        }
+
+        dataSignal.onChange(updateText)
         
         resourcesMap.set(elementId, textNode)
 
-        observe(textNode, value, updateText)
+        // observe(textNode, dataSignal, updateText)
       }
 
       return `<template ${elementId}></template>`

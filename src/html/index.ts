@@ -1,4 +1,5 @@
-import './signals/signals-remover'
+import './elements/lithen-shell.js'
+import './signals/signals-remover.js'
 export * from './html-tag-fn.js'
 export * from './refs/element-ref.js'
 export * from './signals/data-signal.js'

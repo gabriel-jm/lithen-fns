@@ -1,4 +1,4 @@
-import { observe } from './signals-remover.js'
+// import { observe } from './signals-remover.js'
 import { DataSignal } from './data-signal.js'
 
 export function attachAttributeSignal(
@@ -13,7 +13,7 @@ export function attachAttributeSignal(
 
   const [attrName] = attrQuery.split('=')
 
-  function updateElement(value: unknown) {
+  function updateElementAttribute(value: unknown) {
     if (typeof value === 'boolean') {
       return value
         ? element!.setAttribute(attrName, '')
@@ -23,16 +23,25 @@ export function attachAttributeSignal(
     element!.setAttribute(attrName, String(value))
   }
 
-  dataSignal.onChange(updateElement)
-  updateElement(dataSignal.get())
+  function updateElement(value: unknown) {
+    if (!element?.isConnected) {
+      dataSignal.remove(updateElement)
+      return
+    }
 
-  observe(element, dataSignal, updateElement)
+    updateElementAttribute(value)
+  }
+
+  dataSignal.onChange(updateElement)
+  updateElementAttribute(dataSignal.get())
+
+  // observe(element, dataSignal, updateElement)
 }
 
 export function attachPropertySignal(
   docFrag: DocumentFragment,
   key: string,
-  signal: DataSignal
+  dataSignal: DataSignal
 ) {
   const [, propQuery] = key.split('sig-p.')
   const element = docFrag.querySelector(`[\\.${propQuery.toLowerCase()}]`)
@@ -41,14 +50,19 @@ export function attachPropertySignal(
 
   const [propName] = propQuery.split('=')
 
-  const updateProp = (value: unknown) => Reflect.set(
-    element,
-    propName,
-    value
-  )
-  signal.onChange(updateProp)
-  Reflect.set(element, propName, signal.get())
+  function updateProp(value: unknown) {
+    console.log(element)
+    if (!element?.isConnected) {
+      dataSignal.remove(updateProp)
+      return
+    }
+
+    Reflect.set(element, propName, value)
+  }
+
+  dataSignal.onChange(updateProp)
+  Reflect.set(element, propName, dataSignal.get())
   element.removeAttribute(`.${propName.toLowerCase()}`)
 
-  observe(element, signal, updateProp)
+  // observe(element, dataSignal, updateProp)
 }
