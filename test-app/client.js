@@ -468,4 +468,59 @@ async function filter() {
 
 filter()
 
+class MySignalTest extends HTMLElement {
+  #text = signal('Hi')
+
+  constructor() {
+    super()
+    this.attachShadow({ mode: 'open' })
+
+    this.shadowRoot?.append(html`
+      <ul on-click=${this.shadowRoot?.querySelector('ul')?.remove()}>
+        <li>${this.#text}</li>
+      </ul>
+    `)
+  }
+}
+
+customElements.define('signal-test', MySignalTest)
+
+function deleteElements() {
+  const pRef = ref()
+  const navRef = ref()
+  const spanSignal = signal('Span')
+  const liSignal = signal('Li')
+  const number = signal(0)
+  const show = signal(true)
+
+  document.body.append(html`
+    <div>
+      <p ref=${pRef} style="padding: 20px" on-click=${() => {
+        pRef.el?.remove()
+      }}>text <span>${spanSignal}</span></p>
+      <section>
+        <nav ref=${navRef} on-click=${() => navRef.el?.remove()}>
+          Ha
+          <ul>
+            <li>${liSignal}</li>
+            <li n=${number}>
+              <span><span><span n=${number}>li number</span></span></span>
+            </li>
+            <li .show=${show}>
+              <div>
+                <div>
+                  <div .show=${show}>li true</div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </div>
+    <signal-test />
+  `)
+}
+
+deleteElements()
+
 console.timeEnd('all')

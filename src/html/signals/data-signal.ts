@@ -34,6 +34,10 @@ export class DataSignal<T = unknown> {
     this.#listeners.add(listener)
   }
 
+  remove(listener: SignalListener<T>) {
+    this.#listeners.delete(listener)
+  }
+
   /**
    * @returns the current value hold by the signal.
    */

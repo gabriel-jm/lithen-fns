@@ -1,9 +1,10 @@
+import { observe } from './signals-remover.js'
 import { DataSignal } from './data-signal.js'
 
 export function attachAttributeSignal(
   docFrag: DocumentFragment,
   key: string,
-  signalData: DataSignal
+  dataSignal: DataSignal
 ) {
   const [, attrQuery] = key.split(':')
   const element = docFrag.querySelector(`[${attrQuery}]`)
@@ -22,8 +23,10 @@ export function attachAttributeSignal(
     element!.setAttribute(attrName, String(value))
   }
 
-  signalData.onChange(updateElement)
-  updateElement(signalData.get())
+  dataSignal.onChange(updateElement)
+  updateElement(dataSignal.get())
+
+  observe(element, dataSignal, updateElement)
 }
 
 export function attachPropertySignal(
@@ -38,9 +41,14 @@ export function attachPropertySignal(
 
   const [propName] = propQuery.split('=')
 
-  signal.onChange(
-    value => Reflect.set(element, propName, value)
+  const updateProp = (value: unknown) => Reflect.set(
+    element,
+    propName,
+    value
   )
+  signal.onChange(updateProp)
   Reflect.set(element, propName, signal.get())
   element.removeAttribute(`.${propName.toLowerCase()}`)
+
+  observe(element, signal, updateProp)
 }

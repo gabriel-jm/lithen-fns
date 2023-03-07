@@ -2,6 +2,7 @@ import { LithenRawHTMLText } from '../raw-html/raw-html-tag-fn.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { DataSignal } from './signals/data-signal.js'
 import { addElementPlaceholder } from './elements/add-element-placeholder.js'
+import { observe } from './signals/signals-remover.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -62,36 +63,6 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       return cssId
     }
   })
-  // .set('WithSignal', ({ resourcesMap, value, index }) => {
-  //   const withSignal = value as WithSignal
-  //   const lithenShell = withSignal.shell
-
-  //   withSignal.dataSignal.onChange((newValue, oldValue) => {
-  //     const newNode = withSignal.listener(newValue, oldValue)
-      
-  //     if (!newNode) {
-  //       lithenShell.replaceChildren()
-  //       return
-  //     }
-      
-  //     const nodeList = Array.isArray(newNode)
-  //       ? newNode
-  //       : [newNode]
-
-  //     if (!lithenShell.childNodes.length) {
-  //       lithenShell.append(...nodeList)
-  //       return
-  //     }
-
-  //     lithenShell.replaceChildren(...nodeList)
-  //   })
-
-  //   return addElementPlaceholder(
-  //     lithenShell,
-  //     resourcesMap,
-  //     index
-  //   )
-  // })
   .set('ElementRef', ({ htmlString, value, index, resourcesMap }) => {
     const match = htmlString.match(refAttrRegex)
 
@@ -147,9 +118,12 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
         resourcesMap.set(elementId, signalValue)
       } else {
         const textNode = new Text(String(signalValue))
-        value.onChange(value => (textNode.data = String(value)))
+        const updateText = (value: unknown) => (textNode.data = String(value))
+        value.onChange(updateText)
         
         resourcesMap.set(elementId, textNode)
+
+        observe(textNode, value, updateText)
       }
 
       return `<template ${elementId}></template>`
