@@ -19,10 +19,6 @@ const refAttrRegex = /.*\sref=$/s
 const cssAttrRegex = /.*\scss=$/s
 const attrRegex = /.*\s([\w-]+)=$/s
 
-export class WhenPlaceholder {}
-
-Object.setPrototypeOf(WhenPlaceholder.prototype, Node)
-
 export const objectTypeResolvers: ObjectTypeResolver = new Map<
   string, (params: ObjectTypeResolverParams) => string | undefined
 >()
@@ -62,36 +58,6 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       return cssId
     }
   })
-  // .set('WithSignal', ({ resourcesMap, value, index }) => {
-  //   const withSignal = value as WithSignal
-  //   const lithenShell = withSignal.shell
-
-  //   withSignal.dataSignal.onChange((newValue, oldValue) => {
-  //     const newNode = withSignal.listener(newValue, oldValue)
-      
-  //     if (!newNode) {
-  //       lithenShell.replaceChildren()
-  //       return
-  //     }
-      
-  //     const nodeList = Array.isArray(newNode)
-  //       ? newNode
-  //       : [newNode]
-
-  //     if (!lithenShell.childNodes.length) {
-  //       lithenShell.append(...nodeList)
-  //       return
-  //     }
-
-  //     lithenShell.replaceChildren(...nodeList)
-  //   })
-
-  //   return addElementPlaceholder(
-  //     lithenShell,
-  //     resourcesMap,
-  //     index
-  //   )
-  // })
   .set('ElementRef', ({ htmlString, value, index, resourcesMap }) => {
     const match = htmlString.match(refAttrRegex)
 
@@ -112,17 +78,18 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
     }
 
     if (value instanceof DataSignal) {
+      const dataSignal = value
       const match = htmlString.match(attrRegex)
 
       if (match) {
         const attributeName = match[1]
         const signalId = `"sig-${index}"`
-        resourcesMap.set(`sig-attr:${attributeName}=${signalId}`, value)
+        resourcesMap.set(`sig-attr:${attributeName}=${signalId}`, dataSignal)
 
         return signalId
       }
 
-      const signalValue = value.get()
+      const signalValue = dataSignal.get()
 
       if (signalValue instanceof DocumentFragment) {
         console.warn(
@@ -140,14 +107,29 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       const elementId = `el="el-${index}"`
 
       if (signalValue instanceof Element) {
-        value.onChange((newValue: Element, oldValue: Element) => {
+        function replaceElement(newValue: Element, oldValue: Element) {
+          if (!oldValue.isConnected) {
+            return dataSignal.remove(replaceElement)
+          }
+
           oldValue.replaceWith(newValue)
-        })
+        }
+
+        dataSignal.onChange(replaceElement)
 
         resourcesMap.set(elementId, signalValue)
       } else {
         const textNode = new Text(String(signalValue))
-        value.onChange(value => (textNode.data = String(value)))
+
+        function updateText(value: unknown) {
+          if (!textNode.isConnected) {
+            return dataSignal.remove(updateText)
+          }
+
+          textNode.data = String(value)
+        }
+
+        dataSignal.onChange(updateText)
         
         resourcesMap.set(elementId, textNode)
       }

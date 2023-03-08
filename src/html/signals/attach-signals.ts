@@ -3,7 +3,7 @@ import { DataSignal } from './data-signal.js'
 export function attachAttributeSignal(
   docFrag: DocumentFragment,
   key: string,
-  signalData: DataSignal
+  dataSignal: DataSignal
 ) {
   const [, attrQuery] = key.split(':')
   const element = docFrag.querySelector(`[${attrQuery}]`)
@@ -12,7 +12,7 @@ export function attachAttributeSignal(
 
   const [attrName] = attrQuery.split('=')
 
-  function updateElement(value: unknown) {
+  function updateElementAttribute(value: unknown) {
     if (typeof value === 'boolean') {
       return value
         ? element!.setAttribute(attrName, '')
@@ -22,14 +22,22 @@ export function attachAttributeSignal(
     element!.setAttribute(attrName, String(value))
   }
 
-  signalData.onChange(updateElement)
-  updateElement(signalData.get())
+  function updateElement(value: unknown) {
+    if (!element?.isConnected) {
+      return dataSignal.remove(updateElement)
+    }
+
+    updateElementAttribute(value)
+  }
+
+  dataSignal.onChange(updateElement)
+  updateElementAttribute(dataSignal.get())
 }
 
 export function attachPropertySignal(
   docFrag: DocumentFragment,
   key: string,
-  signal: DataSignal
+  dataSignal: DataSignal
 ) {
   const [, propQuery] = key.split('sig-p.')
   const element = docFrag.querySelector(`[\\.${propQuery.toLowerCase()}]`)
@@ -38,9 +46,15 @@ export function attachPropertySignal(
 
   const [propName] = propQuery.split('=')
 
-  signal.onChange(
-    value => Reflect.set(element, propName, value)
-  )
-  Reflect.set(element, propName, signal.get())
+  function updateProp(value: unknown) {
+    if (!element?.isConnected) {
+      return dataSignal.remove(updateProp)
+    }
+
+    Reflect.set(element!, propName, value)
+  }
+
+  dataSignal.onChange(updateProp)
+  Reflect.set(element, propName, dataSignal.get())
   element.removeAttribute(`.${propName.toLowerCase()}`)
 }
