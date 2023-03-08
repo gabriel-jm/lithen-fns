@@ -292,14 +292,24 @@ function signalWithElements() {
   `)
 
   const show = signal(true)
+  const show2 = signal(true)
 
-  document.body.append(html`
-    <div>
+  /*
       ${withSignal(show,
         value => value && html`<span>Show</span>`
       )}
+  */
+
+  document.body.append(html`
+    <div>
+      ${withSignal(() => show.get() && html`<span>Show</span>`)}
       <button on-click=${() => show.set(!show.get())}>
         Toogle Show
+      </button>
+
+      ${withSignal(() => show2.get() && html`<span>Show2</span>`)}
+      <button on-click=${() => show2.set(!show2.get())}>
+        Toogle Show2
       </button>
     </div>
   `)
@@ -377,12 +387,18 @@ function signalWarn() {
 function alphabet() {
   const aCharCode = 'a'.charCodeAt(0)
   const letters = signal(['a', 'b', 'c'])
+
+  // ${withSignal(letters, letters => {
+  //   return letters.map(letter => el/*html*/`<li>${letter}</li>`)
+  // })}
   
   document.body.append(html`
     <h4>Alphabet</h4>
     <ul>
-      ${withSignal(letters, letters => {
-        return letters.map(letter => el/*html*/`<li>${letter}</li>`)
+      ${withSignal(() => {
+        return letters
+          .get()
+          .map(letter => el/*html*/`<li>${letter}</li>`)
       })}
     </ul>
     <button on-click=${() => {
@@ -464,6 +480,6 @@ async function filter() {
   `)
 }
 
-filter()
+// filter()
 
 console.timeEnd('all')

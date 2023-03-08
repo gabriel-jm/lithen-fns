@@ -1,6 +1,10 @@
-import { DataSignal, SignalListener } from '../index.js'
+// import { DataSignal, SignalListener } from '../index.js'
 
-export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
+// export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
+//   Node | undefined | null | false
+// )
+
+export type ShellRenderCallback = () => (
   Node | undefined | null | false
 )
 
@@ -37,48 +41,62 @@ export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
  * `
  * ```
  */
-export class LithenShell<T = any> extends HTMLElement {
-  #dataSignal: DataSignal<T>
-  #updateChildren!: SignalListener<T>
+export class LithenShell/*<T = any>*/ extends HTMLElement {
+  static running: Array<Function> = []
+
+  // #dataSignal: DataSignal<T>
+  // #updateChildren!: SignalListener<T>
   
-  constructor(dataSignal: DataSignal<T>, renderCallback: ShellRenderCallback<T>) {
+  constructor(/*dataSignal: DataSignal<T>,*/ renderCallback: ShellRenderCallback) {
     super()
-    
-    const children = renderCallback(dataSignal.get(), dataSignal.get())
 
-    if (children) {
-      this.append(...(
-        Array.isArray(children)
-        ? children
-        : [children]
-      ))
-    }
+    const run = () => {
+      LithenShell.running.push(run)
 
-    this.#dataSignal = dataSignal
-    this.#listenSignal(renderCallback)
-  }
+      try {
+        const children = renderCallback()
 
-  #listenSignal(renderCallback: ShellRenderCallback<T>) {
-    this.#updateChildren = (newValue, oldValue) => {
-      const newNode = renderCallback(newValue, oldValue)
-      
-      if (!newNode) {
-        return this.replaceChildren()
+        if (children) {
+          this.replaceChildren(...(
+            Array.isArray(children)
+            ? children
+            : [children]
+          ))
+        } else {
+          this.replaceChildren()
+        }
+      } finally {
+        LithenShell.running.pop()
       }
-      
-      const nodeList = Array.isArray(newNode)
-        ? newNode
-        : [newNode]
-
-      this.replaceChildren(...nodeList)
     }
 
-    this.#dataSignal.onChange(this.#updateChildren)
+    run()
+
+    // this.#dataSignal = dataSignal
+    // this.#listenSignal(renderCallback)
   }
 
-  diconnectedCallback() {
-    this.#dataSignal.remove(this.#updateChildren)
-  }
+  // #listenSignal(renderCallback: ShellRenderCallback<T>) {
+  //   this.#updateChildren = (newValue, oldValue) => {
+  //     const newNode = renderCallback(newValue, oldValue)
+      
+  //     if (!newNode) {
+  //       return this.replaceChildren()
+  //     }
+      
+  //     const nodeList = Array.isArray(newNode)
+  //       ? newNode
+  //       : [newNode]
+
+  //     this.replaceChildren(...nodeList)
+  //   }
+
+  //   this.#dataSignal.onChange(this.#updateChildren)
+  // }
+
+  // diconnectedCallback() {
+  //   this.#dataSignal.remove(this.#updateChildren)
+  // }
 }
 
 customElements.define('ltn-shell', LithenShell)

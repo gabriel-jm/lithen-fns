@@ -1,3 +1,5 @@
+import { LithenShell } from '../elements/lithen-shell.js'
+
 export type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
 
 /**
@@ -8,6 +10,8 @@ export type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
 export class DataSignal<T = unknown> {
   #listeners = new Set<SignalListener<T>>()
   #value
+
+  #onceListeners = new Set<Function>()
  
   /**
    * @param value - The value hold by the signal.
@@ -43,6 +47,10 @@ export class DataSignal<T = unknown> {
     this.#listeners.delete(listener)
   }
 
+  removeOnce(listener: Function) {
+    this.#onceListeners.delete(listener)
+  }
+
   /**
    * Method to clear all listeners of the DataSignal.
    */
@@ -54,6 +62,12 @@ export class DataSignal<T = unknown> {
    * @returns the current value hold by the signal.
    */
   get() {
+    const currentShellRunning = LithenShell.running.at(-1)
+
+    if (currentShellRunning) {
+      this.#onceListeners.add(currentShellRunning)
+    }
+
     return this.#value
   }
 
@@ -86,6 +100,15 @@ export class DataSignal<T = unknown> {
 
     for (const listener of this.#listeners) {
       listener(this.#value, oldValue)
+    }
+
+    if (this.#onceListeners.size) {
+      for (const onceListener of [...this.#onceListeners]) {
+        this.#onceListeners.delete(onceListener)
+        onceListener()
+      }
+
+      console.log(this.#onceListeners)
     }
   }
 }
