@@ -224,9 +224,7 @@ function observableValues() {
 
   document.body.append(html`
     <h3>Counter V2</h3>
-    <p>
-      Count: ${count} (Numeric)
-    </p>
+    <p>Count: ${count} (Numeric)    |</p>
     <button on-click=${() => count.set(value => value + 1)}>
       Increment
     </button>
@@ -423,8 +421,8 @@ async function usersList() {
         return value.filtered.map(user => html`
           <li>
             <strong>${user.username}</strong>
-            <span>(${user.name})</span>
-            <span>- ${user.email}</span>
+            <span>&nbsp;(${user.name})</span>
+            <span> - ${user.email}</span>
           </li>
         `)
       })}
