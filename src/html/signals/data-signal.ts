@@ -34,10 +34,18 @@ export class DataSignal<T = unknown> {
     this.#listeners.add(listener)
   }
 
+  /**
+   * Method to remove a listener from the listeners `Set`.
+   * 
+   * @param listener - the listener provided to the onChange function.
+   */
   remove(listener: SignalListener<T>) {
     this.#listeners.delete(listener)
   }
 
+  /**
+   * Method to clear all listeners of the DataSignal.
+   */
   clear() {
     this.#listeners.clear()
   }
