@@ -1,4 +1,4 @@
-import { DataSignal } from '../index.js'
+import { DataSignal, SignalListener } from '../index.js'
 
 export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
   Node | undefined | null | false
@@ -38,6 +38,9 @@ export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
  * ```
  */
 export class LithenShell<T = any> extends HTMLElement {
+  #dataSignal: DataSignal<T>
+  #updateChildren!: SignalListener<T>
+  
   constructor(dataSignal: DataSignal<T>, renderCallback: ShellRenderCallback<T>) {
     super()
     
@@ -51,11 +54,12 @@ export class LithenShell<T = any> extends HTMLElement {
       ))
     }
 
-    this.#listenSignal(dataSignal, renderCallback)
+    this.#dataSignal = dataSignal
+    this.#listenSignal(renderCallback)
   }
 
-  #listenSignal(dataSignal: DataSignal<T>, renderCallback: ShellRenderCallback<T>) {
-    dataSignal.onChange((newValue, oldValue) => {
+  #listenSignal(renderCallback: ShellRenderCallback<T>) {
+    this.#updateChildren = (newValue, oldValue) => {
       const newNode = renderCallback(newValue, oldValue)
       
       if (!newNode) {
@@ -67,7 +71,13 @@ export class LithenShell<T = any> extends HTMLElement {
         : [newNode]
 
       this.replaceChildren(...nodeList)
-    })
+    }
+
+    this.#dataSignal.onChange(this.#updateChildren)
+  }
+
+  diconnectedCallback() {
+    this.#dataSignal.remove(this.#updateChildren)
   }
 }
 
