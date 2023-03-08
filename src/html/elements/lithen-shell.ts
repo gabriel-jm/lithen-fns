@@ -59,18 +59,12 @@ export class LithenShell<T = any> extends HTMLElement {
       const newNode = renderCallback(newValue, oldValue)
       
       if (!newNode) {
-        this.replaceChildren()
-        return
+        return this.replaceChildren()
       }
       
       const nodeList = Array.isArray(newNode)
         ? newNode
         : [newNode]
-
-      if (!this.childNodes.length) {
-        this.append(...nodeList)
-        return
-      }
 
       this.replaceChildren(...nodeList)
     })
