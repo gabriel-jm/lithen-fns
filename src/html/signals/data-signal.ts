@@ -55,17 +55,26 @@ export class DataSignal<T = unknown> {
    * with the `onChange` method are called passing the
    * new and old values.
    * 
-   * @param newValue - the new value that will replace
+   * @param value - the new value that will replace
    * the current one, can be a function that receives the
    * current value as argument and its returned value will
    * replace the signal's value.
+   * 
+   * If the provided value is equal to the old value the value
+   * hold by the DataSignal is not updated and the listeners are
+   * not notified.
    */
-  set(newValue: T | ((value: T) => T)) {
+  set(value: T | ((value: T) => T)) {
     const oldValue = this.#value
-    const isFunction = typeof newValue === 'function'
-    this.#value = isFunction
-      ? (<Function>newValue)(oldValue)
-      : newValue
+
+    const isFunction = typeof value === 'function'
+    const newValue = isFunction
+      ? (<Function>value)(oldValue)
+      : value
+
+    if (oldValue === value) return
+
+    this.#value = newValue
 
     for (const listener of this.#listeners) {
       listener(this.#value, oldValue)
