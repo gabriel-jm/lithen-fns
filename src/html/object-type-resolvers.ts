@@ -73,12 +73,22 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
 
     if (value == null) return ''
 
-    if (value instanceof Element || value instanceof Node) {
+    if (value instanceof Node) {
       return addElementPlaceholder(value, resourcesMap, index)
     }
 
     if (value instanceof DataSignal) {
       const dataSignal = value
+
+      const shellMatch = htmlString.match(/.*<ltn-shell\s+[^<>]*\s*signal=$/)
+
+      if (shellMatch) {
+        const shellSignal = `"sig-${index}"`
+        resourcesMap.set(`shell-signal=${shellSignal}`, dataSignal)
+
+        return shellSignal
+      }
+
       const match = htmlString.match(attrRegex)
 
       if (match) {

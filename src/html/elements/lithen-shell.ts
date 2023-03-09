@@ -38,35 +38,37 @@ export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
  * ```
  */
 export class LithenShell<T = any> extends HTMLElement {
-  #dataSignal!: DataSignal<T>
   #updateChildren!: SignalListener<T>
+  signal!: DataSignal<T>
+  renderFn!: ShellRenderCallback<T>
   
-  constructor(dataSignal?: DataSignal<T>, renderCallback?: ShellRenderCallback<T>) {
+  constructor(signal?: DataSignal<T>, renderFn?: ShellRenderCallback<T>) {
     super()
-    
-    if (dataSignal && renderCallback) {
-      this.setData(dataSignal, renderCallback)
+
+    if (signal && renderFn) {
+      this.signal = signal
+      this.renderFn = renderFn
     }
   }
 
-  setData(dataSignal: DataSignal<T>, renderCallback: ShellRenderCallback<T>) {
-    const children = renderCallback(dataSignal.get(), dataSignal.get())
+  init() {
+    const data = this.signal.get()
+    const children = this.renderFn(data, data)
 
     if (children) {
-      this.append(...(
+      this.replaceChildren(...(
         Array.isArray(children)
         ? children
         : [children]
       ))
     }
 
-    this.#dataSignal = dataSignal
-    this.#listenSignal(renderCallback)
+    this.#listenSignal()
   }
 
-  #listenSignal(renderCallback: ShellRenderCallback<T>) {
+  #listenSignal() {
     this.#updateChildren = (newValue, oldValue) => {
-      const newNode = renderCallback(newValue, oldValue)
+      const newNode = this.renderFn(newValue, oldValue)
       
       if (!newNode) {
         return this.replaceChildren()
@@ -79,11 +81,15 @@ export class LithenShell<T = any> extends HTMLElement {
       this.replaceChildren(...nodeList)
     }
 
-    this.#dataSignal.onChange(this.#updateChildren)
+    this.signal.onChange(this.#updateChildren)
+  }
+
+  connectedCallback() {
+    this.init()
   }
 
   diconnectedCallback() {
-    this.#dataSignal.remove(this.#updateChildren)
+    this.signal.remove(this.#updateChildren)
   }
 }
 

@@ -292,6 +292,8 @@ function signalWithElements() {
   `)
 
   const show = signal(true)
+  const show2 = signal(true)
+  const shellRef = ref()
 
   document.body.append(html`
     <div>
@@ -300,6 +302,17 @@ function signalWithElements() {
       )}
       <button on-click=${() => show.set(!show.get())}>
         Toogle Show
+      </button>
+
+      <ltn-shell ref=${shellRef} signal=${show2} class="hi">
+        ${(value) => {
+          return value && html`
+            <span>Show with tag</span>
+          `
+        }}
+      </ltn-shell>
+      <button on-click=${() => show2.set(!show2.get())}>
+        Toogle Show 2
       </button>
     </div>
   `)
@@ -464,6 +477,6 @@ async function filter() {
   `)
 }
 
-filter()
+// filter()
 
 console.timeEnd('all')

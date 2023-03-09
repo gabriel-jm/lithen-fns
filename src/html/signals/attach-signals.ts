@@ -1,3 +1,4 @@
+import { LithenShell, ShellRenderCallback } from '../elements/lithen-shell.js'
 import { DataSignal } from './data-signal.js'
 
 export function attachAttributeSignal(
@@ -57,4 +58,36 @@ export function attachPropertySignal(
   dataSignal.onChange(updateProp)
   Reflect.set(element, propName, dataSignal.get())
   element.removeAttribute(`.${propName.toLowerCase()}`)
+}
+
+export function attachShellSignal(
+  docFrag: DocumentFragment,
+  key: string,
+  dataSignal: DataSignal
+) {
+  const element = docFrag.querySelector<LithenShell>(
+    `[${key.substring('shell-'.length)}]`
+  )
+  
+  if (!element) return
+
+  element.signal = dataSignal
+  element.removeAttribute('signal')
+}
+
+export function attachShellRenderFunction(
+  docFrag: DocumentFragment,
+  key: string,
+  renderFn: ShellRenderCallback
+) {
+  const placeholder = docFrag.querySelector(`[${key}]`)
+  const element = placeholder?.parentElement as LithenShell
+  
+  if (
+    !placeholder
+    || !element
+  ) return
+
+  element.renderFn = renderFn
+  placeholder.remove()
 }

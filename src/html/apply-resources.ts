@@ -1,6 +1,11 @@
 import { applyEvent } from './events/apply-event.js'
 import { applyRef } from './refs/apply-ref.js'
-import { attachAttributeSignal, attachPropertySignal } from './signals/attach-signals.js'
+import {
+  attachAttributeSignal,
+  attachPropertySignal,
+  attachShellRenderFunction,
+  attachShellSignal
+} from './signals/attach-signals.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { placeElement } from './elements/place-element.js'
 import { attachStyles } from './styles/attach-styles.js'
@@ -15,7 +20,9 @@ const resourceHandlers = new Map<string, ResourceHandler>([
   ['.', applyPropertyValue],
   ['css', attachStyles],
   ['sig-attr:', attachAttributeSignal],
-  ['sig-p.', attachPropertySignal]
+  ['sig-p.', attachPropertySignal],
+  ['shell-signal', attachShellSignal],
+  ['shell-fn', attachShellRenderFunction]
 ])
 
 export function applyResources(docFrag: DocumentFragment, resourcesMap: ResourcesMap) {

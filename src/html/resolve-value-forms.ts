@@ -56,6 +56,15 @@ export function resolveValueForms(
 
       return eventId
     }
+
+    const shellMatch = htmlString.match(/.*<ltn-shell\s+[^<>]*>\s*$/)
+
+    if (shellMatch) {
+      const shellFnId = `shell-fn="fn-${index}"`
+      resourcesMap.set(shellFnId, value)
+
+      return `<template ${shellFnId}></template>`
+    }
   }
 
   const valuesToBeEmpty = value === null

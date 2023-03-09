@@ -13,7 +13,7 @@ export const htmlStringParser = (html: string) => (
         .trim()
       const attributes = trimAttrs && ` ${trimAttrs}`
       
-      if (name.includes('-') || name === 'slot') {
+      if ((name.includes('-') || name === 'slot') && ending) {
         return `<${name}${attributes}></${name}>`
       }
       
