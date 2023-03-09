@@ -38,12 +38,18 @@ export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
  * ```
  */
 export class LithenShell<T = any> extends HTMLElement {
-  #dataSignal: DataSignal<T>
+  #dataSignal!: DataSignal<T>
   #updateChildren!: SignalListener<T>
   
-  constructor(dataSignal: DataSignal<T>, renderCallback: ShellRenderCallback<T>) {
+  constructor(dataSignal?: DataSignal<T>, renderCallback?: ShellRenderCallback<T>) {
     super()
     
+    if (dataSignal && renderCallback) {
+      this.setData(dataSignal, renderCallback)
+    }
+  }
+
+  setData(dataSignal: DataSignal<T>, renderCallback: ShellRenderCallback<T>) {
     const children = renderCallback(dataSignal.get(), dataSignal.get())
 
     if (children) {
