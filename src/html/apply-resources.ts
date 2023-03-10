@@ -3,7 +3,6 @@ import { applyRef } from './refs/apply-ref.js'
 import {
   attachAttributeSignal,
   attachPropertySignal,
-  attachShellRenderFunction,
   attachShellSignal
 } from './signals/attach-signals.js'
 import { ResourcesMap } from './html-tag-fn.js'
@@ -21,8 +20,7 @@ const resourceHandlers = new Map<string, ResourceHandler>([
   ['css', attachStyles],
   ['sig-attr:', attachAttributeSignal],
   ['sig-p.', attachPropertySignal],
-  ['shell-signal', attachShellSignal],
-  ['shell-fn', attachShellRenderFunction]
+  ['shell-signal', attachShellSignal]
 ])
 
 export function applyResources(docFrag: DocumentFragment, resourcesMap: ResourcesMap) {

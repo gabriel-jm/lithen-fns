@@ -63,7 +63,7 @@ export function attachPropertySignal(
 export function attachShellSignal(
   docFrag: DocumentFragment,
   key: string,
-  dataSignal: DataSignal
+  shellData: { dataSignal: DataSignal, renderFn: ShellRenderCallback }
 ) {
   const element = docFrag.querySelector<LithenShell>(
     `[${key.substring('shell-'.length)}]`
@@ -71,23 +71,7 @@ export function attachShellSignal(
   
   if (!element) return
 
-  element.signal = dataSignal
+  element.signal = shellData.dataSignal
+  element.renderFn = shellData.renderFn
   element.removeAttribute('signal')
-}
-
-export function attachShellRenderFunction(
-  docFrag: DocumentFragment,
-  key: string,
-  renderFn: ShellRenderCallback
-) {
-  const placeholder = docFrag.querySelector(`[${key}]`)
-  const element = placeholder?.parentElement as LithenShell
-  
-  if (
-    !placeholder
-    || !element
-  ) return
-
-  element.renderFn = renderFn
-  placeholder.remove()
 }

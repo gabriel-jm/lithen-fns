@@ -57,13 +57,20 @@ export function resolveValueForms(
       return eventId
     }
 
-    const shellMatch = htmlString.match(/.*<ltn-shell\s+[^<>]*>\s*$/)
+    const shellMatch = htmlString.match(
+      /.*<ltn-shell\s+[^<>]*signal="([\w-]+)"[^<>]*>\s*$/
+    )
 
     if (shellMatch) {
-      const shellFnId = `shell-fn="fn-${index}"`
-      resourcesMap.set(shellFnId, value)
+      const signalId = shellMatch[1]
+      const shellSignalId = `shell-signal="${signalId}"`
+      const shellSignalData = resourcesMap.get(shellSignalId)
+      resourcesMap.set(`shell-signal="${signalId}"`, {
+        ...shellSignalData ?? {},
+        renderFn: value
+      })
 
-      return `<template ${shellFnId}></template>`
+      return ''
     }
   }
 

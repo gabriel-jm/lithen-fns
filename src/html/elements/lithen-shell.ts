@@ -22,7 +22,7 @@ export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
  * `
  * ```
  * 
- * But for keep the usage more simple here here the `withSignal` function
+ * But for keep the usage more simple here here the `shell` function
  * which is only a helper to intantiate a `LithenShell` element.
  * 
  * ```ts
@@ -30,7 +30,7 @@ export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
  * 
  * html`
  *  <ul>
- *    ${withSignal(letters, value => {
+ *    ${shell(letters, value => {
  *      return value.map(letter => el`<li>${letter}</li>`)
  *    })}
  *  </ul>

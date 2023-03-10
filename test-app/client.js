@@ -1,4 +1,4 @@
-import { html, css, raw, ref, signal, createStyled, el, withSignal } from './build/index.js'
+import { html, css, raw, ref, signal, createStyled, el, shell } from './build/index.js'
 
 console.time('all')
 function times() {
@@ -297,7 +297,7 @@ function signalWithElements() {
 
   document.body.append(html`
     <div>
-      ${withSignal(show,
+      ${shell(show,
         value => value && html`<span>Show</span>`
       )}
       <button on-click=${() => show.set(!show.get())}>
@@ -394,7 +394,7 @@ function alphabet() {
   document.body.append(html`
     <h4>Alphabet</h4>
     <ul>
-      ${withSignal(letters, letters => {
+      ${shell(letters, letters => {
         return letters.map(letter => el/*html*/`<li>${letter}</li>`)
       })}
     </ul>
@@ -430,7 +430,7 @@ async function usersList() {
 
   return html`
     <ul ref=${ulRef}>
-      ${withSignal(users, (value) => {
+      ${shell(users, (value) => {
         return value.filtered.map(user => html`
           <li>
             <strong>${user.username}</strong>

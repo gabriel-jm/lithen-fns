@@ -84,7 +84,7 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
 
       if (shellMatch) {
         const shellSignal = `"sig-${index}"`
-        resourcesMap.set(`shell-signal=${shellSignal}`, dataSignal)
+        resourcesMap.set(`shell-signal=${shellSignal}`, { dataSignal })
 
         return shellSignal
       }
