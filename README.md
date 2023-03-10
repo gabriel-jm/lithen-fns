@@ -77,8 +77,9 @@ document.body.append(counterModal())
 - [createStyled](./docs/create-styled.md)
 - [refs](./docs/element-ref.md)
 - [signals](./docs/signals.md)
-- [signalRecord](./docs/signal-record.md)
-- [withSignal](./docs/with-signal.md)
+  - [DataSignal](./docs/signals/data-signal.md)
+  - [DataSignalRecord](./docs/signals/data-signal-record.md)
+  - [LithenShell](./docs/signals/lithen-shell.md)
 
 ## VSCode Extensions Recommendation
 - [lit-plugin](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin) which came with

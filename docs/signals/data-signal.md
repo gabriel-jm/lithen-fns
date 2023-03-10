@@ -38,7 +38,18 @@ the `set` method is called changing the value that is currently hold by the sign
 function receives the new value as first parameter and the old value as second, and don't expect
 a returned value.
 
-### Signals in the text content
+- ### remove
+
+  The `remove` method is used to remove a listener from the `DataSignal` list, it receives the 
+  listener function that was passed to the `onChange` method.
+
+- ### clear
+
+  The `clear` method is similar to the `remove` method but instead of removing one listener, it removes all listeners attached to the signal.
+
+---
+
+### Data Signals in the text content
 
 When a signal is set within or outside a tag this content will be converted to a string and will be
 placed a text node where the signal was placed.
@@ -60,7 +71,7 @@ In this example the place where the count constant, which is a `DataSignal`, is 
 text node with the current count value. Also we add a listener with the `onChange` method of the 
 signal to update the text node content whenever the count signal is updated.
 
-### Signals in elements attributes
+### Data Signals in elements attributes
 
 When a signal is set as a value of an element's attribute, we set the signal value as a string in
 the elements attribute.
@@ -87,7 +98,7 @@ When the signal is set in an attribute with a boolean value it has a different e
 the value is `true` and sets the attribute in the element with an empty value and if the value is
 `false` it removes the attribute from the element.
 
-### Signals in elements properties
+### Data Signals in elements properties
 
 When a signal is set as a value of an element's property, it works just like when set to the 
 element's attribute, but with the difference that when it is with properties the raw value of the
@@ -100,10 +111,10 @@ See more about how to set element's properties in [Element's dot attributes](./h
 
 ## Details to be aware of
 
-### Elements as value of a signal
+### Elements as value of a data signal
 
 You can set an element as the value of a signal, most of its use cases can be achived using a 
-[withSignal](./with-signal.md) and with a better approach, but if you want to use, we don't 
+[shell](./lithen-shell.md) and with a better approach, but if you want to use, we don't 
 recommend to do it with Document Fragments, because internally we use method `replaceWith` of the 
 elements to replace the old element for the new one, and Document Fragments don't have this method. 
 But even if it has, will not work as expected because when the fragment enters the DOM or in another 
@@ -119,7 +130,7 @@ Instead of
 signal(html`<span>Hello</span>`)
 ```
 
-### Place the signal with no attributes in the element
+### Place the data signal with no attributes in the element
 
 Basically is doing something like this
 
