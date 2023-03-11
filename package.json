@@ -1,15 +1,15 @@
 {
   "name": "lithen-fns",
   "version": "1.0.0",
-  "description": "Tagged Template Functions to use with html and css",
+  "description": "Utility functions to use with html and css",
   "author": "Gabriel José",
-  "homepage": "https://github.com/Gabriel-JM/lithen-tag-functions#readme",
+  "homepage": "https://github.com/Gabriel-JM/lithen-fns#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Gabriel-JM/lithen-tag-functions.git"
+    "url": "git+https://github.com/Gabriel-JM/lithen-fns.git"
   },
   "bugs": {
-    "url": "https://github.com/Gabriel-JM/lithen-tag-functions/issues"
+    "url": "https://github.com/Gabriel-JM/lithen-fns/issues"
   },
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
