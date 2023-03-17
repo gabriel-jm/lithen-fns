@@ -1,4 +1,4 @@
-# Lithen Tag Functions - html
+# Lithen Functions - html
 
 `html` is a tagged template function that makes some parsing in a html string.
 This parsings, tries to prevent XSS attacks, minifies the content, add events to an element, parses different types of data, and gives the possibility to call Web Components tags as self closed.
@@ -121,14 +121,14 @@ It also works with...
 
 ```ts
 // src/paragraph.ts
-import { html } from 'lithen-tag-functions'
+import { html } from 'lithen-fns'
 
 export function myParagraph(text: string) {
   return html`<p>${text}</p>`
 }
 
 // src/main.ts
-import { html } from 'lithen-tag-functions'
+import { html } from 'lithen-fns'
 import { myParagraph } from './paragraph'
 
 html`

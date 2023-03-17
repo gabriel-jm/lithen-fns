@@ -1,4 +1,4 @@
-# Lithen Tag Functions - signal / DataSignal
+# Lithen Functions - signal / DataSignal
 
 The `signal` function is used in certain places within the `html` template string to have some
 kind of reactivite with a specify value which is passed as parameter. This function is just a

@@ -1,4 +1,4 @@
-# Lithen Tag Functions - createStyled
+# Lithen Functions - createStyled
 
 `createStyled` is a helper function to create an element already bond to specific styles with the `&`
 symbol. Just like we did in the `html` or `el` tag functions with the `css` attribute.

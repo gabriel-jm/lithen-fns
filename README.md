@@ -1,4 +1,4 @@
-# Lithen Tag Functions
+# Lithen Functions
 
 Tagged Template Strings to use with html and css.
 Its part of Lithen modules. It works alone but is created to use with Web Components.

@@ -1,4 +1,4 @@
-# Lithen Tag Functions - el
+# Lithen Functions - el
 
 `el` is a tagged template function that works just like the `html` function. But returns only
 the first element.

@@ -1,6 +1,6 @@
-# Lithen Tag Functions - Getting Started
+# Lithen Functions - Getting Started
 
-The `Lithen Tag Functions` is a simple library that can be used with simple steps.
+The `Lithen Functions` is a simple library that can be used with simple steps.
 
 ---
 
@@ -37,7 +37,7 @@ The `Lithen Tag Functions` is a simple library that can be used with simple step
 
 - In the `main.js`.
   ```js
-  import { html } from 'https://esm.sh/lithen-tag-functions'
+  import { html } from 'https://esm.sh/lithen-fns'
 
   function hi() {
     return html`
@@ -57,7 +57,7 @@ The `Lithen Tag Functions` is a simple library that can be used with simple step
     <script type="importmap">
       {
         "imports": {
-          "lithen-tag-functions": "https://esm.sh/lithen-tag-functions"
+          "lithen-fns": "https://esm.sh/lithen-fns"
         }
       }
     </script>
@@ -67,7 +67,7 @@ The `Lithen Tag Functions` is a simple library that can be used with simple step
   ```
 
   ```js
-  import { html } from 'lithen-tag-functions'
+  import { html } from 'lithen-fns'
 
   function hi() {
     return html`
@@ -99,15 +99,15 @@ The `Lithen Tag Functions` is a simple library that can be used with simple step
   - Select `Vanilla` framework.
   - Select Javascript or Typescript, we'll use Typescript in this tutorial.
 
-- Install the `lithen-tag-functions` package.
+- Install the `lithen-fns` package.
   ```sh
-  npm i lithen-tag-functions
+  npm i lithen-fns
   ```
 
 - Except for the `vite-env.d.ts`, delete all other files inside `src` folder.
 - Create a new `main.ts` file.
   ```ts
-  import { html } from 'lithen-tag-functions'
+  import { html } from 'lithen-fns'
 
   function hi() {
     return html`

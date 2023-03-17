@@ -1,4 +1,4 @@
-# Lithen Tag Functions - shell / LithenShell
+# Lithen Functions - shell / LithenShell
 
 The `shell` function is used to add specific elements based on the signal provided. Common uses
 is to render something conditionally or to render multiple elements from a list.

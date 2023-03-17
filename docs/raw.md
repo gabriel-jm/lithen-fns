@@ -1,4 +1,4 @@
-# Lithen Tag Functions - raw
+# Lithen Functions - raw
 
 `raw` is a tagged template function that is used to by pass in the html tag function XSS analysis.
 This tag function is normally used for specifics strings, like in situations the is intectionally

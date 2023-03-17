@@ -1,4 +1,4 @@
-# Lithen Tag Functions - ref / ElementRef
+# Lithen Functions - ref / ElementRef
 
 The `ref` function is used to create an object that holds a reference to an element. This function
 is just a simpler way to intantiate an `ElementRef` object. We warn you that it only works with

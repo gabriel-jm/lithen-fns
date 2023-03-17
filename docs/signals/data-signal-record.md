@@ -1,4 +1,4 @@
-# Lithen Tag Functions - signalRecord / DataSignalRecord
+# Lithen Functions - signalRecord / DataSignalRecord
 
 `signalRecord` is a function that receives an object and return an instance of `DataSignalRecord`, 
 which is class to produces a copy of the object received with which key being an instance of 

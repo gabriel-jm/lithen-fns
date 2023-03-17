@@ -1,4 +1,4 @@
-# Lithen Tag Functions - css
+# Lithen Functions - css
 
 `css` is a tag function that minifies a provided css string. It also can be used to create "scoped" 
 styles.
