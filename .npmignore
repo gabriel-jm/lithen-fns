@@ -1,7 +1,8 @@
 src
 tests
 docs
-test-app
+dev-app
 coverage
 tsconfig*
 vite.config.ts
+.vscode
