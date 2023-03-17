@@ -1,4 +1,6 @@
-import { DataSignal, SignalListener } from '../index.js'
+import { LithenRawHTMLText } from '../../index.js'
+import { renderRawHTML } from '../../raw-html/render-raw-html.js'
+import { DataSignal } from '../index.js'
 
 export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
   Node | undefined | null | false
@@ -38,7 +40,6 @@ export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
  * ```
  */
 export class LithenShell<T = any> extends HTMLElement {
-  #updateChildren!: SignalListener<T>
   signal!: DataSignal<T>
   renderFn!: ShellRenderCallback<T>
   
@@ -56,31 +57,31 @@ export class LithenShell<T = any> extends HTMLElement {
     const children = this.renderFn(data, data)
 
     if (children) {
-      this.replaceChildren(...(
-        Array.isArray(children)
-        ? children
-        : [children]
-      ))
+      this.#updateChildren(children as T, children as T)
     }
 
     this.#listenSignal()
   }
 
-  #listenSignal() {
-    this.#updateChildren = (newValue, oldValue) => {
-      const newNode = this.renderFn(newValue, oldValue)
-      
-      if (!newNode) {
-        return this.replaceChildren()
-      }
-      
-      const nodeList = Array.isArray(newNode)
-        ? newNode
-        : [newNode]
+  #updateChildren = (newValue: T, oldValue: T) => {
+    let newNode = this.renderFn(newValue, oldValue)
 
-      this.replaceChildren(...nodeList)
+    if (newNode instanceof LithenRawHTMLText) {          
+      newNode = renderRawHTML(newNode)
     }
+    
+    if (!newNode) {
+      return this.replaceChildren()
+    }
+    
+    const nodeList = Array.isArray(newNode)
+      ? newNode
+      : [newNode]
 
+    this.replaceChildren(...nodeList)
+  }
+
+  #listenSignal() {
     this.signal.onChange(this.#updateChildren)
   }
 

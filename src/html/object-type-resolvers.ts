@@ -2,6 +2,9 @@ import { LithenRawHTMLText } from '../raw-html/raw-html-tag-fn.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { DataSignal } from './signals/data-signal.js'
 import { addElementPlaceholder } from './elements/add-element-placeholder.js'
+import { renderRawHTML } from '../raw-html/render-raw-html.js'
+import { ElementRef } from './refs/element-ref.js'
+import { LithenCSSText } from '../css/lithen-css-text.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -22,14 +25,11 @@ const attrRegex = /.*\s([\w-]+)=$/s
 export const objectTypeResolvers: ObjectTypeResolver = new Map<
   string, (params: ObjectTypeResolverParams) => string | undefined
 >()
-  .set('Array', (params) => {
+  .set(Array.name, (params) => {
     return addElementPlaceholder(
       (params.value as (string | Node)[]).map(value => {
         if (value instanceof LithenRawHTMLText) {          
-          const template = document.createElement('template')
-          template.innerHTML = value.toString()
-
-          return template.content
+          return renderRawHTML(value)
         }
 
         return value ?? ''
@@ -38,17 +38,17 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       params.index
     )
   })
-  .set('DocumentFragment', (params) => {
+  .set(DocumentFragment.name, (params) => {
     return addElementPlaceholder(
       params.value as DocumentFragment,
       params.resourcesMap,
       params.index
     )
   })
-  .set('LithenRawHTMLText', ({ value }) => {
+  .set(LithenRawHTMLText.name, ({ value }) => {
     return (value as LithenRawHTMLText).toString()
   })
-  .set('LithenCSSText', ({ htmlString, value, index, resourcesMap }) => {
+  .set(LithenCSSText.name, ({ htmlString, value, index, resourcesMap }) => {
     const match = htmlString.match(cssAttrRegex)
 
     if (match) {
@@ -58,7 +58,7 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       return cssId
     }
   })
-  .set('ElementRef', ({ htmlString, value, index, resourcesMap }) => {
+  .set(ElementRef.name, ({ htmlString, value, index, resourcesMap }) => {
     const match = htmlString.match(refAttrRegex)
 
     if (match) {
@@ -68,7 +68,7 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
       return refId
     }
   })
-  .set('Object', (params) => {
+  .set(Object.name, (params) => {
     const { value, htmlString, resourcesMap, index } = params
 
     if (value == null) return ''

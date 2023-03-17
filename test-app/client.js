@@ -306,7 +306,7 @@ function signalWithElements() {
 
       <ltn-shell ref=${shellRef} signal=${show2} class="hi">
         ${(value) => {
-          return value && html`
+          return value && raw/*html*/`
             <span>Show with tag</span>
           `
         }}
