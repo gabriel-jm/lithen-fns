@@ -54,11 +54,7 @@ export class LithenShell<T = any> extends HTMLElement {
 
   init() {
     const data = this.signal.get()
-    const children = this.renderFn(data, data)
-
-    if (children) {
-      this.#updateChildren(children as T, children as T)
-    }
+    this.#updateChildren(data, data)
 
     this.#listenSignal()
   }
