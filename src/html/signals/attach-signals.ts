@@ -1,4 +1,5 @@
-import { LithenShell, ShellRenderCallback } from '../elements/lithen-shell.js'
+import { shell } from '../index.js'
+import { ShellRenderCallback } from '../shell/shell-comment.js'
 import { DataSignal } from './data-signal.js'
 
 export function attachAttributeSignal(
@@ -65,13 +66,14 @@ export function attachShellSignal(
   key: string,
   shellData: { dataSignal: DataSignal, renderFn: ShellRenderCallback }
 ) {
-  const element = docFrag.querySelector<LithenShell>(
+  const element = docFrag.querySelector(
     `[${key.substring('shell-'.length)}]`
   )
   
   if (!element) return
 
-  element.signal = shellData.dataSignal
-  element.renderFn = shellData.renderFn
-  element.removeAttribute('signal')
+  const { dataSignal, renderFn } = shellData
+  const elements = shell(dataSignal, renderFn)
+
+  element.replaceWith(...elements as Node[])
 }

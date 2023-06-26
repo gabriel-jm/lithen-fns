@@ -58,7 +58,7 @@ export function resolveValueForms(
     }
 
     const shellMatch = htmlString.match(
-      /.*<ltn-shell\s+[^<>]*signal="([\w-]+)"[^<>]*>\s*$/
+      /.*<shell\s+[^<>]*signal="([\w-]+)"[^<>]*>\s*$/
     )
 
     if (shellMatch) {

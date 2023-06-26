@@ -80,7 +80,7 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
     if (value instanceof DataSignal) {
       const dataSignal = value
 
-      const shellMatch = htmlString.match(/.*<ltn-shell\s+[^<>]*\s*signal=$/)
+      const shellMatch = htmlString.match(/.*<shell\s+[^<>]*\s*signal=$/)
 
       if (shellMatch) {
         const shellSignal = `"sig-${index}"`

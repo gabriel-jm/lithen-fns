@@ -1,4 +1,4 @@
-import './html/elements/lithen-shell.js'
+import './html/shell/shell-comment.js'
 export * from './css/lithen-css-text.js'
 export * from './css/css-tag-fn.js'
 export * from './css/create-styled.js'
