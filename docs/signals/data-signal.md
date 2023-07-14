@@ -114,7 +114,7 @@ See more about how to set element's properties in [Element's dot attributes](./h
 ### Elements as value of a data signal
 
 You can set an element as the value of a signal, most of its use cases can be achived using a 
-[shell](./lithen-shell.md) and with a better approach, but if you want to use, we don't 
+[shell](./shell.md) and with a better approach, but if you want to use, we don't 
 recommend to do it with Document Fragments, because internally we use method `replaceWith` of the 
 elements to replace the old element for the new one, and Document Fragments don't have this method. 
 But even if it has, will not work as expected because when the fragment enters the DOM or in another 
