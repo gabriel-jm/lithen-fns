@@ -8,12 +8,14 @@ export type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
 export class DataSignal<T = unknown> {
   #listeners = new Set<SignalListener<T>>()
   #value
+  #oldValue
  
   /**
    * @param value - The value hold by the signal.
    */
   constructor(value: T) {
     this.#value = value
+    this.#oldValue = value
   }
 
   /**
@@ -73,21 +75,37 @@ export class DataSignal<T = unknown> {
    * not notified.
    */
   set(value: T | ((value: T) => T)) {
-    const oldValue = this.#value
+    this.#oldValue = this.#value
 
     const isFunction = typeof value === 'function'
     const newValue = isFunction
-      ? (<Function>value)(oldValue)
+      ? (<Function>value)(this.#oldValue)
       : value
 
-    if (oldValue === value) return
+    if (this.#oldValue === value) return
 
     this.#value = newValue
 
-    for (const listener of this.#listeners) {
-      listener(this.#value, oldValue)
-    }
+    this.update()
   }
+
+  /**
+   * A method to manually notify/update the listeners
+   * to the `DataSignal`.
+   * 
+   * This can be useful if you modify some part of the data
+   * that is not the data hold by the `DataSignal`, changing
+   * an object's property that is in an Array is an example,
+   * because the array is the `DataSignal`'s value so this method
+   * is only called if you change the array to another.
+   * 
+   * This method is called internally when you use the `set` method.
+   */
+  update() {
+    for (const listener of this.#listeners) {
+      listener(this.#value, this.#oldValue)
+    }
+}
 }
 
 /**
