@@ -1,22 +1,9 @@
-import { DataSignal } from '../index.js'
-import { pipeResolvers } from './pipe-resolvers.js'
-import { TemplateData } from './resolver-types.js'
-
-export function resolveTemplateData(value: TemplateData) {
-  const resolvedString = pipeResolvers(
-    value,
-    resolveDotProperty
-  )
-
-  return {
-    ...value,
-    resolvedString
-  }
-}
+import { DataSignal } from '../../index.js'
+import { TemplateData } from '../resolver-types.js'
 
 const propertyRegex = /.*\s\.([\w]+)=$/s
 
-function resolveDotProperty(value: TemplateData) {
+export function resolveDotProperty(value: TemplateData) {
   const { currentHTML, resources, index } = value
 
   const propMatch = currentHTML.match(propertyRegex)
