@@ -6,4 +6,4 @@ export type TemplateData<T = unknown> = {
   data: T
 }
 
-export type Resolver = <T = unknown>(value: TemplateData<T>) => string | unknown
+export type Resolver<T = unknown> = (value: TemplateData<T>) => string | unknown
