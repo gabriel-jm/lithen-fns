@@ -26,8 +26,7 @@ export function css(strings: CssStrings, ...values: unknown[]) {
     }
     
     if (value instanceof LithenCSSString) {
-      const hashRegex = new RegExp(`.${value.hash}`, 'g')
-      value = value.replace(hashRegex, '&')
+      value = value.toString()
     }
 
     if (Array.isArray(value)) {
