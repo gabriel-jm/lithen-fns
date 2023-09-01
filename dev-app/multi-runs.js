@@ -1,5 +1,21 @@
 import { html } from './build/index.js'
 
+// html
+/*
+Simple divs: 155ms - timer ended
+Ul with injected li array: 641ms - timer ended
+Ul with injected li separated: 2348ms - timer ended
+Various events divs: 430ms - timer ended
+*/
+
+// html 2
+/*
+Simple divs: 50ms - timer ended
+Ul with injected li array: 286ms - timer ended
+Ul with injected li separated: 751ms - timer ended
+Various events divs: 194ms - timer ended
+*/
+
 export function multiRuns() {
   const quantity = 8_000
 

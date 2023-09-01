@@ -9,7 +9,7 @@ import { resolveSignal } from './objects/signal.js'
 
 export function resolveObjectValue(value: TemplateData) {
   if (typeof value.data !== 'object') return
-
+  
   return pipeResolvers(
     value,
     resolveLithenHTMLString,

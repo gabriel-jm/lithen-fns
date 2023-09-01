@@ -14,7 +14,7 @@ export function resolveFunctionValue(value: TemplateData) {
     const eventId = `"${hash}-${index}"`
     const eventKey = `${eventType}=${eventId}`
 
-    resources.set(eventKey, value)
+    resources.set(eventKey, data)
 
     return eventId
   }
@@ -30,7 +30,7 @@ export function resolveFunctionValue(value: TemplateData) {
     
     resources.set(shellSignalId, {
       ...shellSignalData ?? {},
-      renderFn: value
+      renderFn: data
     })
 
     return ''

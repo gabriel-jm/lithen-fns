@@ -11,17 +11,17 @@ import { stringsInArrays } from './str-arrays.js'
 
 // multiRuns()
 
-// randomTest()
+randomTest()
 
-stringsInArrays()
+// stringsInArrays()
 
-refs()
+// refs()
 
-observableValues()
+// observableValues()
 
-setProperties()
+// setProperties()
 
-signalTest()
+// signalTest()
 
 // scopedCSS()
 
