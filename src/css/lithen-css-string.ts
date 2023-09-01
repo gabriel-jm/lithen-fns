@@ -4,7 +4,7 @@
  * created on its instantiation, used to avoid a CSS class
  * collision and give an impression of scoped styles.
  */
-export class LithenCSSText extends String {
+export class LithenCSSString extends String {
   #hash
   
   constructor(data: string) {

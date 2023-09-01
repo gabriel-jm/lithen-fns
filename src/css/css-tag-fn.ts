@@ -1,4 +1,4 @@
-import { LithenCSSText } from './lithen-css-text.js'
+import { LithenCSSString } from './lithen-css-string.js'
 
 type CssStrings = TemplateStringsArray | string[]
 
@@ -25,7 +25,7 @@ export function css(strings: CssStrings, ...values: unknown[]) {
       return acc + str
     }
     
-    if (value instanceof LithenCSSText) {
+    if (value instanceof LithenCSSString) {
       const hashRegex = new RegExp(`.${value.hash}`, 'g')
       value = value.replace(hashRegex, '&')
     }
@@ -43,5 +43,5 @@ export function css(strings: CssStrings, ...values: unknown[]) {
     .replace(/:\s+/g, ':')
   ;
 
-  return new LithenCSSText(minifiedCss)
+  return new LithenCSSString(minifiedCss)
 }

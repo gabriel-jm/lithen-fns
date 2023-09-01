@@ -1,4 +1,4 @@
-import { LithenCSSText } from './lithen-css-text.js'
+import { LithenCSSString } from './lithen-css-string.js'
 
 /**
  * This function creates an element by the provided tag name,
@@ -9,7 +9,7 @@ import { LithenCSSText } from './lithen-css-text.js'
  * @param styles - The styles from `css` tag function (aka. an instance of `LithenCSSText`)
  * @returns The element for the provided tag name.
  */
-export function createStyled(tagName: string, styles: LithenCSSText) {
+export function createStyled(tagName: string, styles: LithenCSSString) {
   const element = document.createElement(tagName)
 
   element.classList.add(styles.hash)

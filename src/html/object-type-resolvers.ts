@@ -4,7 +4,7 @@ import { DataSignal } from './signals/data-signal.js'
 import { addElementPlaceholder } from './elements/add-element-placeholder.js'
 import { renderRawHTML } from '../raw-html/render-raw-html.js'
 import { ElementRef } from './refs/element-ref.js'
-import { LithenCSSText } from '../css/lithen-css-text.js'
+import { LithenCSSString } from '../css/lithen-css-string.js'
 
 export interface ObjectTypeResolverParams {
   value: unknown
@@ -48,7 +48,7 @@ export const objectTypeResolvers: ObjectTypeResolver = new Map<
   .set(LithenRawHTMLText.name, ({ value }) => {
     return (value as LithenRawHTMLText).toString()
   })
-  .set(LithenCSSText.name, ({ htmlString, value, index, resourcesMap }) => {
+  .set(LithenCSSString.name, ({ htmlString, value, index, resourcesMap }) => {
     const match = htmlString.match(cssAttrRegex)
 
     if (match) {

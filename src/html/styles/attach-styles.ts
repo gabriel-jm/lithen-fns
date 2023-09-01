@@ -1,6 +1,6 @@
-import { LithenCSSText } from '../../css/lithen-css-text.js'
+import { LithenCSSString } from '../../css/lithen-css-string.js'
 
-export function attachStyles(docFrag: DocumentFragment, key: string, cssText: LithenCSSText) {
+export function attachStyles(docFrag: DocumentFragment, key: string, cssText: LithenCSSString) {
   const element = docFrag.querySelector(`[${key}]`)
 
   if (!element) return

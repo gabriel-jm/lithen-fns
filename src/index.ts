@@ -1,5 +1,5 @@
 import './html/shell/shell-comment.js'
-export * from './css/lithen-css-text.js'
+export * from './css/lithen-css-string.js'
 export * from './css/css-tag-fn.js'
 export * from './css/create-styled.js'
 export * from './raw-html/raw-html-tag-fn.js'
