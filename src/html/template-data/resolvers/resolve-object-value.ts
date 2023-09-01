@@ -7,7 +7,9 @@ export function resolveObjectValue(value: TemplateData) {
 
   return pipeResolvers(
     value,
-    resolveLithenHTMLString
+    resolveLithenHTMLString,
+    resolveDOMNode,
+    resolveArray
   )
 }
 
@@ -20,4 +22,42 @@ function resolveLithenHTMLString(value: TemplateData) {
 
     return value.data.toString()
   }
+}
+
+function resolveDOMNode(value: TemplateData) {
+  if (!(value.data instanceof Node)) return
+
+  const { hash, index, data, resources } = value
+  const nodeId = `nd="${hash}-${index}"`
+  resources.set(nodeId, data)
+
+  return `<template ${nodeId}></template>`
+}
+
+function resolveArray(value: TemplateData) {
+  if (!Array.isArray(value.data)) return
+  
+  const { data: dataList, index } = value
+
+  let internalNodeCount = 1
+
+  return dataList.reduce((acc, data) => {
+    if (data instanceof LithenHTMLString) {
+      return resolveLithenHTMLString(value)
+    }
+
+    if (data instanceof Node) {
+      const resolvedNode = resolveDOMNode({
+        ...value,
+        index: index + internalNodeCount,
+        data
+      })
+
+      internalNodeCount++
+
+      return acc + resolvedNode
+    }
+
+    return acc + String(data)
+  }, '')
 }
