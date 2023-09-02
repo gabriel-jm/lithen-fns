@@ -1,4 +1,4 @@
-import { html } from './build/index.js'
+import { html, html2, render } from './build/index.js'
 
 // html
 /*
@@ -17,51 +17,51 @@ Various events divs: 194ms - timer ended
 */
 
 export function multiRuns() {
-  const quantity = 8_000
+  // const quantity = 8_000
 
-  console.time('Simple divs')
-  for (let i=0; i<quantity; i++) {
-    html`
-      <div on-click=${() => console.log('hi')}>Hi</div>
-    `
-  }
-  console.timeEnd('Simple divs')
+  // console.time('Simple divs')
+  // for (let i=0; i<quantity; i++) {
+  //   html`
+  //     <div on-click=${() => console.log('hi')}>Hi</div>
+  //   `
+  // }
+  // console.timeEnd('Simple divs')
 
-  console.time('Ul with injected li array')
-  for (let i=0; i<quantity; i++) {
-    html`
-      <ul>
-        ${[
-          html`<li>li</li>`,
-          html`<li>li</li>`,
-          html`<li>li</li>`,
-          html`<li>li</li>`,
-          html`<li>li</li>`,
-          html`<li>li</li>`,
-          html`<li>li</li>`,
-          html`<li>li</li>`,
-        ]}
-      </ul>
-    `
-  }
-  console.timeEnd('Ul with injected li array')
+  // console.time('Ul with injected li array')
+  // for (let i=0; i<quantity; i++) {
+  //   html`
+  //     <ul>
+  //       ${[
+  //         html`<li>li</li>`,
+  //         html`<li>li</li>`,
+  //         html`<li>li</li>`,
+  //         html`<li>li</li>`,
+  //         html`<li>li</li>`,
+  //         html`<li>li</li>`,
+  //         html`<li>li</li>`,
+  //         html`<li>li</li>`,
+  //       ]}
+  //     </ul>
+  //   `
+  // }
+  // console.timeEnd('Ul with injected li array')
 
-  console.time('Ul with injected li separated')
-  for (let i=0; i<quantity; i++) {
-    html`
-      <ul>
-        ${html`<li>li</li>`}
-        ${html`<li>li</li>`}
-        ${html`<li>li</li>`}
-        ${html`<li>li</li>`}
-        ${html`<li>li</li>`}
-        ${html`<li>li</li>`}
-        ${html`<li>li</li>`}
-        ${html`<li>li</li>`}
-      </ul>
-    `
-  }
-  console.timeEnd('Ul with injected li separated')
+  // console.time('Ul with injected li separated')
+  // for (let i=0; i<quantity; i++) {
+  //   html`
+  //     <ul>
+  //       ${html`<li>li</li>`}
+  //       ${html`<li>li</li>`}
+  //       ${html`<li>li</li>`}
+  //       ${html`<li>li</li>`}
+  //       ${html`<li>li</li>`}
+  //       ${html`<li>li</li>`}
+  //       ${html`<li>li</li>`}
+  //       ${html`<li>li</li>`}
+  //     </ul>
+  //   `
+  // }
+  // console.timeEnd('Ul with injected li separated')
 
   function section() {
     return html`
@@ -71,14 +71,39 @@ export function multiRuns() {
     `
   }
 
-  console.time('Various events divs')
-  for (let i=0; i<quantity; i++) {
+  // console.time('Various events divs')
+  // for (let i=0; i<quantity; i++) {
+  //   html`
+  //     <div on-click=${() => console.log('hi')}>
+  //       Hi
+  //     </div>
+  //     ${section()}
+  //   `
+  // }
+  // console.timeEnd('Various events divs')
+
+  console.time('Append various events divs')
+  document.body.append(
     html`
-      <div on-click=${() => console.log('hi')}>
-        Hi
-      </div>
-      ${section()}
+      ${Array.from({ length: 100 }).map(() => html`
+        <div on-click=${() => console.log('hi')}>
+          Hi
+        </div>
+        ${section()}
+      `)}
     `
-  }
-  console.timeEnd('Various events divs')
+  )
+  
+  // render(
+  //   html2`
+  //     ${Array.from({ length: 100 }).map(() => html2`
+  //       <div on-click=${() => console.log('hi')}>
+  //         Hi
+  //       </div>
+  //       ${section()}
+  //     `)}
+  //   `,
+  //   app
+  // )
+  console.timeEnd('Append various events divs')
 }

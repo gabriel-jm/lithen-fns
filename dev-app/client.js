@@ -9,11 +9,11 @@ import { lithenShell } from './shell.js'
 import { signalTest } from './signal.js'
 import { stringsInArrays } from './str-arrays.js'
 
-// multiRuns()
+multiRuns()
 
 // randomTest()
 
-stringsInArrays()
+// stringsInArrays()
 
 // refs()
 

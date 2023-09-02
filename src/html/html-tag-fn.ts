@@ -59,7 +59,13 @@ export function html(htmlStrings: HtmlStrings, ...values: unknown[]): DocumentFr
   return docFragment
 }
 
-export function html2(htmlStrings: HtmlStrings, ...values: unknown[]) {
+export function html2(htmlTemplateStrings: HtmlStrings, ...values: unknown[]) {
+  const htmlStrings = (
+    Array.isArray(htmlTemplateStrings)
+      ? htmlTemplateStrings
+      : [htmlTemplateStrings]
+  ) as string[]
+
   let resources: ResourcesMap = new Map()
   const hash = Math.random().toString(32).substring(7)
 

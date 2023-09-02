@@ -1,4 +1,5 @@
 import { LithenHTMLString } from '../../../lithen-html-string.js'
+import { sanitizeHTML } from '../../../sanitizes/sanitize-html.js'
 import { TemplateData } from '../../resolver-types.js'
 import { resolveDOMNode } from './dom-node.js'
 import { resolveLithenHTMLString } from './lithen-html-string.js'
@@ -12,7 +13,8 @@ export function resolveArray(value: TemplateData) {
 
   return dataList.reduce((acc, data) => {
     if (data instanceof LithenHTMLString) {
-      return resolveLithenHTMLString(value)
+      value.data = data
+      return acc + resolveLithenHTMLString(value)
     }
 
     if (data instanceof Node) {
@@ -27,6 +29,6 @@ export function resolveArray(value: TemplateData) {
       return acc + resolvedNode
     }
 
-    return acc + String(data)
+    return acc + sanitizeHTML(data)
   }, '')
 }
