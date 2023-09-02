@@ -11,9 +11,9 @@ import { stringsInArrays } from './str-arrays.js'
 
 // multiRuns()
 
-randomTest()
+// randomTest()
 
-// stringsInArrays()
+stringsInArrays()
 
 // refs()
 
