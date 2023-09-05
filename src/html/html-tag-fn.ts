@@ -2,8 +2,6 @@ import { htmlStringParser } from './html-string-parser.js'
 import { resolveValueForms } from './resolve-value-forms.js'
 import { applyResources } from './apply-resources.js'
 import { sanitizeAttributes } from './sanitizes/sanitize-attributes.js'
-import { LithenHTMLString } from './lithen-html-string.js'
-import { resolveTemplateData } from './template-data/resolve-template-data.js'
 
 export type HtmlStrings = TemplateStringsArray | string[]
 
@@ -66,51 +64,36 @@ export function html2(htmlTemplateStrings: HtmlStrings, ...values: unknown[]) {
       : [htmlTemplateStrings]
   ) as string[]
 
-  let resources: ResourcesMap = new Map()
-  const hash = Math.random().toString(32).substring(7)
+  const resourcesMap: ResourcesMap = new Map()
 
   const fullHtml = htmlStrings.reduce((acc, str, index) => {
     const currentHTML = acc + str
-    const data = values[index]
-    
-    const resolvedValue = resolveTemplateData({
-      currentHTML,
-      resources,
-      data,
-      index,
-      hash
-    })
+    const resolvedValue = resolveValueForms(
+      currentHTML.slice(-30),
+      values[index],
+      resourcesMap,
+      index
+    )
 
-    resources = resolvedValue.resources
-
-    const currentValueString = resolvedValue.resolvedString ?? String(data ?? '')
-
-    return acc + str + currentValueString
+    return currentHTML + resolvedValue
   },'')
 
   const parsedHtml = htmlStringParser(fullHtml)
   
   const cleanHtml = sanitizeAttributes(parsedHtml)
 
-  return new LithenHTMLString(cleanHtml, resources)
-}
-
-export function render(htmlText: LithenHTMLString, target?: Element) {
   const template = document.createElement('template')
-  template.innerHTML = htmlText.toString()
+  template.innerHTML = cleanHtml
+  
+  const docFragment = template.content
 
-  const documentFragment = template.content
-
-  if (htmlText.resources?.size) {
-    applyResources(documentFragment, htmlText.resources)
+  if (resourcesMap.size) {
+    applyResources(docFragment, resourcesMap)
   }
 
-  if (target) {
-    target.replaceChildren(documentFragment)
-    return
-  }
+  queueMicrotask(checkIncorrectElements(cleanHtml))
 
-  return [...documentFragment.childNodes]
+  return docFragment
 }
 
 /**

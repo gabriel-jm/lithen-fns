@@ -1,20 +1,4 @@
-import { html, html2, render } from './build/index.js'
-
-// html
-/*
-Simple divs: 155ms - timer ended
-Ul with injected li array: 641ms - timer ended
-Ul with injected li separated: 2348ms - timer ended
-Various events divs: 430ms - timer ended
-*/
-
-// html 2
-/*
-Simple divs: 50ms - timer ended
-Ul with injected li array: 286ms - timer ended
-Ul with injected li separated: 751ms - timer ended
-Various events divs: 194ms - timer ended
-*/
+import { html, html2 } from './build/index.js'
 
 export function multiRuns() {
   // const quantity = 8_000
@@ -83,9 +67,20 @@ export function multiRuns() {
   // console.timeEnd('Various events divs')
 
   console.time('Append various events divs')
+  // document.body.append(
+  //   html`
+  //     ${Array.from({ length: 100 }).map(() => html`
+  //       <div on-click=${() => console.log('hi')}>
+  //         Hi
+  //       </div>
+  //       ${section()}
+  //     `)}
+  //   `
+  // )
+
   document.body.append(
-    html`
-      ${Array.from({ length: 100 }).map(() => html`
+    html2`
+      ${Array.from({ length: 100 }).map(() => html2`
         <div on-click=${() => console.log('hi')}>
           Hi
         </div>
@@ -94,16 +89,5 @@ export function multiRuns() {
     `
   )
   
-  // render(
-  //   html2`
-  //     ${Array.from({ length: 100 }).map(() => html2`
-  //       <div on-click=${() => console.log('hi')}>
-  //         Hi
-  //       </div>
-  //       ${section()}
-  //     `)}
-  //   `,
-  //   app
-  // )
   console.timeEnd('Append various events divs')
 }
