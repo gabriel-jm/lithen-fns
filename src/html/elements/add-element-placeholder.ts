@@ -2,11 +2,11 @@ import { ResourcesMap } from '../html-tag-fn.js'
 
 export function addElementPlaceholder(
   element: Node | (Node | string)[],
-  resourcesMap: ResourcesMap,
+  resources: ResourcesMap,
   index: number
 ) {
-  const elementId = `el="el-${index}"`
-  resourcesMap.set(elementId, element)
+  const elementId = `el="${index}"`
+  resources.set(elementId, element)
 
   return `<template ${elementId}></template>`
 }

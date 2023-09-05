@@ -1,11 +1,8 @@
+import { addElementPlaceholder } from '../../../elements/add-element-placeholder.js'
 import { TemplateData } from '../../resolver-types.js'
 
 export function resolveDOMNode(value: TemplateData) {
   if (!(value.data instanceof Node)) return
 
-  const { hash, index, data, resources } = value
-  const nodeId = `el="${hash}-${index}"`
-  resources.set(nodeId, data)
-
-  return `<template ${nodeId}></template>`
+  return addElementPlaceholder(value.data, value.resources, value.index)
 }

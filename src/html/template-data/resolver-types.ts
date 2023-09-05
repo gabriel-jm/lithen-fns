@@ -1,6 +1,8 @@
+import { ResourcesMap } from '../html-tag-fn.js'
+
 export type TemplateData<T = unknown> = {
   currentHTML: string
-  resources: Map<string, unknown>
+  resources: ResourcesMap
   index: number
   data: T
 }
