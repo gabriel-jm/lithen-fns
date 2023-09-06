@@ -16,7 +16,7 @@ const resolvers = new Map()
 export function resolveObjectValue(value: TemplateData) {
   if (typeof value.data !== 'object') return
 
-  if (value.data === null) return
+  if (value.data === null) return ''
 
   const className = value.data.constructor.name
   const resolver = resolvers.get(className)

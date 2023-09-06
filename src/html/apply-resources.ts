@@ -3,7 +3,8 @@ import { applyRef } from './refs/apply-ref.js'
 import {
   attachAttributeSignal,
   attachPropertySignal,
-  attachShellSignal
+  attachShellSignal,
+  attachTextSignal
 } from './signals/attach-signals.js'
 import { ResourcesMap } from './html-tag-fn.js'
 import { placeElement } from './elements/place-element.js'
@@ -18,6 +19,7 @@ const resourceHandlers = new Map<string, ResourceHandler>([
   ['ref', applyRef],
   ['.', applyPropertyValue],
   ['css', attachStyles],
+  ['text-sig', attachTextSignal],
   ['sig-attr:', attachAttributeSignal],
   ['sig-p.', attachPropertySignal],
   ['shell-signal', attachShellSignal]

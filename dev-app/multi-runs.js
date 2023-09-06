@@ -67,20 +67,9 @@ export function multiRuns() {
   // console.timeEnd('Various events divs')
 
   console.time('Append various events divs')
-  // document.body.append(
-  //   html`
-  //     ${Array.from({ length: 100 }).map(() => html`
-  //       <div on-click=${() => console.log('hi')}>
-  //         Hi
-  //       </div>
-  //       ${section()}
-  //     `)}
-  //   `
-  // )
-
   document.body.append(
-    html2`
-      ${Array.from({ length: 100 }).map(() => html2`
+    html`
+      ${Array.from({ length: 5000 }).map(() => html`
         <div on-click=${() => console.log('hi')}>
           Hi
         </div>
@@ -88,6 +77,17 @@ export function multiRuns() {
       `)}
     `
   )
+
+  // document.body.append(
+  //   html2`
+  //     ${Array.from({ length: 5000 }).map(() => html2`
+  //       <div on-click=${() => console.log('hi')}>
+  //         Hi
+  //       </div>
+  //       ${section()}
+  //     `)}
+  //   `
+  // )
   
   console.timeEnd('Append various events divs')
 }

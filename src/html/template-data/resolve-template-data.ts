@@ -1,3 +1,4 @@
+import { sanitizeHTML } from '../sanitizes/sanitize-html.js'
 import { ResolverChain } from './pipe-resolvers.js'
 import { TemplateData } from './resolver-types.js'
 import { resolveDotProperty } from './resolvers/resolve-dot-property.js'
@@ -13,8 +14,9 @@ const resolverChain = new ResolverChain(
 export function resolveTemplateData(value: TemplateData) {
   const resolvedString = resolverChain.pipe(value)
 
-  return {
-    ...value,
-    resolvedString
+  if (!resolvedString) {
+    return sanitizeHTML(value.data)
   }
+
+  return resolvedString
 }

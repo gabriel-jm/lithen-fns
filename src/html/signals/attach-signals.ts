@@ -2,6 +2,29 @@ import { shell } from '../index.js'
 import { ShellRenderCallback } from '../shell/shell-comment.js'
 import { DataSignal } from './data-signal.js'
 
+export function attachTextSignal(
+  docFrag: DocumentFragment,
+  key: string,
+  dataSignal: DataSignal
+) {
+  const placeholder = docFrag.querySelector(`template[${key}]`)
+
+  if (!placeholder) return
+
+  const textNode = new Text(String(dataSignal.get()))
+  
+  function updateText(value: unknown) {
+    if (!textNode.isConnected) {
+      return dataSignal.remove(updateText)
+    }
+
+    textNode.data = String(value)
+  }
+
+  dataSignal.onChange(updateText)
+  placeholder.replaceWith(textNode)
+}
+
 export function attachAttributeSignal(
   docFrag: DocumentFragment,
   key: string,
