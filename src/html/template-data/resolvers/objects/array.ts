@@ -6,18 +6,5 @@ export function resolveArray(value: TemplateData) {
   
   const { data: dataList, resources, index } = value
 
-  // return dataList.reduce((acc, data) => {
-  //   if (data instanceof Node) {
-  //     const resolvedNode = resolveDOMNode({
-  //       ...value,
-  //       data
-  //     })
-
-  //     return acc + resolvedNode
-  //   }
-
-  //   return acc + sanitizeHTML(data)
-  // }, '')
-
   return addElementPlaceholder(dataList, resources, index)
 }

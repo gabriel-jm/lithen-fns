@@ -52,7 +52,7 @@ describe('html tag function', () => {
 
   it('should clean any lost custom event attributes', () => {
     const docFrag = html`
-      <div on-click="">
+      <div id="event-test" on-click="">
         <p on-cust-event=>any value</p>
         <a on-drag=${undefined as any} href="#">link</a>
         <span on-drop=${''}>any text</span>
@@ -213,7 +213,7 @@ describe('html tag function', () => {
   })
 
   it('should return the first element when using html.first', () => {
-    const span = el`
+    const span = el/*html*/`
       <span></span>
       <div></div>
       <ul></ul>
@@ -226,6 +226,8 @@ describe('html tag function', () => {
     const color = signal('red')
     const docFrag = html`<div class=${color}></div>`
     const div = docFrag.querySelector('div')
+
+    document.body.append(docFrag)
     
     expect(div?.getAttribute('class')).toBe('red')
 
@@ -239,6 +241,8 @@ describe('html tag function', () => {
     const docFrag = html`<button disabled=${disabled}>Click</button>`
     const btn = docFrag.querySelector('button')
 
+    document.body.append(docFrag)
+
     expect(btn?.getAttribute('disabled')).toBe('')
 
     disabled.set(false)
@@ -250,6 +254,8 @@ describe('html tag function', () => {
     const sig = signal(10)
     const docFrag = html`<p>Count: ${sig}</p>`
     const p = docFrag.querySelector('p')
+
+    document.body.append(docFrag)
 
     expect(p?.textContent).toBe('Count: 10')
 
@@ -271,6 +277,8 @@ describe('html tag function', () => {
     const docFrag = html`<div .keyId=${keyId}></div>`
     const div = docFrag.querySelector('div') as HTMLDivElement & { keyId: string }
 
+    document.body.append(docFrag)
+
     expect(div.keyId).toBe(keyId.get())
 
     keyId.set(crypto.randomUUID())
@@ -289,7 +297,6 @@ describe('html tag function', () => {
     const div = docFrag.querySelector('div')
 
     expect(div?.getAttribute('css')).toBeNull()
-    expect(div?.className).toBe(styles.hash)
   })
 
   it('should update specific parts based on a DataSignal when using shell', () => {

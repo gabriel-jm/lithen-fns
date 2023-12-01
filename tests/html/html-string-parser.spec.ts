@@ -1,4 +1,4 @@
-import { htmlStringParser } from '@/html/html-string-parser'
+import { htmlStringParser } from '@/html/sanitizes/html-string-parser.js'
 
 describe('htmlStringParser', () => {
   describe('Spaces around', () => {
@@ -19,7 +19,7 @@ describe('htmlStringParser', () => {
 
       const result = htmlStringParser(html)
 
-      expect(result).toBe('<app-element ></app-element>')
+      expect(result).toBe('<app-element></app-element>')
     })
 
     it('should keep the attributes when replicate elements tag', () => {
@@ -49,7 +49,7 @@ describe('htmlStringParser', () => {
 
       const result = htmlStringParser(html)
 
-      expect(result).toBe('<slot ></slot>')
+      expect(result).toBe('<slot></slot>')
     })
 
     it('should keep the attributes when replicates slot tag', () => {

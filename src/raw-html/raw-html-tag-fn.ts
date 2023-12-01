@@ -1,5 +1,4 @@
-import { htmlStringParser } from '../html/sanitizes/html-string-parser.js'
-import { HtmlStrings } from '../html/html-tag-fn.js'
+import { HtmlStrings, html } from '../html/html-tag-fn.js'
 
 export type RawTagFnStrings = String | string | HtmlStrings
 
@@ -41,7 +40,5 @@ export function raw(
     return acc + str + value
   }, "")
 
-  const parsedHtml = htmlStringParser(fullHtml)
-
-  return new LithenRawHTMLText(parsedHtml)
+  return html([fullHtml])
 }

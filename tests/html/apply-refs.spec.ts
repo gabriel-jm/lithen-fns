@@ -1,5 +1,5 @@
-import { ref } from '@/html'
-import { applyRef } from '@/html/refs/apply-ref'
+import { ref } from '@/html/index.js'
+import { applyRef } from '@/html/refs/apply-ref.js'
 
 describe('applyRefs', () => {
   it('should apply the correct element reference to the ref object', () => {

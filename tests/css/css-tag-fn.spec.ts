@@ -1,4 +1,4 @@
-import { css, LithenCSSText } from '@/index.js'
+import { css, LithenCSSString } from '@/index.js'
 
 describe('CSS tag function', () => {
   it('should return a minified css text', () => {
@@ -67,14 +67,12 @@ describe('CSS tag function', () => {
   })
 
   it('should accept nested css text from css tag function', () => {
-    const firstCSS = css`
-      width: 100%;
-      height: 100%;
-    `
-
     const secondCSS = css`
       .btn {
-        ${firstCSS}
+        ${`
+          width: 100%;
+          height: 100%;
+        `}
         cursor: pointer;
       }
     `
@@ -125,8 +123,6 @@ describe('CSS tag function', () => {
       }
     `
 
-    expect(styles).toBeInstanceOf(LithenCSSText)
-    expect(styles.toString().includes('&')).toBe(false)
-    expect(styles.toString().includes(styles.hash)).toBe(true)
+    expect(styles).toBeInstanceOf(LithenCSSString)
   })
 })

@@ -8,7 +8,7 @@ export default defineConfig({
     }
   },
   test: {
-    environment: 'happy-dom',
+    environment: 'jsdom',
     globals: true,
     coverage: {
       exclude: ['tests']

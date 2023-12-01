@@ -1,4 +1,4 @@
-import { placeElement } from '@/html/elements/place-element'
+import { placeElement } from '@/html/elements/place-element.js'
 
 function generateDocFragment(htmlContent: string) {
   const template = document.createElement('template')

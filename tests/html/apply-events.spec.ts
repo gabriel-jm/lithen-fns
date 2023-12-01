@@ -1,4 +1,4 @@
-import { applyEvent } from '@/html/events/apply-event'
+import { applyEvent } from '@/html/events/apply-event.js'
 
 describe('applyEvents', () => {
   it('should add the correct events to the correct elements', () => {
