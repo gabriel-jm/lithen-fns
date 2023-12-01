@@ -1,7 +1,6 @@
-import { htmlStringParser } from './html-string-parser.js'
-import { resolveValueForms } from './resolve-value-forms.js'
-import { applyResources } from './apply-resources.js'
+import { htmlStringParser } from './sanitizes/html-string-parser.js'
 import { sanitizeAttributes } from './sanitizes/sanitize-attributes.js'
+import { applyResources } from './resources/apply-resources.js'
 import { resolveTemplateData } from './template-data/resolve-template-data.js'
 
 export type HtmlStrings = TemplateStringsArray | string[]
@@ -26,47 +25,7 @@ export type ResourcesMap = Map<string, unknown>
  * 
  * @returns a DocumentFragment.
  */
-export function html(htmlTemplateStrings: HtmlStrings, ...values: unknown[]): DocumentFragment {
-  const htmlStrings = (
-    Array.isArray(htmlTemplateStrings)
-      ? htmlTemplateStrings
-      : [htmlTemplateStrings]
-  ) as string[]
-
-  const resourcesMap: ResourcesMap = new Map()
-
-  const fullHtml = htmlStrings.reduce((acc, str, index) => {
-    const currentHTML = acc + str
-
-    const resolvedValue = resolveValueForms(
-      currentHTML.slice(-30),
-      values[index],
-      resourcesMap,
-      index
-    )
-
-    return currentHTML + resolvedValue
-  },'')
-
-  const parsedHtml = htmlStringParser(fullHtml)
-  
-  const cleanHtml = sanitizeAttributes(parsedHtml)
-
-  const template = document.createElement('template')
-  template.innerHTML = cleanHtml
-  
-  const docFragment = template.content
-
-  if (resourcesMap.size) {
-    applyResources(docFragment, resourcesMap)
-  }
-
-  queueMicrotask(checkIncorrectElements(cleanHtml))
-
-  return docFragment
-}
-
-export function html2(htmlTemplateStrings: HtmlStrings, ...values: unknown[]) {
+export function html(htmlTemplateStrings: HtmlStrings, ...values: unknown[]) {
   const htmlStrings = (
     Array.isArray(htmlTemplateStrings)
       ? htmlTemplateStrings

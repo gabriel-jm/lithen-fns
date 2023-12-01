@@ -1,4 +1,4 @@
-import { htmlStringParser } from '../html/html-string-parser.js'
+import { htmlStringParser } from '../html/sanitizes/html-string-parser.js'
 import { HtmlStrings } from '../html/html-tag-fn.js'
 
 export type RawTagFnStrings = String | string | HtmlStrings

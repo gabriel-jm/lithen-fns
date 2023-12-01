@@ -1,4 +1,4 @@
-import { html, html2 } from './build/index.js'
+import { html } from './build/index.js'
 
 export function multiRuns() {
   // const quantity = 8_000
