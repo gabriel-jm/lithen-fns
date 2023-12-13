@@ -1,25 +1,24 @@
 # Lithen Functions - raw
 
-`raw` is a tagged template function that is used to by pass in the html tag function XSS analysis.
-This tag function is normally used for specifics strings, like in situations the is intectionally
-passed html text as value. But is normally recommended to use the html tag function. <br />
-This function can be called with a single value.
+`raw` is a tagged template function that is used to by pass in the `html` tag function XSS analysis.
+This tag function is normally used for specifics situations. For example when you need a raw html
+input from the user, when using the `html` tag function any input that has the `<`, `>` and `/` 
+symbols get parsed to the corresponding HTML Entities.
 
-It returns an instance of `LithenRawHTMLText` with the parsed html text as content.
-
-The `LithenRawHTMLText` is a class that just extends `String`. Internally it is used to check if the
-text inserted came from the `raw` tag function.
+It works and has the same features as the `html` tag function and also returns a `DocumentFragment`
+instance.
 
 ## Warning
-Using the `raw` function you cannot add events to elements, cannot use `html` function within it and
-every value inserted in the tagge template will be converted to string.
+Use it with caution, it can lead to unwanted XSS attacks.
 
 ## Usage
 
 ```ts
+raw('<div>...</div>')
+
+// or
+
 raw`
   <div>...</div>
 `
-// or
-raw('<div>...</div>')
 ```

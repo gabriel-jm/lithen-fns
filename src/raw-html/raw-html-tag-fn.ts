@@ -3,29 +3,23 @@ import { HtmlStrings, html } from '../html/html-tag-fn.js'
 export type RawTagFnStrings = String | string | HtmlStrings
 
 /**
- * Class used to represent a raw HTML text create by
- * the `raw` tag function. It is used to by pass the HTML
- * sanitization.
- */
-export class LithenRawHTMLText extends String {
-  constructor(data: string) {
-    super(data)
-  }
-}
-
-/**
- * Function that enables to write anything in the `html`
- * template function when passed has a value.
+ * Function that enables to use raw html as input
+ * whitout it being parsed to protect for XSS.
  * 
- * It's commonly used has a template function.
+ * It can both be used has a regular function
+ * and template function.
  * @example
  * ```ts
+ *  raw('<div>...</div>')
+ * 
+ *  // or
+ * 
  *  raw`
  *    <div>...</div>
  *  `
  * ```
  * 
- * @returns a html string.
+ * @returns a DocumentFragment.
  */
 export function raw(
   strings: RawTagFnStrings,
