@@ -10,45 +10,22 @@ You can see the [Getting started](./docs/getting-started.md) page, teaching how 
 After the `Getting started`, try this counter modal example:
 
 ```ts
-const modalStyles = css`
-  & {
-    border: 0;
-    border-radius: 4px;
-    box-shadow: 0 3px 4px #1117;
-    padding: 20px;
-    margin: auto;
-  }
-
-  &::backdrop {
-    background-color: #222a;
-  }
-
-  & p {
-    font-weight: bold;
-    padding-bottom: 12px;
-  }
-
-  button {
-    border: 0;
-    border-radius: 4px;
-    padding: 12px 16px;
-    cursor: pointer;
-  }
-`
-
 function counterModal() {
   const count = signal(0)
-  const dialogRef = ref()
+  const dialogRef = ref<HTMLDialogElement>()
 
   function increment() {
     count.set(value => value + 1)
   }
 
   return html`
-    <dialog ref=${dialogRef} css=${modalStyles}>
+    <dialog ref=${dialogRef}>
       <p>Count: ${count}</p>
       <button on-click=${increment}>
         Increment
+      </button>
+      <button on-click=${() => dialogRef.el?.close()}>
+        Close
       </button>
     </dialog>
     

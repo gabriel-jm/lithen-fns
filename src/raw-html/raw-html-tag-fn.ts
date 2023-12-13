@@ -4,7 +4,7 @@ export type RawTagFnStrings = String | string | HtmlStrings
 
 /**
  * Function that enables to use raw html as input
- * whitout it being parsed to protect for XSS.
+ * without it being parsed to protect for XSS.
  * 
  * It can both be used has a regular function
  * and template function.

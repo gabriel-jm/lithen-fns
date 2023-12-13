@@ -26,10 +26,10 @@ when the value the the signal holds changes.
 
   The `set` method is used to change the current value hold by the signal. It receives the new value
 as parameter or can receive a function that receives the current value as parameter and uses the
-returned value as new one for the signal. The function calls all listeners registred with the 
-`onChange` method, passing the new value as first parameter and the old value as second. If the 
-provided value is equal to the old value the value hold by the DataSignal is not updated and the 
-listeners are not notified.
+returned value as new one for the signal. The function calls the `update` method, which calls all 
+listeners registred in the `onChange` method, passing the new value as first parameter and the old 
+value as second. If the provided value is equal to the old value the value hold by the DataSignal is 
+not updated and the listeners are not notified.
 
 - ### onChange
 
@@ -37,6 +37,12 @@ listeners are not notified.
 the `set` method is called changing the value that is currently hold by the signal. The listener
 function receives the new value as first parameter and the old value as second, and don't expect
 a returned value.
+
+- ### update
+
+  The `update` method can be used to update the listeners of a data signal that a value change
+  directly, it is useful when the data signal's data has a nested value that was changed and not
+  the data signal's data. This method is used internally when the set method is called.
 
 - ### remove
 

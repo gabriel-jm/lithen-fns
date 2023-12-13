@@ -8,12 +8,14 @@ export type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
 export class DataSignal<T = unknown> {
   #listeners = new Set<SignalListener<T>>()
   #value
+  #oldValue
  
   /**
    * @param value - The value hold by the signal.
    */
   constructor(value: T) {
     this.#value = value
+    this.#oldValue = value
   }
 
   /**
@@ -51,6 +53,19 @@ export class DataSignal<T = unknown> {
   }
 
   /**
+   * Method to update all listeners with the current and old values.
+   * 
+   * Calling it directly can be useful when you want to update the
+   * signal listeners that a nested value has changed, without the
+   * need to set all signal nested values as signals.
+   */
+  update() {
+    for (const listener of this.#listeners) {
+      listener(this.#value, this.#oldValue)
+    }
+  }
+
+  /**
    * @returns the current value hold by the signal.
    */
   get() {
@@ -73,20 +88,19 @@ export class DataSignal<T = unknown> {
    * not notified.
    */
   set(value: T | ((value: T) => T)) {
-    const oldValue = this.#value
+    const currentValue = this.#value
 
     const isFunction = typeof value === 'function'
     const newValue = isFunction
-      ? (<Function>value)(oldValue)
+      ? (<Function>value)(currentValue)
       : value
 
-    if (oldValue === value) return
+    if (currentValue === newValue) return
 
+    this.#oldValue = this.#value
     this.#value = newValue
 
-    for (const listener of this.#listeners) {
-      listener(this.#value, oldValue)
-    }
+    this.update()
   }
 }
 

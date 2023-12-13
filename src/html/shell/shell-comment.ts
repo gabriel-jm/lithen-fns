@@ -1,7 +1,7 @@
 import { normalizeShellRenderNodes } from '../index.js'
 
 export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
-  Node | undefined | null | false
+  Node | Node[] | undefined | null | false
 )
 
 /**
