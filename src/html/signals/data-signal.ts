@@ -1,4 +1,9 @@
-export type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
+import { RunningFns } from '../index.js'
+
+export type SignalListener<T = unknown> = (
+  (newValue: T, oldValue: T) => void | symbol
+  | (() => void | symbol)
+)
 
 /**
  * A Class used to create an object that holds a value and
@@ -6,6 +11,8 @@ export type SignalListener<T = unknown> = (newValue: T, oldValue: T) => void
  * hold value.
  */
 export class DataSignal<T = unknown> {
+  static REMOVE = Symbol('DataSignal-Remove')
+
   #listeners = new Set<SignalListener<T>>()
   #value
   #oldValue
@@ -14,8 +21,14 @@ export class DataSignal<T = unknown> {
    * @param value - The value hold by the signal.
    */
   constructor(value: T) {
-    this.#value = value
-    this.#oldValue = value
+    if (typeof value === 'function') {
+      const actualValue = value()
+      this.#value = actualValue
+      this.#oldValue = actualValue
+    } else {
+      this.#value = value
+      this.#oldValue = value
+    }
   }
 
   /**
@@ -60,8 +73,12 @@ export class DataSignal<T = unknown> {
    * need to set all signal nested values as signals.
    */
   update() {
-    for (const listener of this.#listeners) {
-      listener(this.#value, this.#oldValue)
+    for (const listener of [...this.#listeners]) {
+      const result = listener(this.#value, this.#oldValue)
+
+      if (result === DataSignal.REMOVE) {
+        this.remove(listener)
+      }
     }
   }
 
@@ -69,6 +86,12 @@ export class DataSignal<T = unknown> {
    * @returns the current value hold by the signal.
    */
   get() {
+    const currentShellRunning = RunningFns.at(-1)
+
+    if (currentShellRunning) {
+      this.#listeners.add(currentShellRunning as SignalListener)
+    }
+
     return this.#value
   }
 

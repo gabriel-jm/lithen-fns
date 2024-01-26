@@ -1,5 +1,8 @@
 import { ShellComment, ShellRenderCallback } from './shell-comment.js'
 import { DataSignal } from '../signals/data-signal.js'
+import { sanitizeHTML } from '../sanitizes/sanitize-html.js'
+
+export const RunningFns: (() => unknown)[] = []
 
 /**
  * Creates a conditional rendering zone, that updates based on a value
@@ -21,31 +24,39 @@ import { DataSignal } from '../signals/data-signal.js'
  * `ShellComment`, and the rest are the elements returned by
  * the render callback
  */
-export function shell<T>(dataSignal: DataSignal<T>, fn: ShellRenderCallback<T>) {
-  const comment = new ShellComment()
 
-  const value = dataSignal.get()
-  const rawNodes = fn(value, value)
-  const nodes = rawNodes ? normalizeShellRenderNodes(rawNodes) : []
+export function shell(fn: ShellRenderCallback) {
+  let comment: ShellComment | null = null
 
-  comment.relatedElements = nodes as Element[]
+  function run() {
+    RunningFns.push(run)
 
-  function updateElements(newValue: T, oldValue: T) {
-    if (!comment.isConnected) {
-      dataSignal.remove(updateElements)
-      return
+    try {
+      if (comment && !comment.isConnected) {
+        return DataSignal.REMOVE
+      }
+
+      const rawNodes = fn()
+  
+      if (!comment) {
+        comment = new ShellComment()
+        const nodes = rawNodes ? normalizeShellRenderNodes(rawNodes) : []
+        comment.relatedElements = nodes as Element[]
+        return nodes
+      }
+
+      comment.insertAfter(rawNodes || [])
+    } finally {
+      RunningFns.pop()
     }
-
-    const nodes = fn(newValue, oldValue)
-    comment.insertAfter(nodes as Node)
   }
 
-  dataSignal.onChange(updateElements)
+  const nodes = run()
 
-  return [comment, ...nodes]
+  return [comment, ...nodes as Node[]]
 }
 
-export function normalizeShellRenderNodes(rawNodes: Node | Node[]) {
+export function normalizeShellRenderNodes(rawNodes: unknown) {
   const nodeList = Array.isArray(rawNodes)
     ? rawNodes
     : [rawNodes]
@@ -56,10 +67,19 @@ export function normalizeShellRenderNodes(rawNodes: Node | Node[]) {
         return [...n.childNodes]
       }
 
+      if (n instanceof Node) {
+        return n
+      }
+
+      if (!(typeof n === 'object')) {
+        const sanitizedHTML = sanitizeHTML(n)
+        return new Text(sanitizedHTML)
+      }
+
       return null
     })
     .filter(Boolean)
     .flat()
 
-  return nodes
+  return nodes as Node[]
 }

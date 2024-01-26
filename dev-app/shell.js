@@ -1,3 +1,5 @@
+import { html, signal, shell, el, ref } from './build/index.js'
+
 export function lithenShell() {
   function alphabet() {
     const aCharCode = 'a'.charCodeAt(0)
@@ -6,8 +8,8 @@ export function lithenShell() {
     document.body.append(html`
       <h4>Alphabet</h4>
       <ul>
-        ${shell(letters, letters => {
-          return letters.map(letter => el/*html*/`<li>${letter}</li>`)
+        ${shell(() => {
+          return letters.get().map(letter => html`<li>${letter}</li>`)
         })}
       </ul>
       <button on-click=${() => {
@@ -28,6 +30,7 @@ export function lithenShell() {
     original: [],
     filtered: []
   })
+  const showResult = signal(true)
   
   async function usersList() {
     const ulRef = ref()
@@ -42,8 +45,12 @@ export function lithenShell() {
   
     return html`
       <ul ref=${ulRef}>
-        ${shell(users, (value) => {
-          return value.filtered.map(user => html`
+        ${shell(() => {
+          if (!showResult.get()) {
+            return html`<p>Hided</p>`
+          }
+
+          return users.get().filtered.map(user => html`
             <li>
               <strong>${user.username}</strong>
               <span>&nbsp;(${user.name})</span>
@@ -83,6 +90,13 @@ export function lithenShell() {
     })
     
     document.body.append(html`
+      <div>
+        <button on-click=${() => showResult.set(!showResult.get())}>
+          Toggle show (
+            ${shell(() => showResult.get().toString())}
+          )
+        </button>
+      </div>
       <input on-input=${onInput} />
       <p>Filter: ${filter}</p>
       ${await usersList()}

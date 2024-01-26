@@ -3,7 +3,6 @@ import { ResolverChain } from '../../pipe-resolvers.js'
 import { TemplateData } from '../../resolver-types.js'
 
 const resolverChain = new ResolverChain(
-  resolveShellSignal,
   resolveAttributeSignal,
   resolveTextSignal
 )
@@ -12,21 +11,6 @@ export function resolveSignal(value: TemplateData) {
   if (!(value.data instanceof DataSignal)) return
 
   return resolverChain.pipe(value) 
-}
-
-const shellSignalRegex = /.*<shell\s+[^<>]*\s*signal=$/
-
-function resolveShellSignal(value: TemplateData<DataSignal>) {
-  const { currentHTML, resources, data, index } = value
-
-  const shellMatch = currentHTML.match(shellSignalRegex)
-
-  if (!shellMatch) return
-
-  const shellSignal = `"sig-${index}"`
-  resources.set(`shell-signal=${shellSignal}`, { dataSignal: data })
-
-  return shellSignal
 }
 
 function resolveTextSignal(value: TemplateData<DataSignal>) {

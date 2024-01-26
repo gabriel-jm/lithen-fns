@@ -25,22 +25,30 @@ export function signalTest() {
   // Signal with elements
 
   function signalWithElements() {
-    let currentSymbol = 'cent'
-    const symbol = signal(el/*html*/`<span>&cent;</span>`)
+    const symbol = signal('cent')
+    const symbolDisplay = shell(() => {
+      const currentSymbol = symbol.get()
+
+      return el/*html*/`
+        <span>${currentSymbol} &${currentSymbol}; </span>
+      `
+    })
+
+    function updateSymbol() {
+      if (symbol.get() === 'cent') {
+        symbol.set('euro')
+      } else {
+        symbol.set('cent')
+      }
+    }
 
     document.body.append(html`
       <div>
         <p>Current symbol</p>
-        ${symbol}
-        <button on-click=${() => {
-          if (currentSymbol === 'cent') {
-            currentSymbol = 'euro'
-          } else {
-            currentSymbol = 'cent'
-          }
-
-          symbol.set(el`<span>&${currentSymbol};</span>`)
-        }}>Toogle</button>
+        ${symbolDisplay}
+        <button on-click=${updateSymbol}>
+          Toogle
+        </button>
       </div>
     `)
 
@@ -49,15 +57,15 @@ export function signalTest() {
 
     document.body.append(html`
       <div>
-        ${shell(show,
-          value => value && html`<span>Show 1</span>`
+        ${shell(
+          () => show.get() && html`<span>Show 1</span>`
         )}
         <button on-click=${() => show.set(!show.get())}>
           Toogle Show
         </button>
 
-        <shell signal=${show2}>
-          ${value => value && html`
+        <shell>
+          ${() => show2.get() && html`
             <span>Show with tag</span>
           `}
         </shell>

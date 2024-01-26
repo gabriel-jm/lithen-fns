@@ -15,7 +15,7 @@ export function attachTextSignal(
   
   function updateText(value: unknown) {
     if (!textNode.isConnected) {
-      return dataSignal.remove(updateText)
+      return DataSignal.REMOVE
     }
 
     textNode.data = String(value)
@@ -49,7 +49,7 @@ export function attachAttributeSignal(
 
   function updateElement(value: unknown) {
     if (!element?.isConnected) {
-      return dataSignal.remove(updateElement)
+      return DataSignal.REMOVE
     }
 
     updateElementAttribute(value)
@@ -73,7 +73,7 @@ export function attachPropertySignal(
 
   function updateProp(value: unknown) {
     if (!element?.isConnected) {
-      return dataSignal.remove(updateProp)
+      return DataSignal.REMOVE
     }
 
     Reflect.set(element!, propName, value)
@@ -87,16 +87,13 @@ export function attachPropertySignal(
 export function attachShellSignal(
   docFrag: DocumentFragment,
   key: string,
-  shellData: { dataSignal: DataSignal, renderFn: ShellRenderCallback }
+  renderFn: ShellRenderCallback
 ) {
-  const element = docFrag.querySelector(
-    `[${key.substring('shell-'.length)}]`
-  )
+  const element = docFrag.querySelector(`[${key}]`)
   
   if (!element) return
 
-  const { dataSignal, renderFn } = shellData
-  const elements = shell(dataSignal, renderFn)
+  const elements = shell(renderFn)
 
   element.replaceWith(...elements as Node[])
 }

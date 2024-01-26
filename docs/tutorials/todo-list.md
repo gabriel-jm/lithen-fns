@@ -165,4 +165,10 @@ document.querySelector('#app')!.append(main())
 ```
 
 In this case use `ref` is simpler, but when you have multiple form controls, is better to use only
-the event approach.
+the event approach. I'll continue the tutorial with the event approach.
+
+## Dynamic list update
+
+We're going to use a [signal](../signals/signals.md) to hold an array of to do items.
+
+

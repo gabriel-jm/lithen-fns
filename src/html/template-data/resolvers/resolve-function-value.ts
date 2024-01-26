@@ -1,7 +1,7 @@
 import { TemplateData } from '../resolver-types.js'
 
 const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/s
-const shellSignalRegex = /.*<shell\s+[^<>]*signal="([\w-]+)"[^<>]*>\s*$/
+const shellSignalRegex = /.*<shell>\s*$/
 
 export function resolveFunctionValue(value: TemplateData) {
   const { currentHTML, resources, index, data } = value
@@ -23,15 +23,11 @@ export function resolveFunctionValue(value: TemplateData) {
   const shellMatch = currentHTML.match(shellSignalRegex)
 
   if (shellMatch) {
-    const signalId = shellMatch[1]
+    const signalId = index
     const shellSignalId = `shell-signal="${signalId}"`
-    const shellSignalData = resources.get(shellSignalId)
     
-    resources.set(shellSignalId, {
-      ...shellSignalData ?? {},
-      renderFn: data
-    })
+    resources.set(shellSignalId, data)
 
-    return ''
+    return `<template ${shellSignalId}></template>`
   }
 }

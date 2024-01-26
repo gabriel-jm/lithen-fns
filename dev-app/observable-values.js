@@ -45,7 +45,7 @@ export function observableValues() {
 
   document.body.append(html`
     <h3>Counter V2</h3>
-    <p>Count: ${count} (Numeric)    |</p>
+    <span>Count: ${count} (Numeric)    |</span>
     <button on-click=${() => count.set(value => value + 1)}>
       Increment
     </button>

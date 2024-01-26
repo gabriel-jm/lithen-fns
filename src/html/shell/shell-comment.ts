@@ -1,8 +1,6 @@
 import { normalizeShellRenderNodes } from '../index.js'
 
-export type ShellRenderCallback<T = unknown> = (newValue: T, oldValue: T) => (
-  Node | Node[] | undefined | null | false
-)
+export type ShellRenderCallback = () => unknown
 
 /**
  * A custom comment element made to change its child nodes based on the
@@ -32,7 +30,7 @@ export class ShellComment extends Comment {
     super('</>')
   }
 
-  insertAfter(rawNodes: Node | Node[]) {
+  insertAfter(rawNodes: unknown) {
     for (const el of this.relatedElements) {
       if ('remove' in el) {
         el.remove()
