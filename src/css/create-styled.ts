@@ -11,12 +11,13 @@ import { LithenCSSString } from './lithen-css-string.js'
  */
 export function createStyled(tagName: string, styles: LithenCSSString) {
   const element = document.createElement(tagName)
-  const hash = Math.random().toString(32).substring(7)
+  const hash = Math.random().toString(32).substring(6)
+  const cssClass = `el${hash}`
 
-  element.classList.add(hash)
+  element.classList.add(cssClass)
 
   const cssStyleSheet = new CSSStyleSheet()
-  cssStyleSheet.replaceSync(`.${hash}{${styles.toString()}}`)
+  cssStyleSheet.replaceSync(`.${cssClass}{${styles.toString()}}`)
 
   document.adoptedStyleSheets = [
     ...document.adoptedStyleSheets,

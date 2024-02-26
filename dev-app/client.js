@@ -13,17 +13,17 @@ import { stringsInArrays } from './str-arrays.js'
 
 // randomTest()
 
-stringsInArrays()
+// stringsInArrays()
 
-refs()
+// refs()
 
-observableValues()
+// observableValues()
 
-setProperties()
+// setProperties()
 
-signalTest()
+// signalTest()
 
-// scopedCSS()
+scopedCSS()
 
 // Signal Warn
 
@@ -35,6 +35,6 @@ function signalWarn() {
 
 // signalWarn()
 
-lithenShell()
+// lithenShell()
 
 // console.timeEnd('all')

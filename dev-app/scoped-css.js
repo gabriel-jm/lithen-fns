@@ -1,4 +1,4 @@
-import { css, html } from './build/index.js'
+import { css, html, createStyled } from './build/index.js'
 
 export function scopedCSS() {
   // Scoped CSS

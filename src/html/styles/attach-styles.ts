@@ -5,15 +5,16 @@ export function attachStyles(docFrag: DocumentFragment, key: string, cssText: Li
 
   if (!element) return
 
-  const [, cssHash] = key.split('=')
+  const hash = Math.random().toString(32).substring(6)
+  const cssClass = `el${hash}`
   const cssStyleSheet = new CSSStyleSheet()
-  cssStyleSheet.replaceSync(`.${cssHash}{${cssText.toString()}}`)
+  cssStyleSheet.replaceSync(`.${cssClass}{${cssText.toString()}}`)
 
   document.adoptedStyleSheets = [
     ...document.adoptedStyleSheets,
     cssStyleSheet
   ]
 
-  element.classList.add(cssHash)
+  element.classList.add(cssClass)
   element.removeAttribute('css')
 }

@@ -6,6 +6,9 @@ function select(docFrag: DocumentFragment, query: string) {
 }
 
 describe('html tag function', () => {
+  beforeEach(() => {
+    document.body.innerHTML = ''
+  })
 
   describe('Return value', () => {
     it('should return a DocumentFragment with correct elements', () => {
@@ -313,15 +316,17 @@ describe('html tag function', () => {
         <button on-click=${() => show.set(!show.get())}>
           Show / Hide
         </button>
-        ${shell(show, value => {
-          return value && el/*html*/`
+        ${shell(() => {
+          return show.get() && el/*html*/`
             <span>Showing</span>
           `
         })}
       `
-      docFrag.querySelector('button')?.dispatchEvent(new Event('click'))
-  
-      expect(docFrag.querySelector('span')).toBeNull()
+
+      document.body.append(docFrag)
+      document.body.querySelector('button')?.dispatchEvent(new Event('click'))
+
+      expect(document.body.querySelector('span')).toBeNull()
     })
   })
 
@@ -333,7 +338,7 @@ describe('html tag function', () => {
 
       document.body.append(html`
         <ul id="list">
-          ${shell(people, value => value.map(person => html`
+          ${shell(() => people.get().map(person => html`
             <li>${person.name} | ${person.age}</li>
           `))}
         </ul>
@@ -347,6 +352,23 @@ describe('html tag function', () => {
       people.update()
 
       expect(list?.innerHTML).toBe('<!--</>--><li>Gabriel | 24</li>')
+    })
+  })
+
+  describe('Lithen CSS Strings', () => {
+    it('should add a custom random css class to the element with injected LithenCSSString', () => {
+      const styles = css`
+        .child { width: 10px }
+      `
+
+      const docFrag = html`
+        <p css=${styles}>Text</p>
+      `
+
+      const p = docFrag.querySelector('p')
+
+      expect(p?.className.startsWith('el')).toBe(true)
+      expect(p?.getAttribute('css')).toBeNull()
     })
   })
 })
