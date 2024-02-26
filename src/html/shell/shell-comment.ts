@@ -4,20 +4,16 @@ export type ShellRenderCallback = () => unknown
 
 /**
  * A custom comment element made to change its child nodes based on the
- * return of a render callback. This callback receives the value
- * of a `DataSignal` and the render callback is called again every
- * time the value of the signal changes.
- * 
- * To make use of it just call the `shell` function passing the `DataSignal`
- * and the callback.
+ * return of a render callback. When the `get` method of a data signal
+ * is called within the callback it gets subscribed to this signal updates.
  * 
  * ```ts
  * const letters = signal(['a', 'b', 'c'])
  * 
  * html`
  *  <ul>
- *    ${shell(letters, value => {
- *      return value.map(letter => el`<li>${letter}</li>`)
+ *    ${shell(() => {
+ *      return letters.get().map(letter => el`<li>${letter}</li>`)
  *    })}
  *  </ul>
  * `

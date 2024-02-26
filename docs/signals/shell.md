@@ -16,22 +16,19 @@ solutions to not need to add a fully new tag on the page, specially since this b
 is not intuitive.
 
 ## Usage
-
-The `shell` function receives two parameters, the first is a `DataSignal` and the second is a 
-render callback. Every time the value of the data signal provided changes, the render callback 
-is called again and we replace all child nodes that the `ShellComment` knows, if the value is
-falsy all child nodes are removed.
-
-The callback value receives the same parameters as the [onChange](./signals.md#onchange) 
-callback from the `DataSignal`.
+The `shell` function receives a callback as parameter, that should return some value to be shown.
+If it does not return any data, nothing will be shown. Every time the `get` method of a data
+signal is called within the shell callback this callback will be registred has a subscriber of
+this signal. Because of it, the shell callback will be called again when any of the signals used
+gets a value update.
 
 ```ts
 const letters = signal(['a', 'b', 'c'])
 
 html`
   <ul>
-    ${shell(letters, value => {
-      return value.map(letter => el`<li>${letter}</li>`)
+    ${shell(() => {
+      return letters.get().map(letter => el`<li>${letter}</li>`)
     })}
   </ul>
 `
@@ -40,9 +37,9 @@ html`
 
 html`
   <ul>
-    <shell signal=${letters}>
+    <shell>
     ${
-      value => value.map(letter => el`<li>${letter}</li>`)
+      () => letters.get().map(letter => el`<li>${letter}</li>`)
     }
     </shell>
   </ul>

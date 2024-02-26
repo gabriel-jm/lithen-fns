@@ -21,14 +21,8 @@ export class DataSignal<T = unknown> {
    * @param value - The value hold by the signal.
    */
   constructor(value: T) {
-    if (typeof value === 'function') {
-      const actualValue = value()
-      this.#value = actualValue
-      this.#oldValue = actualValue
-    } else {
-      this.#value = value
-      this.#oldValue = value
-    }
+    this.#value = value
+    this.#oldValue = value
   }
 
   /**
