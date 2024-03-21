@@ -77,6 +77,10 @@ export class DataSignal<T = unknown> {
   }
 
   /**
+   * Returns the current value of the signal.
+   * And when used inside a `shell`, it adds
+   * the shell function to its listeners.
+   * 
    * @returns the current value hold by the signal.
    */
   get() {
@@ -86,6 +90,15 @@ export class DataSignal<T = unknown> {
       this.#listeners.add(currentShellRunning as SignalListener)
     }
 
+    return this.#value
+  }
+
+  /**
+   * Works like `.get`, but do not add new listeners.
+   * 
+   * @returns the current value hold by the signal.
+   */
+  data() {
     return this.#value
   }
 
@@ -105,6 +118,24 @@ export class DataSignal<T = unknown> {
    * not notified.
    */
   set(value: T | ((value: T) => T)) {
+    this.setData(value)
+    this.update()
+  }
+
+  /**
+   * Works like `.set`, but updates the value hold and
+   * do not call listeners to update.
+   * 
+   * @param value - the new value that will replace
+   * the current one, can be a function that receives the
+   * current value as argument and its returned value will
+   * replace the signal's value.
+   * 
+   * If the provided value is equal to the old value the value
+   * hold by the DataSignal is not updated and the listeners are
+   * not notified.
+   */
+  setData(value: T | ((value: T) => T)) {
     const currentValue = this.#value
 
     const isFunction = typeof value === 'function'
@@ -116,8 +147,6 @@ export class DataSignal<T = unknown> {
 
     this.#oldValue = this.#value
     this.#value = newValue
-
-    this.update()
   }
 }
 

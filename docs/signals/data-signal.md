@@ -21,6 +21,7 @@ when the value the the signal holds changes.
 - ### get
 
   The `get` method returns the current value that `DataSignal` holds at that moment.
+  When used inside a `shell`, it adds the shell function to its listeners.
 
 - ### set
 
@@ -30,6 +31,14 @@ returned value as new one for the signal. The function calls the `update` method
 listeners registred in the `onChange` method, passing the new value as first parameter and the old 
 value as second. If the provided value is equal to the old value the value hold by the DataSignal is 
 not updated and the listeners are not notified.
+
+- ### data
+
+  Works like the `get` method, but doesn't add new listeners.
+
+- ### setData
+
+  Works like the `set` method, but doesn't call the listeners for updates.
 
 - ### onChange
 
