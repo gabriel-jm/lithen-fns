@@ -25,7 +25,7 @@ export const RunningFns: (() => unknown)[] = []
  * the render callback
  */
 
-export function shell(fn: ShellRenderCallback) {
+export function shell(fn: ShellRenderCallback): Node[] {
   let comment: ShellComment | null = null
 
   function run() {
@@ -53,10 +53,13 @@ export function shell(fn: ShellRenderCallback) {
 
   const nodes = run()
 
-  return [comment, ...nodes as Node[]]
+  return [
+    comment as unknown as ShellComment,
+    ...nodes as Node[]
+  ]
 }
 
-export function normalizeShellRenderNodes(rawNodes: unknown) {
+export function normalizeShellRenderNodes(rawNodes: unknown): Node[] {
   const nodeList = Array.isArray(rawNodes)
     ? rawNodes
     : [rawNodes]

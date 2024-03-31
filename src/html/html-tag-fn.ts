@@ -25,7 +25,7 @@ export type ResourcesMap = Map<string, unknown>
  * 
  * @returns a DocumentFragment.
  */
-export function html(htmlTemplateStrings: HtmlStrings, ...values: unknown[]) {
+export function html(htmlTemplateStrings: HtmlStrings, ...values: unknown[]): DocumentFragment {
   const htmlStrings = (
     Array.isArray(htmlTemplateStrings)
       ? htmlTemplateStrings
@@ -80,7 +80,7 @@ export function html(htmlTemplateStrings: HtmlStrings, ...values: unknown[]) {
  * 
  * @returns a ChildNode.
  */
-export function el(htmlStrings: HtmlStrings, ...values: unknown[]) {
+export function el(htmlStrings: HtmlStrings, ...values: unknown[]): Node {
   const docFrag = html(htmlStrings, ...values)
   const children = docFrag.childNodes
 
@@ -94,7 +94,7 @@ export function el(htmlStrings: HtmlStrings, ...values: unknown[]) {
     }
   })
 
-  return docFrag.firstChild
+  return docFrag.firstChild || new Text()
 }
 
 function checkIncorrectElements(cleanHtml: string) {

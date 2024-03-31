@@ -24,7 +24,7 @@ export type RawTagFnStrings = String | string | HtmlStrings
 export function raw(
   strings: RawTagFnStrings,
   ...values: unknown[]
-) {
+): DocumentFragment {
   const stringsList = !Array.isArray(strings)
     ? [strings] as string[]
     : strings

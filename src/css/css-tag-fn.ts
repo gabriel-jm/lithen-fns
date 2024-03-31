@@ -17,7 +17,7 @@ type CssStrings = TemplateStringsArray | string[]
  * 
  * @returns the minified css string.
  */
-export function css(strings: CssStrings, ...values: unknown[]) {
+export function css(strings: CssStrings, ...values: unknown[]): LithenCSSString {
   const fullCss = strings.reduce((acc, str, index) => {
     let value = values[index]
 

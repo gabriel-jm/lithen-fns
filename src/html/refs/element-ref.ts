@@ -35,4 +35,4 @@ export class ElementRef<T = unknown> {
  * 
  * @returns An instance of `ElementRef`
  */
-export const ref = <T = unknown>() => new ElementRef<T>()
+export const ref = <T = unknown>(): ElementRef => new ElementRef<T>()

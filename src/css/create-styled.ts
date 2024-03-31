@@ -9,7 +9,7 @@ import { LithenCSSString } from './lithen-css-string.js'
  * @param styles - The styles from `css` tag function (aka. an instance of `LithenCSSText`)
  * @returns The element for the provided tag name.
  */
-export function createStyled(tagName: string, styles: LithenCSSString) {
+export function createStyled(tagName: string, styles: LithenCSSString): HTMLElement {
   const element = document.createElement(tagName)
   const hash = Math.random().toString(32).substring(6)
   const cssClass = `el${hash}`

@@ -83,7 +83,7 @@ export class DataSignal<T = unknown> {
    * 
    * @returns the current value hold by the signal.
    */
-  get() {
+  get(): T {
     const currentShellRunning = RunningFns.at(-1)
 
     if (currentShellRunning) {
@@ -98,7 +98,7 @@ export class DataSignal<T = unknown> {
    * 
    * @returns the current value hold by the signal.
    */
-  data() {
+  data(): T {
     return this.#value
   }
 
@@ -161,7 +161,7 @@ export class DataSignal<T = unknown> {
  * 
  * @returns a `SignalData` instance.
  */
-export const signal = <T = unknown>(data: T) => new DataSignal<T>(data)
+export const signal = <T = unknown>(data: T): DataSignal<T> => new DataSignal<T>(data)
 
 export type SignalRecord<T extends Record<string, unknown>> = {
   [P in keyof T]: DataSignal<T[P]>
@@ -185,7 +185,7 @@ export type SignalRecord<T extends Record<string, unknown>> = {
  * @param data - An object value representing a group of signals.
  * @returns A clone of the same object provided.
  */
-export function signalRecord<T extends Record<string, unknown>>(data: T) {
+export function signalRecord<T extends Record<string, unknown>>(data: T): SignalRecord<T> {
   return new DataSignalRecord(data) as SignalRecord<T>
 }
 
