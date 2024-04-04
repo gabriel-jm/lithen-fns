@@ -59,7 +59,7 @@ export function shell(fn: ShellRenderCallback): Node[] {
   ]
 }
 
-export function normalizeShellRenderNodes(rawNodes: unknown): Node[] {
+export function normalizeShellRenderNodes(rawNodes: unknown): Array<Element|Text> {
   const nodeList = Array.isArray(rawNodes)
     ? rawNodes
     : [rawNodes]
@@ -84,5 +84,5 @@ export function normalizeShellRenderNodes(rawNodes: unknown): Node[] {
     .filter(Boolean)
     .flat()
 
-  return nodes as Node[]
+  return nodes as Array<Element | Text>
 }

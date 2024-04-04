@@ -20,25 +20,44 @@ export type ShellRenderCallback = () => unknown
  * ```
  */
 export class ShellComment extends Comment {
-  relatedElements: Element[] = []
+  relatedElements: Array<Element | Text> = []
 
   constructor() {
     super('</>')
   }
 
   insertAfter(rawNodes: unknown) {
-    for (const el of this.relatedElements) {
-      if ('remove' in el) {
-        el.remove()
-      }
-    }
-
     const nodes = normalizeShellRenderNodes(rawNodes)
+    const relateds = new Set(this.relatedElements)
 
-    this.relatedElements = nodes as Element[]
+    nodes.forEach((el, index) => {
+      const relatedEl = [...relateds].find(related => {
+        if (el instanceof Element && related instanceof Element) {
+          return el.getAttribute('key') === related.getAttribute('key')
+        }
+        return el.textContent === related.textContent
+      })
 
-    if (nodes) {
-      this.after(...this.relatedElements)
+      if (relatedEl) {
+        relateds.delete(relatedEl)
+
+        if (!el.isEqualNode(relatedEl)) {
+          relatedEl.replaceWith(el)
+          return
+        }
+
+        nodes[index] = relatedEl
+        return
+      }
+
+      const previousEl = nodes[index - 1] ?? this;
+      previousEl.after(el)
+    })
+
+    for (const remaining of [...relateds]) {
+      remaining.remove()
     }
+
+    this.relatedElements = nodes
   }
 }

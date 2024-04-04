@@ -23,15 +23,15 @@ import { stringsInArrays } from './str-arrays.js'
 
 // signalTest()
 
-scopedCSS()
+// scopedCSS()
 
 // Signal Warn
 
-function signalWarn() {
-  document.body.append(html`
-    <p ${signal(10)}>Warn</p>
-  `)
-}
+// function signalWarn() {
+//   document.body.append(html`
+//     <p ${signal(10)}>Warn</p>
+//   `)
+// }
 
 // signalWarn()
 

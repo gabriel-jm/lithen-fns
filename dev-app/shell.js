@@ -36,12 +36,19 @@ export function lithenShell() {
     const ulRef = ref()
     const usersResponse = await fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
+      .then(users => users.map(u => {
+        u.id = crypto.randomUUID()
+        return u
+      }))
   
     if (!usersResponse.length) {
       return el/*html*/`<span>Error</span>`
     }
-  
-    users.set({ original: usersResponse, filtered: usersResponse })
+
+    users.set({
+      original: usersResponse,
+      filtered: usersResponse
+    })
   
     return html`
       <ul ref=${ulRef}>
@@ -50,13 +57,25 @@ export function lithenShell() {
             return html`<p>Hided</p>`
           }
 
-          return users.get().filtered.map(user => html`
-            <li>
-              <strong>${user.username}</strong>
-              <span>&nbsp;(${user.name})</span>
-              <span> - ${user.email}</span>
-            </li>
-          `)
+          return users.get().filtered.map(user => {
+            const strongRef = ref()
+            const rand = Math.random()
+            const isToAdd = rand > 0.5
+            const log = () => console.log(
+              'Log from', user.username,
+              'strong:', strongRef.el?.v
+            )
+
+            return html`
+              <li key="${user.id}" on-click=${isToAdd && log}>
+                <strong ref=${strongRef} .v=${rand}>
+                  ${user.username}
+                </strong>
+                <span>&nbsp;(${user.name})</span>
+                <span> - ${user.email}</span>
+              </li>
+            `
+          })
         })}
       </ul>
     `

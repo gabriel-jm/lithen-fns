@@ -30,13 +30,13 @@ describe('applyEvents', () => {
     divChild.dispatchEvent(new Event('click'))
     inputChild.dispatchEvent(new Event('input'))
 
-    expect(divChild.hasAttribute('on-click')).toBe(false)
+    expect(divChild.hasAttribute('on-click')).toBe(true)
     expect(divAddEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function))
     expect(divFakeFn).toHaveBeenCalled()
 
     expect(spanAddEventListenerSpy).not.toHaveBeenCalled()
 
-    expect(inputChild.hasAttribute('on-input')).toBe(false)
+    expect(inputChild.hasAttribute('on-input')).toBe(true)
     expect(inputAddEventListenerSpy).toHaveBeenCalledWith('input', expect.any(Function))
     expect(inputFakeFn).toHaveBeenCalled()
   })

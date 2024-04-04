@@ -10,6 +10,5 @@ export function applyEvent(
   const [rawEventName] = key.split('=')
   const eventName = rawEventName.substring('on-'.length)
   
-  element.removeAttribute(rawEventName)
   element.addEventListener(eventName, eventListener as EventListener)
 }
