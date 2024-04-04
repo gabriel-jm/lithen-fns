@@ -1,11 +1,12 @@
 {
   "name": "@lithen/fns",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "exports": "./src/index.ts",
   "description": "Functions to use with html and css to create simple and powerful UI elements",
   "publish": {
     "include": [
       "README.md",
+      "jsr.json",
       "tsconfig.json",
       "src/**/*.ts"
     ]

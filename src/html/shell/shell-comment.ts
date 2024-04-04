@@ -1,4 +1,4 @@
-import { normalizeShellRenderNodes } from '../index.js'
+import { normalizeShellRenderNodes } from './shell.js'
 
 export type ShellRenderCallback = () => unknown
 
