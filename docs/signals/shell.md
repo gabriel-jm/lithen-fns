@@ -22,6 +22,10 @@ signal is called within the shell callback this callback will be registred has a
 this signal. Because of it, the shell callback will be called again when any of the signals used
 gets a value update.
 
+For better element diff, use the `key` attribute in the elements returned by the shell. With this
+attribute the `ShellComment` knows which elements may represent the same value or a previous 
+version of it.
+
 ```ts
 const letters = signal(['a', 'b', 'c'])
 
