@@ -1,7 +1,7 @@
 {
   "name": "lithen-fns",
   "version": "4.1.0",
-  "description": "Utility functions to use with html and css",
+  "description": "Functions to use with html and css to create simple and powerful UI elements",
   "author": "Gabriel José",
   "homepage": "https://github.com/Gabriel-JM/lithen-fns#readme",
   "repository": {

@@ -3,6 +3,9 @@ import { sanitizeAttributes } from './sanitizes/sanitize-attributes.js'
 import { applyResources } from './resources/apply-resources.js'
 import { resolveTemplateData } from './template-data/resolve-template-data.js'
 
+/**
+ * Type of value the `html` function accepts as first parameter.
+ */
 export type HtmlStrings = TemplateStringsArray | string[]
 
 export type ResourcesMap = Map<string, unknown>

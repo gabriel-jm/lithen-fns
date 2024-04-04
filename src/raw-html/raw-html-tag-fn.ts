@@ -1,5 +1,8 @@
 import { HtmlStrings, html } from '../html/html-tag-fn.js'
 
+/**
+ * Type of values the `raw` function accepts.
+ */
 export type RawTagFnStrings = String | string | HtmlStrings
 
 /**

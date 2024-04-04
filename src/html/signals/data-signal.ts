@@ -1,5 +1,10 @@
-import { RunningFns } from '../index.js'
+import { RunningFns } from '../shell/shell.js'
 
+/**
+ * Type of function the can be passed to the
+ * `onChange` method. And is the same type
+ * used in the `remove` method.
+ */
 export type SignalListener<T = unknown> = (
   (newValue: T, oldValue: T) => void | symbol
   | (() => void | symbol)
@@ -163,6 +168,11 @@ export class DataSignal<T = unknown> {
  */
 export const signal = <T = unknown>(data: T): DataSignal<T> => new DataSignal<T>(data)
 
+/**
+ * Type that represents an object that all its properties
+ * are signals. You pass the object type you want as generic
+ * and will be generated a SignalRecord version of it.
+ */
 export type SignalRecord<T extends Record<string, unknown>> = {
   [P in keyof T]: DataSignal<T[P]>
 }

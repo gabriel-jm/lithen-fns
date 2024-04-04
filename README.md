@@ -1,6 +1,6 @@
 # Lithen Functions
 
-Tagged Template Strings to use with html and css.
+Functions to use with html and css to create simple and powerful UI elements.
 Its part of Lithen modules. It works alone but is created to use with Web Components.
 
 ## Getting started
