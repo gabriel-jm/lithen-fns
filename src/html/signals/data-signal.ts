@@ -207,18 +207,20 @@ export function signalRecord<T extends Record<string, unknown>>(data: T): Signal
  * the object already is a `DataSignal` or `DataSignalRecord` it just
  * leave the value as it is.
  */
-export class DataSignalRecord {
-  constructor(obj: Record<string, unknown>) {
-    Object.entries(obj).forEach(([key, value]) => {
+export class DataSignalRecord<T extends Record<string, unknown>> {
+  constructor(obj: T) {
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
       if (
         value instanceof DataSignal
         || value instanceof DataSignalRecord
       ) {
-        Reflect.set(this, key, value)
         return
       }
       
-      Reflect.set(this, key, signal(value))
+      Reflect.set(obj, key, signal(value))
     })
+
+    return obj as SignalRecord<T>
   }
 }
