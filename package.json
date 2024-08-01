@@ -32,13 +32,13 @@
   "license": "ISC",
   "devDependencies": {
     "@vitest/coverage-c8": "^0.32.2",
-    "c8": "^9.1.0",
-    "happy-dom": "^14.3.1",
-    "jsdom": "^24.0.0",
-    "npm-check-updates": "^16.14.17",
+    "c8": "^10.1.2",
+    "happy-dom": "^14.12.3",
+    "jsdom": "^24.1.1",
+    "npm-check-updates": "^17.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.2",
-    "vitest": "^1.4.0"
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5",
+    "vitest": "^2.0.5"
   }
 }

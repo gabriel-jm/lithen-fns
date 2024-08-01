@@ -1,12 +1,9 @@
-const regexList = {
-  tag: /<([a-zA-Z0-9\-]+)([^\/>]*)(\/?)>/g,
-  contentBetweenTags: />([^<]*)</g
-}
+const tagRegex = /<([a-zA-Z0-9\-]+)([^\/>]*)(\/?)>/g
 
 export const htmlStringParser = (html: string) => (
   html
     .trim()
-    .replace(regexList.tag, (_, name, attrs, ending) => {
+    .replace(tagRegex, (_, name, attrs, ending) => {
       const trimAttrs = attrs && attrs
         .replace(/\n+/g, '')
         .replace(/\s{2,}/g, ' ')
@@ -18,12 +15,5 @@ export const htmlStringParser = (html: string) => (
       }
       
       return `<${name}${attributes}${ending}>`
-    })
-    .replace(regexList.contentBetweenTags, (_, textBetweenTags) => {
-      if (textBetweenTags.match(/\n+\s{2,}/)) {
-        return `>${textBetweenTags.replace(/\n+|\t+|\r+/g, '').trim()}<`
-      }
-
-      return `>${textBetweenTags.replace(/\n+|\t+|\r+/g, '')}<`
     })
 )
