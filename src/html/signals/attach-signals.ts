@@ -1,6 +1,6 @@
 import { shell } from '../index.js'
 import { ShellRenderCallback } from '../shell/shell-comment.js'
-import { DataSignal } from './data-signal.js'
+import { DataSignal, SignalListener } from './data-signal.js'
 
 export function attachTextSignal(
   docFrag: DocumentFragment,
@@ -21,7 +21,7 @@ export function attachTextSignal(
     textNode.data = String(value)
   }
 
-  dataSignal.onChange(updateText)
+  dataSignal.onChange(updateText as SignalListener)
   placeholder.replaceWith(textNode)
 }
 
@@ -55,7 +55,7 @@ export function attachAttributeSignal(
     updateElementAttribute(value)
   }
 
-  dataSignal.onChange(updateElement)
+  dataSignal.onChange(updateElement as SignalListener)
   updateElementAttribute(dataSignal.get())
 }
 
@@ -79,7 +79,7 @@ export function attachPropertySignal(
     Reflect.set(element!, propName, value)
   }
 
-  dataSignal.onChange(updateProp)
+  dataSignal.onChange(updateProp as SignalListener)
   Reflect.set(element, propName, dataSignal.get())
   element.removeAttribute(`.${propName.toLowerCase()}`)
 }

@@ -1,6 +1,7 @@
 import { html, signal } from './build/index.js'
 import { multiRuns } from './multi-runs.js'
 import { observableValues } from './observable-values.js'
+import { once } from './once.js'
 import { setProperties } from './properties.js'
 import { randomTest } from './random-test.js'
 import { refs } from './refs.js'
@@ -38,3 +39,5 @@ import { stringsInArrays } from './str-arrays.js'
 // lithenShell()
 
 // console.timeEnd('all')
+
+once()

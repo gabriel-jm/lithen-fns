@@ -2,7 +2,13 @@ import { ShellComment, ShellRenderCallback } from './shell-comment.js'
 import { DataSignal } from '../signals/data-signal.js'
 import { sanitizeHTML } from '../sanitizes/sanitize-html.js'
 
-export const RunningFns: (() => unknown)[] = []
+type ShellOptions = {
+  once: true
+}
+
+export type RunningFn = (() => unknown)
+
+export const RunningFns: RunningFn[] = []
 
 /**
  * Creates a conditional rendering zone, that updates based on a value
@@ -25,7 +31,7 @@ export const RunningFns: (() => unknown)[] = []
  * the render callback
  */
 
-export function shell(fn: ShellRenderCallback): Node[] {
+export function shell(fn: ShellRenderCallback, options?: ShellOptions): Node[] {
   let comment: ShellComment | null = null
 
   function run() {
@@ -33,6 +39,7 @@ export function shell(fn: ShellRenderCallback): Node[] {
 
     try {
       if (comment && !comment.isConnected) {
+        comment.remove()
         return DataSignal.REMOVE
       }
 
@@ -46,6 +53,11 @@ export function shell(fn: ShellRenderCallback): Node[] {
       }
 
       comment.insertAfter(rawNodes || [])
+
+      if (comment && options?.once) {
+        comment.remove()
+        return DataSignal.REMOVE
+      }
     } finally {
       RunningFns.pop()
     }
@@ -58,6 +70,8 @@ export function shell(fn: ShellRenderCallback): Node[] {
     ...nodes as Node[]
   ]
 }
+
+shell.once = (fn: ShellRenderCallback): Node[] => shell(fn, { once: true })
 
 export function normalizeShellRenderNodes(rawNodes: unknown): Array<Element|Text> {
   const nodeList = Array.isArray(rawNodes)
