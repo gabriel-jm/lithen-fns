@@ -6,6 +6,8 @@ is to render something conditionally or to render multiple elements from a list.
 It returns an instance of `ShellComment`, which is a custom comment element, its content is
 `</>`, the elements returned by the render callback are dynamicly changed bellow the `ShellComment`.
 
+Shell also has an [once](./shell-once.md) version.
+
 ## How it works?
 
 Why this `</>` comment is necessary? This is the solution found to be enable to manipulate, add

@@ -36,7 +36,7 @@ import { stringsInArrays } from './str-arrays.js'
 
 // signalWarn()
 
-// lithenShell()
+lithenShell()
 
 // console.timeEnd('all')
 

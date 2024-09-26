@@ -2,7 +2,12 @@ import { ShellComment, ShellRenderCallback } from './shell-comment.js'
 import { DataSignal } from '../signals/data-signal.js'
 import { sanitizeHTML } from '../sanitizes/sanitize-html.js'
 
-type ShellOptions = {
+export type ShellOptions = {
+  /**
+   * If `true` shell in be updated only once.
+   * Shell will have a first render and one update,
+   * then the comment will be removed.
+   */
   once: true
 }
 
@@ -24,8 +29,8 @@ export const RunningFns: RunningFn[] = []
  * The callback is called again every time the value of the `DataSignal`
  * changes.
  * 
- * @param dataSignal - The instance of `DataSignal`
- * @param renderCB - The render callback
+ * @param fn - The render callback
+ * @param options - (Optional) Options to customize shell
  * @returns A list of Nodes, the first being an instance of 
  * `ShellComment`, and the rest are the elements returned by
  * the render callback
@@ -71,6 +76,17 @@ export function shell(fn: ShellRenderCallback, options?: ShellOptions): Node[] {
   ]
 }
 
+/**
+ * Works just like the normal shell, but it will have only one update.
+ *
+ * The shell will have a first render and one update,
+ * then the comment will be removed.
+ * 
+ * @param fn - The render callback
+ * @returns A list of Nodes, the first being an instance of 
+ * `ShellComment`, and the rest are the elements returned by
+ * the render callback
+ */
 shell.once = (fn: ShellRenderCallback): Node[] => shell(fn, { once: true })
 
 export function normalizeShellRenderNodes(rawNodes: unknown): Array<Element|Text> {
