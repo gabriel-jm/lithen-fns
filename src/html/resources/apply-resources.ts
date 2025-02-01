@@ -16,6 +16,7 @@ type ResourceHandler = (docFrag: DocumentFragment, key: string, value: any) => v
 const resourceHandlers = new Map<string, ResourceHandler>([
   ['el', placeElement],
   ['on-', applyEvent],
+  ['once-', applyEvent],
   ['ref', applyRef],
   ['.', applyPropertyValue],
   ['css', attachStyles],

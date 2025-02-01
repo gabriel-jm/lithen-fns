@@ -1,6 +1,6 @@
 import { TemplateData } from '../resolver-types.js'
 
-const eventOnEndRegex = /.*\s(on-[\w\-]+)=$/s
+const eventOnEndRegex = /.*\s((on|once)-[\w\-]+)=$/s
 const shellSignalRegex = /.*<shell>\s*$/
 
 export function resolveFunctionValue(value: TemplateData) {

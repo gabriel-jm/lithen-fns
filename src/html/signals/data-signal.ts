@@ -1,7 +1,7 @@
 import { RunningFns } from '../shell/shell.js'
 
 /**
- * Type of function the can be passed to the
+ * Type of function that can be passed to the
  * `onChange` method. And is the same type
  * used in the `remove` method.
  */
@@ -95,7 +95,7 @@ export class DataSignal<T = unknown> {
       this.#listeners.add(currentShellRunning as SignalListener)
     }
 
-    return this.#value
+    return this.data()
   }
 
   /**

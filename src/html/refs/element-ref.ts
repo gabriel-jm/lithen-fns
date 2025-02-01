@@ -4,8 +4,8 @@
  * is useful to hold elements references before its
  * creation.
  */
-export class ElementRef<T = unknown> {
-  el?: T
+export class ElementRef<T = Element> {
+  el!: T
 }
 
 /**
@@ -35,4 +35,4 @@ export class ElementRef<T = unknown> {
  * 
  * @returns An instance of `ElementRef`
  */
-export const ref = <T = unknown>(): ElementRef<T> => new ElementRef<T>()
+export const ref = <T = HTMLElement>(): ElementRef<T> => new ElementRef<T>()

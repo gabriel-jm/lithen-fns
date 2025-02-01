@@ -8,7 +8,14 @@ export function applyEvent(
   if (!element) return
   
   const [rawEventName] = key.split('=')
-  const eventName = rawEventName.substring('on-'.length)
+  const [prefix, eventName] = rawEventName.split('-')
+  const options = prefix === 'once'
+    ? { once: true }
+    : undefined
   
-  element.addEventListener(eventName, eventListener as EventListener)
+  element.addEventListener(
+    eventName,
+    eventListener as EventListener,
+    options
+  )
 }
