@@ -11,8 +11,9 @@ export function resolveFunctionValue(value: TemplateData) {
   const match = currentHTML.match(eventOnEndRegex)
 
   if (match) {
+    const hash = Math.random().toString(16).substring(2, 6)
     const eventType = match[1]
-    const eventId = `"${index}"`
+    const eventId = `"${index}${hash}"`
     const eventKey = `${eventType}=${eventId}`
 
     resources.set(eventKey, data)
