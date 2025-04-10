@@ -173,8 +173,10 @@ export const signal = <T = unknown>(data: T): DataSignal<T> => new DataSignal<T>
  * are signals. You pass the object type you want as generic
  * and will be generated a SignalRecord version of it.
  */
-export type SignalRecord<T extends Record<string, unknown>> = {
-  [P in keyof T]: DataSignal<T[P]>
+export type SignalRecord<T extends Record<string, unknown>> = 
+  { [P in keyof T]: DataSignal<T[P]> }
+  & {
+  set(data: Partial<T>): SignalRecord<T>
 }
 
 /**
@@ -209,18 +211,30 @@ export function signalRecord<T extends Record<string, unknown>>(data: T): Signal
  */
 export class DataSignalRecord<T extends Record<string, unknown>> {
   constructor(obj: T) {
-    Object.keys(obj).forEach(key => {
-      const value = obj[key]
+    for (const [key, value] of Object.entries(obj)) {
       if (
         value instanceof DataSignal
         || value instanceof DataSignalRecord
       ) {
-        return
+        Reflect.set(this, key, value)
+        continue
       }
-      
-      Reflect.set(obj, key, signal(value))
-    })
 
-    return obj as SignalRecord<T>
+      Reflect.set(this, key, signal(value))
+    }
+  }
+
+  set(data: Partial<T>) {
+    for (const [key, value] of Object.entries(data)) {
+      const sig = (this as SignalRecord<T>)[key]
+
+      if (!(sig instanceof DataSignal)) {
+        continue
+      }
+
+      sig.set(value)
+    }
+
+    return this
   }
 }
