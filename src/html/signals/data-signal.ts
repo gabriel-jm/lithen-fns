@@ -44,7 +44,7 @@ export class DataSignal<T = unknown> {
    * })
    * ```
    */
-  onChange(listener: SignalListener<T>) {
+  onChange(listener: SignalListener<T>): this {
     this.#listeners.add(listener)
 
     return this
@@ -55,7 +55,7 @@ export class DataSignal<T = unknown> {
    * 
    * @param listener - the listener provided to the onChange function.
    */
-  remove(listener: SignalListener<T>) {
+  remove(listener: SignalListener<T>): this {
     this.#listeners.delete(listener)
 
     return this
@@ -64,7 +64,7 @@ export class DataSignal<T = unknown> {
   /**
    * Method to clear all listeners of the DataSignal.
    */
-  clear() {
+  clear(): this {
     this.#listeners.clear()
 
     return this
@@ -77,7 +77,7 @@ export class DataSignal<T = unknown> {
    * signal listeners that a nested value has changed, without the
    * need to set all signal nested values as signals.
    */
-  update() {
+  update(): this {
     for (const listener of [...this.#listeners]) {
       const result = listener(this.#value, this.#oldValue)
 
@@ -130,7 +130,7 @@ export class DataSignal<T = unknown> {
    * hold by the DataSignal is not updated and the listeners are
    * not notified.
    */
-  set(value: T | ((value: T) => T)) {
+  set(value: T | ((value: T) => T)): this {
     this.setData(value)
     this.update()
 
@@ -150,7 +150,7 @@ export class DataSignal<T = unknown> {
    * hold by the DataSignal is not updated and the listeners are
    * not notified.
    */
-  setData(value: T | ((value: T) => T)) {
+  setData(value: T | ((value: T) => T)): this {
     const currentValue = this.#value
 
     const isFunction = typeof value === 'function'
