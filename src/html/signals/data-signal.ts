@@ -46,6 +46,8 @@ export class DataSignal<T = unknown> {
    */
   onChange(listener: SignalListener<T>) {
     this.#listeners.add(listener)
+
+    return this
   }
 
   /**
@@ -55,6 +57,8 @@ export class DataSignal<T = unknown> {
    */
   remove(listener: SignalListener<T>) {
     this.#listeners.delete(listener)
+
+    return this
   }
 
   /**
@@ -62,6 +66,8 @@ export class DataSignal<T = unknown> {
    */
   clear() {
     this.#listeners.clear()
+
+    return this
   }
 
   /**
@@ -79,6 +85,8 @@ export class DataSignal<T = unknown> {
         this.remove(listener)
       }
     }
+
+    return this
   }
 
   /**
@@ -125,6 +133,8 @@ export class DataSignal<T = unknown> {
   set(value: T | ((value: T) => T)) {
     this.setData(value)
     this.update()
+
+    return this
   }
 
   /**
@@ -148,10 +158,14 @@ export class DataSignal<T = unknown> {
       ? (<Function>value)(currentValue)
       : value
 
-    if (currentValue === newValue) return
+    if (currentValue === newValue) {
+      return this
+    }
 
     this.#oldValue = this.#value
     this.#value = newValue
+
+    return this
   }
 }
 
