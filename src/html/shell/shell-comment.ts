@@ -30,10 +30,8 @@ export class ShellComment extends Comment {
     const nodes = normalizeShellRenderNodes(rawNodes)
     const relateds = new Set(this.relatedElements)
 
-    for (const i in nodes) {
-      const index = Number(i)
-      const el = nodes[index]
-
+    // For some unknown reason, this only works using `forEach`
+    nodes.forEach((el, index) => {
       const relatedEl = [...relateds].find(related => {
         if (el instanceof Element && related instanceof Element) {
           return el.getAttribute('key') === related.getAttribute('key')
@@ -55,7 +53,7 @@ export class ShellComment extends Comment {
 
       const previousEl = nodes[index - 1] ?? this;
       previousEl.after(el)
-    }
+    })
 
     for (const remaining of [...relateds]) {
       remaining.remove()
