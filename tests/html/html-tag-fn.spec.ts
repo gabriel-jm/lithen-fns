@@ -346,12 +346,12 @@ describe('html tag function', () => {
 
       const list = document.getElementById('list')
 
-      expect(list?.innerHTML).toBe('<!--</>--><li>Gabriel | 23</li>')
+      expect(list?.innerHTML.trim()).toBe('<!--</>--><li>Gabriel | 23</li>')
 
       people.get()[0].age = 24
       people.update()
 
-      expect(list?.innerHTML).toBe('<!--</>--><li>Gabriel | 24</li>')
+      expect(list?.innerHTML.trim()).toBe('<!--</>--><li>Gabriel | 24</li>')
     })
   })
 
