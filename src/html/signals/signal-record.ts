@@ -60,7 +60,7 @@ export class DataSignalRecord<T extends Record<string, unknown>> {
     }
   }
 
-  data() {
+  data(): T {
     const object = Object.fromEntries(
       this.#signalKeys.map(key => {
         const value = Reflect.get(this, key)
@@ -71,7 +71,7 @@ export class DataSignalRecord<T extends Record<string, unknown>> {
     return object as T
   }
 
-  set(data: Partial<T>) {
+  set(data: Partial<T>): this {
     for (const [key, value] of Object.entries(data)) {
       const sig = (this as SignalRecord<T>)[key]
 
